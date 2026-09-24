@@ -10,7 +10,7 @@ func _on_player_died() -> void:
 func _process(delta: float) -> void:
  if not complete and not get_tree().paused: elapsed+=delta
 func checkpoint_reached() -> void:
- $HUD.show_message("CHECKPOINT SAVED  /  take another run whenever you need")
+ $HUD.show_message("CHECKPOINT SAVED!")
 func finish() -> void:
  if complete: return
  complete=true
