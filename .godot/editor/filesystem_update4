@@ -1,0 +1,6 @@
+res://scripts/hud.gd
+res://scripts/level.gd
+res://scripts/player.gd
+res://scripts/shotgun.gd
+res://tests/gameplay_test.gd
+res://tests/traversal_test.gd
