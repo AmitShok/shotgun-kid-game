@@ -9,6 +9,11 @@ func run() -> void:
  await frames(60)
  await RenderingServer.frame_post_draw
  root.get_texture().get_image().save_png("res://docs/lantern_ridge.png")
+ level.get_node("HUD")._toggle_pause()
+ await process_frame
+ await RenderingServer.frame_post_draw
+ root.get_texture().get_image().save_png("res://docs/pause_menu.png")
+ level.get_node("HUD")._toggle_pause()
  var player=level.get_node("Player")
  player.position=Vector2(1000,430)
  player.get_node("Camera2D").reset_smoothing()
@@ -23,4 +28,4 @@ func run() -> void:
  await frames(6)
  await RenderingServer.frame_post_draw
  root.get_texture().get_image().save_png("res://docs/mine_blast.png")
- quit()
+ await root.get_node("Sfx").shutdown()

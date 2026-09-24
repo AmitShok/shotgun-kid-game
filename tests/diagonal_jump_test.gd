@@ -48,4 +48,4 @@ func run() -> void:
        push_error("Jump failed: key=%s move=%s aim=%s simultaneous=%s" % [jump_key,movement,expected,simultaneous])
  for code in [KEY_SPACE,KEY_W,KEY_CTRL,KEY_A,KEY_D,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN]: key(code,false)
  print("DIAGONAL JUMP RESULT: %d combinations, %d failures" % [checks,failures])
- quit(1 if failures else 0)
+ await root.get_node("Sfx").shutdown(1 if failures else 0)

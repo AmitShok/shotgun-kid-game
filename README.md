@@ -1,69 +1,61 @@
 # Shotgun Kid
 
-A Godot 4 desktop platformer prototype about turning two shotgun shells into movement. Original pixel artwork is authored and exported in Aseprite. This is the first playable training yard, built for us to tune together.
+A Godot 4.7 2D traversal platformer set in Lantern Ridge. Open `project.godot` in Godot and press F6 on the level or F5 to run the project.
 
-## Play
+## Controls
+- A/D: move.
+- Space: jump (W or Ctrl are alternatives).
+- Arrow keys: aim in eight directions, including diagonals.
+- Shift or J: fire.
+- Esc: pause; R: restart the ridge; F3: input diagnostic.
 
-Open `project.godot` in Godot and press **F6** with `training_yard.tscn` open, or **F5** from anywhere. The project is also registered as **Shotgun Kid** in your Godot Project Manager. Tested with the installed Godot 4.7.2 editor.
+The shotgun holds two shells. Shooting pushes you opposite your aim; landing reloads instantly. Normal jumping costs no shells. Shoot floating mines for extra momentum. Mines are safe to touch and recharge after exploding. Avoid spikes and falls, touch checkpoint flags, and reach the mountain gate. A keyboard's physical key rollover can prevent certain simultaneous keys from reaching the game; F3 displays received input.
 
-| Key | Action |
-| --- | --- |
-| A / D | Walk left / right |
-| Space / W / Ctrl | Normal jump; release early for a shorter jump |
-| J or Shift | Fire one shell |
-| Arrow keys | Aim in eight directions |
-| Escape | Pause / resume; keyboard menu navigation |
-| R | Restart the entire yard |
-| F3 | Show keys received by the game |
+## Options and saved progress
+Press **Esc > Options** for sound volume, camera shake, camera zoom, separate shot/mine shake switches, controls and hints box, level hints, and shell HUD. Turn off all three text switches for a clean gameplay view. Esc from Options returns to the pause menu; Esc again resumes. Menus support keyboard focus and mouse input.
 
-**Aiming:** with no arrow held, aim horizontally on the ground and down in the air. Hold two adjacent arrows to aim diagonally. Opposing arrows cancel.
+Settings save immediately. Touching a checkpoint flag saves its position; reopening the game resumes at that flag with two shells. **Restart ridge [R]** clears the saved checkpoint and starts from the beginning, keeping your options. **Quit game** exits from the pause menu. The completion menu also offers Options, Restart, and Quit.
 
+The save is local at `%APPDATA%/Godot/app_userdata/Shotgun Kid/settings.cfg`. Existing volume and camera preferences are retained. Missing or invalid preferences use defaults, and an unknown checkpoint falls back to the start. Progress stores the flag and position; loading resolves the flag's current safe spawn position so level edits cannot strand the player.
 
-The gun has **two shells**. Shooting pushes you opposite your aim. Shots have a short cooldown. A rapid second tap is buffered until that cooldown ends instead of being discarded. Each press fires at most one shell; holding does not auto-fire. Landing restores both shells immediately, so jumping again right away still leaves two aerial shots. A shot made while already grounded refills after its brief recoil recovery. No air reload and no reload key. A third aerial shot does nothing. Shooting resets movement to the recoil velocity, giving consistent directional boosts.
+## Sound and movement
+There are 12 original effects: footsteps, jump, landing, shotgun, empty click, reload, mine explosion, mine recharge, checkpoint, respawn, completion, and UI. Footsteps follow actual ground distance with pitch variation. Mine audio fades with distance.
 
-Shots destroy drones and incoming orange orbs in a 140-pixel cone. Terrain blocks the shot. This is an active, timed projectile block, not a passive shield. Touching enemies, orbs, spikes, or falling off the level returns you to the latest flag. Reach the green door to finish.
+Movement includes quick acceleration and reversals, air steering, coyote time, jump buffering, and variable jump height. Downward shots preserve lateral momentum; mine momentum carries into follow-up shots. Bounded shake, subtle zoom pulses, velocity look-ahead, and sprite squash/stretch add feedback without changing collisions.
 
-## Structure
+## Structure and editing
+- `scenes/actors/`: reusable player, boost mine, checkpoint, spikes, and exit.
+- `scenes/components/`: shotgun, particles, explosion, and platform.
+- `scenes/levels/training_yard.tscn`: Lantern Ridge with editable TileMapLayers, explicit platform collisions, scenery, and actors.
+- `scenes/ui/hud.tscn`: HUD, pause menu, and options submenu.
+- `scripts/player.gd`: locomotion; `player_camera.gd`: camera feedback.
+- `scripts/sfx.gd`: autoload for the bounded audio voice pool.
+- `scripts/save_data.gd`: autoload for preferences and checkpoint persistence.
+- `assets/source/`: editable layered Aseprite documents.
+- `assets/textures/`: exported PNGs, including the tile atlas and character sheet.
+- `assets/terrain_tileset.tres`: native Godot TileSet.
+- `assets/audio/`: original WAV effects.
 
-- `scenes/actors/`: reusable player, drone, projectile, checkpoint, spikes, and exit scenes.
-- `scenes/components/`: shotgun, burst effect, and basic platform scene.
-- `scenes/levels/training_yard.tscn`: editor-visible level layout, real static bodies, explicit collision shapes, signs, actor instances, and HUD instance.
-- `scenes/ui/hud.tscn`: container-based HUD and keyboard-accessible pause menu.
-- `scripts/`: focused behavior scripts; no global autoload is needed.
-- `assets/source/`: editable original `.aseprite` documents, including the four-pose kid sheet.
-- `assets/textures/`: Aseprite-exported PNGs, imported with nearest filtering.
-- `tools/`: reproducible Aseprite Lua artwork authoring script and source export helper.
-- `tests/`: actual Godot physics integration and continuous traversal tests.
-- `docs/`: design notes and a captured gameplay image.
+Movement and mine tuning are exposed in the Inspector. TileMapLayers provide artwork; each platform's CollisionShape2D defines its solid area. Resize both when changing platform dimensions.
 
-Select the Player instance to tune speed, jump, gravity, and recoil in the Inspector. Edit the reusable player scene to adjust the camera or collision shape. Select Shotgun to tune its cooldown and range. Enemy fire interval is also exported.
+## Asset workflow
+All custom visual assets were authored and exported in Aseprite using its Lua API. No reference-game assets, external sprite packs, or image-generation services were used. Godot's built-in font and controls provide text and panels.
 
-## Art workflow
+Edit the Aseprite source and export its PNG, or run `tools/export_art.ps1`. `tools/art_lantern_ridge.lua` recreates matching source documents and overwrites them, so back up manual edits first. `tools/build_terrain.gd` rebuilds the atlas and terrain layers. `tools/make_sounds.py` creates original WAV effects using Python's standard library without external samples.
 
-Open a file from `assets/source/` in Aseprite, edit it, save the source, then export the matching PNG to `assets/textures/`. Godot imports the result automatically. `tools/export_art.ps1` exports the saved source files in bulk. The `kid` document is a 96x24 sheet with four 24x24 poses; keep those cell dimensions unless you update the player scene.
-
-All custom visual assets were created through the installed Aseprite application's Lua API. No generated-image service, external sprite packs, SVG substitutes, or Godot code-drawn sprites were used. Godot's built-in font and standard UI controls provide interface text and panels. No audio assets have been added; Aseprite is a visual-art editor.
-
-`create_art.lua` recreates the initial source artwork and **overwrites matching source files**. Use the export helper for normal edits; do not rerun the authoring script over edited sources without making a copy first.
-
-## Validation
-
-Run with your Godot executable:
+## Checks
+Use an isolated save profile for tests to protect real player progress. Start each gameplay suite with a fresh test profile:
 
 ```powershell
-godot --headless --path . --script res://tests/gameplay_test.gd
-godot --headless --path . --script res://tests/traversal_test.gd
-godot --headless --path . --script res://tests/manual_fire_test.gd
-godot --headless --path . --script res://tests/jump_fire_test.gd
-godot --headless --path . --script res://tests/diagonal_jump_test.gd -- --alternates
+godot --headless --path . --script res://tests/gameplay_test.gd -- --save-file=user://gameplay-test.cfg
+godot --headless --path . --script res://tests/mine_test.gd -- --save-file=user://mine-test.cfg
+godot --path . --script res://tests/feel_audio_test.gd -- --save-file=user://audio-test.cfg
 ```
 
-The gameplay test checks ground support, jump, recoil, ammo limits/refill, eight directions, projectile blocking, enemy damage, terrain occlusion, checkpoints, respawn, and completion. The traversal test crosses ten consecutive gaps without teleporting between ledges. It removes enemies and disables damage to isolate platform reachability; it is not a claim that combat difficulty has been human-playtested.
+Other regression scripts cover traversal, manual fire, jump/fire, and diagonal jump combinations (`--alternates`). Headless tests verify sound dispatch; rendered tests exercise playback.
 
-## Next decisions together
+Run `tests/settings_save_test.gd` across three processes using `-- --save-file=user://options_test.cfg --write`, then the same profile with `--read`, then with neither phase flag. This checks persisted options, checkpoint loading, restart semantics, and Quit. Screenshots are in `docs/`.
 
-Arrow-key aiming is the chosen control scheme. Next, tune recoil strength, air steering and cooldown before expanding the campaign. Add fuller animation, sound, moving enemies, remappable controls, and more levels after the movement feels right.
+This remains a prototype to tune together. Human feedback is still needed on movement feel, sound balance, and level pacing.
 
-## Jumping with diagonal aim
-
-All four arrow diagonals are independent of normal jumping. Space, W, and Ctrl trigger the same jump action. If Space is not detected with certain arrow combinations, use W or Ctrl. Press F3 to see keys that reach the game: if SPACE stays -- while physically pressed, that key is not reaching Godot in that chord. Software cannot restore a key press the keyboard does not report. This behavior is documented in [Godot issue 56423](https://github.com/godotengine/godot/issues/56423), but has not been confirmed on your keyboard.
+Grounded arrow-key aiming gently pans the camera in that direction. Releasing aim or leaving the floor eases the view back to normal; airborne aim never controls the look offset. Camera shake is the master shake switch, with independent shot and mine switches beneath it. Zoom works independently. All four settings persist, and old camera-effect preferences migrate automatically.

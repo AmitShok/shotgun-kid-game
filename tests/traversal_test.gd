@@ -47,7 +47,7 @@ func run() -> void:
   print("PASS: Continuous traversal to ledge ",step)
   await frames(25)
  print("TRAVERSAL RESULT: ","FAIL" if failed else "PASS (10 consecutive gaps)")
- quit(1 if failed else 0)
+ await root.get_node("Sfx").shutdown(1 if failed else 0)
 
 func jump_key(pressed: bool) -> void:
  var event := InputEventKey.new()

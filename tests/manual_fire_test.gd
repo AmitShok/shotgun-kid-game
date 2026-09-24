@@ -89,4 +89,4 @@ func run() -> void:
  check(player.shotgun.ammo==2,"Empty-gun tap cannot fire after refill")
  check(not InputMap.has_action("mode") and root.get_node_or_null("Settings")==null,"Auto-aim mode and settings autoload removed")
  print("MANUAL FIRE RESULT: %d checks, %d failures" % [checks,failures])
- quit(1 if failures else 0)
+ await root.get_node("Sfx").shutdown(1 if failures else 0)

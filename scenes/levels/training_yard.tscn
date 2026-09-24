@@ -421,9 +421,7 @@ theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
-text = "01 / LANTERN RIDGE
-Jump above the mine.
-Shoot down to ride the blast."
+text = "01 / LANTERN RIDGE"
 
 [node name="Sign1" type="Label" parent="Signs" unique_id=1853901019]
 offset_left = 570.0
@@ -433,8 +431,7 @@ theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
-text = "TWO SHELLS
-One more chance to fly."
+text = "TWO SHELLS. KEEP CLIMBING."
 
 [node name="Sign2" type="Label" parent="Signs" unique_id=1622603262]
 offset_left = 935.0
@@ -444,9 +441,7 @@ theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
-text = "02 / THE HIGH ROAD
-Use a mine to reach the upper ruins.
-Land to refill both shells."
+text = "02 / THE HIGH ROAD"
 
 [node name="Sign3" type="Label" parent="Signs" unique_id=811182136]
 offset_left = 1610.0
@@ -456,9 +451,7 @@ theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
-text = "03 / KEEP YOUR MOMENTUM
-The blast pushes you away.
-Mines recharge. Take another run."
+text = "03 / THE LAST STRETCH"
 
 [node name="Sign4" type="Label" parent="Signs" unique_id=300464671]
 offset_left = 2300.0
@@ -468,8 +461,7 @@ theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
-text = "THE WAY HOME
-Reach the mountain gate."
+text = "THE WAY HOME"
 
 [node name="Scenery" type="Node2D" parent="." unique_id=84416452]
 
@@ -481,19 +473,19 @@ centered = false
 
 [node name="Spruce1" type="Sprite2D" parent="Scenery" unique_id=107576326]
 z_index = -1
-position = Vector2(520, 400)
+position = Vector2(445, 400)
 texture = ExtResource("spruce")
 centered = false
 
 [node name="Spruce2" type="Sprite2D" parent="Scenery" unique_id=934811280]
 z_index = -1
-position = Vector2(865, 352)
+position = Vector2(925, 352)
 texture = ExtResource("spruce")
 centered = false
 
 [node name="Spruce3" type="Sprite2D" parent="Scenery" unique_id=920345027]
 z_index = -1
-position = Vector2(1535, 368)
+position = Vector2(1420, 288)
 texture = ExtResource("spruce")
 centered = false
 
@@ -535,7 +527,7 @@ centered = false
 
 [node name="Heather5" type="Sprite2D" parent="Scenery" unique_id=6986123]
 z_index = -1
-position = Vector2(1835, 432)
+position = Vector2(1820, 432)
 texture = ExtResource("heather")
 centered = false
 
@@ -626,12 +618,6 @@ centered = false
 [node name="Waypost1" type="Sprite2D" parent="Scenery" unique_id=1912455258]
 z_index = -1
 position = Vector2(1050, 416)
-texture = ExtResource("waypost")
-centered = false
-
-[node name="Waypost2" type="Sprite2D" parent="Scenery" unique_id=1416671984]
-z_index = -1
-position = Vector2(1660, 432)
 texture = ExtResource("waypost")
 centered = false
 

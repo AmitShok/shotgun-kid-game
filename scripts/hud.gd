@@ -7,6 +7,31 @@ func _ready() -> void:
  process_mode=Node.PROCESS_MODE_ALWAYS
  $Overlay/Center/Menu/Resume.pressed.connect(_toggle_pause)
  $Overlay/Center/Menu/Restart.pressed.connect(_restart)
+ $Overlay/Center/Menu/Options.pressed.connect(_open_options)
+ $Overlay/Center/Menu/Quit.pressed.connect(func(): Sfx.shutdown())
+ $Overlay/Center/Options/Back.pressed.connect(_close_options)
+ $Overlay/Center/Options/VolumeRow/Volume.set_value_no_signal(Sfx.volume*100)
+ $Overlay/Center/Options/VolumeRow/Volume.value_changed.connect(func(value: float): Sfx.set_volume(value/100.0))
+ for pair in [["CameraShake","camera_shake"],["CameraZoom","camera_zoom"],["ShotShake","shot_shake"],["MineShake","mine_shake"],["Controls","show_controls"],["LevelHints","show_level_hints"],["HUD","show_hud"]]:
+  var toggle: CheckButton=get_node("Overlay/Center/Options/"+pair[0])
+  toggle.set_pressed_no_signal(SaveData.get(pair[1]))
+  toggle.toggled.connect(func(value: bool): SaveData.set_preference(pair[1],value))
+ SaveData.preferences_changed.connect(_apply_preferences)
+ _apply_preferences()
+func _apply_preferences() -> void:
+ $Bottom.visible=SaveData.show_controls
+ $Top.visible=SaveData.show_hud
+ get_parent().get_node("Signs").visible=SaveData.show_level_hints
+func _open_options() -> void:
+ Sfx.play("ui",-13)
+ $Overlay/Center/Menu.hide()
+ $Overlay/Center/Options.show()
+ $Overlay/Center/Options/VolumeRow/Volume.grab_focus()
+func _close_options() -> void:
+ Sfx.play("ui",-13)
+ $Overlay/Center/Options.hide()
+ $Overlay/Center/Menu.show()
+ $Overlay/Center/Menu/Options.grab_focus()
 func _process(delta: float) -> void:
  if Input.is_action_just_pressed("pause"): _toggle_pause()
  if Input.is_action_just_pressed("restart"): _restart()
@@ -35,11 +60,16 @@ func show_message(text: String) -> void:
  message=text
  message_left=3.0
 func _toggle_pause() -> void:
+ if $Overlay/Center/Options.visible:
+  _close_options()
+  return
  if get_parent().complete: return
+ Sfx.play("ui",-13.0)
  get_tree().paused=not get_tree().paused
  $Overlay.visible=get_tree().paused
  if get_tree().paused: $Overlay/Center/Menu/Resume.grab_focus()
 func _restart() -> void:
+ SaveData.clear_progress()
  get_tree().paused=false
  get_tree().reload_current_scene()
 func show_completion(seconds: float,deaths: int) -> void:

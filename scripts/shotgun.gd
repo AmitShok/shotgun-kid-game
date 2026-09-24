@@ -16,11 +16,13 @@ func refill() -> void:
  if ammo==MAX_AMMO: return
  ammo=MAX_AMMO
  ammo_changed.emit(ammo)
+ Sfx.play("reload",-10.0)
 func shoot() -> bool:
  if ammo<=0 or remaining>0: return false
  ammo-=1
  remaining=cooldown
  ammo_changed.emit(ammo)
+ Sfx.play("shot",-2.0,randf_range(0.96,1.04))
  fired.emit(aim)
  $Flash.visible=true
  $FlashTimer.start()

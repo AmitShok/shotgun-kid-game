@@ -16,10 +16,13 @@ func _physics_process(delta: float) -> void:
  $Sprite2D.frame=int(time*6.0)%4
  if not armed:
   recharge_left=maxf(0.0,recharge_left-delta)
-  if recharge_left<=0: reset()
+  if recharge_left<=0:
+   reset()
+   Sfx.play_at("mine_ready",global_position,-12.0)
 func hit() -> void:
  if not armed: return
  armed=false
+ Sfx.play_at("mine_blast",global_position,0.0)
  recharge_left=recharge_seconds
  $Sprite2D.modulate=Color(0.45,0.55,0.65,0.4)
  $Glow.hide()
@@ -28,6 +31,9 @@ func hit() -> void:
  get_tree().current_scene.add_child(effect)
  for player in get_tree().get_nodes_in_group("player"):
   var offset: Vector2=player.global_position-global_position
+  # Camera feedback also reaches nearby spectators outside the impulse radius.
+  if offset.length()<360:
+   player.get_node("Camera2D").impact(2.2*(1.0-offset.length()/360.0),-0.025,"mine")
   if offset.length()>blast_radius: continue
   var ray := PhysicsRayQueryParameters2D.create(global_position,player.global_position,1)
   if not get_world_2d().direct_space_state.intersect_ray(ray).is_empty(): continue

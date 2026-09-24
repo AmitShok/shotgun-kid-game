@@ -60,6 +60,7 @@ func run() -> void:
  Input.action_release("aim_down")
  await frames(105)
  check(player.is_on_floor() and player.shotgun.ammo==2,"Landing refills exactly two shells")
+ check(int(root.get_node("Sfx").event_counts.get("land",0))>0,"Landing sound is dispatched")
  var dirs=[Vector2(-1,-1),Vector2(0,-1),Vector2(1,-1),Vector2(-1,0),Vector2(1,0),Vector2(-1,1),Vector2(0,1),Vector2(1,1)]
  for dir in dirs:
   for action in ["aim_left","aim_right","aim_up","aim_down"]: Input.action_release(action)
@@ -76,15 +77,17 @@ func run() -> void:
  player.velocity=Vector2.ZERO
  await frames(25)
  check(player.spawn_point.x==952,"Touching checkpoint stores respawn position")
+ check(int(root.get_node("Sfx").event_counts.get("checkpoint",0))>0,"Checkpoint chime is dispatched")
  player.invincible=0
  player.hurt()
  check(player.global_position.distance_to(player.spawn_point)<1,"Death returns to checkpoint")
  check(player.shotgun.ammo==2,"Respawn restores ammo")
  level.finish()
  check(paused and level.complete,"Exit completion pauses gameplay")
+ check(int(root.get_node("Sfx").event_counts.get("clear",0))>0,"Level completion chime is dispatched")
  paused=false
  print("RESULT: %d checks, %d failures" % [checks,failures])
- quit(1 if failures else 0)
+ await root.get_node("Sfx").shutdown(1 if failures else 0)
 
 func jump_key(pressed: bool) -> void:
  var event := InputEventKey.new()

@@ -67,7 +67,7 @@ anchor_right=1.0
 anchor_bottom=1.0
 [node name="Menu" type="VBoxContainer" parent="Overlay/Center"]
 custom_minimum_size=Vector2(330,0)
-theme_override_constants/separation=12
+theme_override_constants/separation=8
 [node name="Title" type="Label" parent="Overlay/Center/Menu"]
 theme_override_font_sizes/font_size=28
 text="TAKE A BREATHER"
@@ -79,8 +79,66 @@ Ground contact reloads your shotgun."
 horizontal_alignment=1
 [node name="Resume" type="Button" parent="Overlay/Center/Menu"]
 text="Resume  [ESC]"
+[node name="Options" type="Button" parent="Overlay/Center/Menu"]
+text="Options"
 [node name="Restart" type="Button" parent="Overlay/Center/Menu"]
-text="Restart yard  [R]"
+text="Restart ridge  [R]"
+[node name="Quit" type="Button" parent="Overlay/Center/Menu"]
+text="Quit game"
+[node name="Options" type="VBoxContainer" parent="Overlay/Center"]
+visible=false
+custom_minimum_size=Vector2(360,0)
+theme_override_constants/separation=1
+[node name="Title" type="Label" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=28
+text="OPTIONS"
+horizontal_alignment=1
+[node name="Description" type="Label" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Changes save automatically."
+horizontal_alignment=1
+[node name="VolumeRow" type="HBoxContainer" parent="Overlay/Center/Options"]
+theme_override_constants/separation=12
+[node name="Label" type="Label" parent="Overlay/Center/Options/VolumeRow"]
+theme_override_font_sizes/font_size=12
+text="Sound volume"
+[node name="Volume" type="HSlider" parent="Overlay/Center/Options/VolumeRow"]
+size_flags_horizontal=3
+custom_minimum_size=Vector2(160,24)
+min_value=0.0
+max_value=100.0
+step=5.0
+value=55.0
+[node name="CameraShake" type="CheckButton" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Camera shake"
+button_pressed=true
+[node name="CameraZoom" type="CheckButton" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Camera zoom effects"
+button_pressed=true
+[node name="ShotShake" type="CheckButton" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Shake when shooting"
+button_pressed=true
+[node name="MineShake" type="CheckButton" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Shake on mine explosions"
+button_pressed=true
+[node name="Controls" type="CheckButton" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Show controls + hints box"
+button_pressed=true
+[node name="LevelHints" type="CheckButton" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Show hints in the level"
+button_pressed=true
+[node name="HUD" type="CheckButton" parent="Overlay/Center/Options"]
+theme_override_font_sizes/font_size=12
+text="Show shell HUD"
+button_pressed=true
+[node name="Back" type="Button" parent="Overlay/Center/Options"]
+text="Back  [ESC]"
 [node name="InputReadout" type="PanelContainer" parent="."]
 visible=false
 offset_left=12.0

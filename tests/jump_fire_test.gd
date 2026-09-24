@@ -79,4 +79,4 @@ func run() -> void:
  check(player.shotgun.ammo==0,"Normal jump does not grant unlimited air ammo")
  key(KEY_SHIFT,false)
  print("JUMP/FIRE RESULT: %d checks, %d failures" % [checks,failures])
- quit(1 if failures else 0)
+ await root.get_node("Sfx").shutdown(1 if failures else 0)

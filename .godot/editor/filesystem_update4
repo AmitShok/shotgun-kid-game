@@ -1,6 +1,7 @@
+res://scripts/boost_mine.gd
 res://scripts/hud.gd
-res://scripts/level.gd
 res://scripts/player.gd
-res://scripts/shotgun.gd
-res://tests/gameplay_test.gd
-res://tests/traversal_test.gd
+res://scripts/player_camera.gd
+res://scripts/save_data.gd
+res://scripts/sfx.gd
+res://tests/settings_save_test.gd

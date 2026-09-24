@@ -39,6 +39,7 @@ func run() -> void:
  player.shotgun.remaining=0
  player.shotgun.shoot()
  check(not mine.armed,"Shot detonates mine in cone")
+ check(int(root.get_node("Sfx").event_counts.get("mine_blast",0))>0,"Mine explosion dispatches blast sound")
  check(player.velocity.y< -790,"Blast adds substantial speed to normal recoil")
  check(player.shotgun.ammo==1,"Mine boost does not refill aerial ammo")
  check(level.deaths==0,"Explosion is non-lethal")
@@ -47,6 +48,7 @@ func run() -> void:
  check(player.velocity.is_equal_approx(speed),"Spent mine cannot boost twice before recharging")
  await create_timer(2.6).timeout
  check(mine.armed,"Mine automatically recharges")
+ check(int(root.get_node("Sfx").event_counts.get("mine_ready",0))>0,"Nearby mine recharge has audible feedback")
  player.shotgun.refill()
  player.shotgun.remaining=0
  player.shotgun.aim=Vector2.UP
@@ -100,4 +102,4 @@ func run() -> void:
  check(landed,"Mine-assisted jump reaches and lands on the high road")
  check(player.shotgun.ammo==2,"High-road landing restores two shells")
  print("MINE RESULT: %d checks, %d failures" % [checks,failures])
- quit(1 if failures else 0)
+ await root.get_node("Sfx").shutdown(1 if failures else 0)
