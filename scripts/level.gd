@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
  if not complete and not get_tree().paused: elapsed+=delta
 func checkpoint_reached() -> void:
  Sfx.play("checkpoint",-7.0)
- $HUD.show_message("CHECKPOINT SAVED  /  take another run whenever you need")
+ $HUD.show_message("CHECKPOINT SAVED!")
 func finish() -> void:
  if complete: return
  complete=true

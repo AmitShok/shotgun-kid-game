@@ -40,11 +40,11 @@ func _process(delta: float) -> void:
  $Top/Margin/Row/Shell1.modulate=Color.WHITE if player.shotgun.ammo>0 else Color(0.3,0.35,0.45)
  $Top/Margin/Row/Shell2.modulate=Color.WHITE if player.shotgun.ammo>1 else Color(0.3,0.35,0.45)
  if not get_tree().paused: message_left=maxf(0,message_left-delta)
- var hint := "Jump above a mine. Shoot down. Ride the blast."
- if player.position.x>500: hint="Two shells. Land to reload. Chain your shots to climb."
- if player.position.x>900: hint="THE HIGH ROAD  /  Blast upward to reach the upper ruins."
- if player.position.x>1550: hint="Mines recharge after a blast. Aim diagonally to carry your speed."
- if player.position.x>2250: hint="The mountain gate is just ahead."
+ var hint := "Controls:"
+ if player.position.x>500: hint="Controls:"
+ if player.position.x>900: hint="Controls:"
+ if player.position.x>1550: hint="Controls:"
+ if player.position.x>2250: hint="Controls:"
  $Bottom/Margin/Column/Hint.text=message if message_left>0 else hint
  $Bottom/Margin/Column/Controls.text="A/D move  /  SPACE jump  /  ARROWS aim  /  SHIFT fire  /  ESC pause"
  $InputReadout.visible=show_input
