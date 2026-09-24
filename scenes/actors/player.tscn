@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/textures/kid.png" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/components/shotgun.tscn" id="3"]
+[sub_resource type="RectangleShape2D" id="Shape"]
+size=Vector2(12,21)
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer=2
+collision_mask=1
+floor_snap_length=4.0
+script=ExtResource("1")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape=SubResource("Shape")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture=ExtResource("2")
+hframes=8
+[node name="Shotgun" parent="." instance=ExtResource("3")]
+position=Vector2(0,2)
+[node name="Camera2D" type="Camera2D" parent="."]
+position=Vector2(65,-50)
+position_smoothing_enabled=true
+position_smoothing_speed=7.0
+limit_left=0
+limit_top=-160
+limit_right=2560
+limit_bottom=680

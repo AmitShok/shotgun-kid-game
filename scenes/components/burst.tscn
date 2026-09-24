@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/burst.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/textures/spark.png" id="2"]
+[node name="Burst" type="CPUParticles2D"]
+emitting=false
+amount=9
+lifetime=0.3
+one_shot=true
+explosiveness=1.0
+texture=ExtResource("2")
+direction=Vector2(0,-1)
+spread=180.0
+gravity=Vector2(0,150)
+initial_velocity_min=30.0
+initial_velocity_max=90.0
+scale_amount_min=0.4
+scale_amount_max=1.0
+script=ExtResource("1")
