@@ -24,3 +24,19 @@ Headless runs bypass inaudible playback but verify event dispatch. Actual playba
 
 ## Independent camera effects and grounded look
 Rendered camera/scenery test: 30 checks passed, including ground look, no airborne aim panning, independent shake/zoom gates, supported tree/plant/lantern/sign bases, and options fitting the viewport. Visually checked start, checkpoint sections, and exit. Three floating trees relocated, an edge plant moved inward, and a redundant checkpoint sign removed. Existing Aseprite artwork retained. Mine and feel/audio regressions passed (18 + 28 checks). Separate-process save test verified all four camera preferences persist.
+
+
+## Main menu, CRT, and native tile physics
+- Rendered menu/tiles/CRT integration: 18 checks passed for initial keyboard focus, level selection, shared options, live CRT toggling, return to main menu, shared external TileSet physics, and painting/erasing solid cells.
+- Visual checks: main menu, level selection, options, and gameplay with CRT on/off (PNG captures in this folder).
+- Native-tile regression: gameplay 28/28, mines 18/18, continuous traversal through all ten gaps passed.
+- Separate-process save tests confirmed CRT-off and independent camera preferences survive relaunch, checkpoint resume works, and Restart clears progress without clearing preferences.
+- Updated scenery support test uses real physics rays against tiles instead of legacy collision boxes.
+
+
+## Five-level progression and editable scaffolds
+Rendered progression test verifies all five playable spawns, backgrounds and starter structure, real exit triggers, sequential unlocks, Next Level transitions, final-level behavior, locked selection rejection, repeated/out-of-order completion protection, and menu layout. Separate-process tests verify persistence and reset behavior, including confirmation cancellation, returning to the main menu from gameplay, and preserving settings. Test profiles are isolated from player data. Captures: level_select_progression.png, options_progression.png, level_template.png.
+
+
+## Menu and HUD visual polish
+Tilted menu headings and buttons, smooth focus/hover/press transforms, short page fades, warm focus accents, beveled panel edges and shadows. Settings rows and gameplay HUD text stay stable. Rendered menu integration passed all 18 existing checks; screenshots reviewed for main menu, five-level selector, crowded Options panel, and pause menu. Native focus/navigation and progression logic retained.

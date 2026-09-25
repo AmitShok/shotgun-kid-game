@@ -1,0 +1,63 @@
+[gd_scene format=3]
+[ext_resource type="Texture2D" path="res://assets/textures/background.png" id="bg"]
+[ext_resource type="Texture2D" path="res://assets/textures/mountains_far.png" id="mountains_far"]
+[ext_resource type="Texture2D" path="res://assets/textures/mountains_near.png" id="mountains_near"]
+[ext_resource type="Script" path="res://scripts/parallax_backdrop.gd" id="parallax"]
+[ext_resource type="Texture2D" path="res://assets/textures/snowflake.png" id="snowflake"]
+[node name="Backdrop" type="CanvasLayer"]
+layer = -10
+script = ExtResource("parallax")
+
+[node name="Sky" type="Sprite2D" parent="."]
+texture = ExtResource("bg")
+centered = false
+
+[node name="Far" type="Node2D" parent="."]
+
+[node name="Plane0" type="Sprite2D" parent="Far"]
+texture = ExtResource("mountains_far")
+centered = false
+
+[node name="Plane1" type="Sprite2D" parent="Far"]
+position = Vector2(640, 0)
+texture = ExtResource("mountains_far")
+centered = false
+
+[node name="Plane2" type="Sprite2D" parent="Far"]
+position = Vector2(1280, 0)
+texture = ExtResource("mountains_far")
+centered = false
+
+[node name="Near" type="Node2D" parent="."]
+
+[node name="Plane0" type="Sprite2D" parent="Near"]
+texture = ExtResource("mountains_near")
+centered = false
+
+[node name="Plane1" type="Sprite2D" parent="Near"]
+position = Vector2(640, 0)
+texture = ExtResource("mountains_near")
+centered = false
+
+[node name="Plane2" type="Sprite2D" parent="Near"]
+position = Vector2(1280, 0)
+texture = ExtResource("mountains_near")
+centered = false
+
+[node name="Snow" type="CPUParticles2D" parent="."]
+position = Vector2(320, 160)
+amount = 38
+texture = ExtResource("snowflake")
+lifetime = 14.0
+preprocess = 14.0
+emission_shape = 3
+emission_rect_extents = Vector2(360, 230)
+direction = Vector2(-0.5, 1)
+spread = 12.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 13.0
+scale_amount_min = 0.3
+scale_amount_max = 0.6
+color = Color(0.8, 0.9, 1, 0.35)
+

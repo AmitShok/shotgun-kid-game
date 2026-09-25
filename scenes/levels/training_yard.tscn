@@ -1,6 +1,6 @@
 [gd_scene format=4]
 
-[ext_resource type="Texture2D" path="res://assets/textures/terrain_atlas.png" id="7_bcton"]
+[ext_resource type="TileSet" path="res://assets/terrain_tileset.tres" id="7_bcton"]
 [ext_resource type="Script" path="res://scripts/boost_mine.gd" id="9_kqnrl"]
 [ext_resource type="Script" path="res://scripts/checkpoint.gd" id="11_6npfu"]
 [ext_resource type="Script" path="res://scripts/hazard.gd" id="13_rh1vm"]
@@ -24,83 +24,6 @@
 [ext_resource type="PackedScene" path="res://scenes/actors/spikes.tscn" id="spikes"]
 [ext_resource type="Texture2D" path="res://assets/textures/spruce.png" id="spruce"]
 [ext_resource type="Texture2D" path="res://assets/textures/waypost.png" id="waypost"]
-
-[sub_resource type="RectangleShape2D" id="P0"]
-size = Vector2(368, 64)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g61rj"]
-texture = ExtResource("7_bcton")
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-5:0/0 = 0
-6:0/0 = 0
-7:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-4:1/0 = 0
-5:1/0 = 0
-6:1/0 = 0
-7:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-3:2/0 = 0
-4:2/0 = 0
-5:2/0 = 0
-6:2/0 = 0
-7:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-3:3/0 = 0
-4:3/0 = 0
-5:3/0 = 0
-6:3/0 = 0
-7:3/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_lca6b"]
-sources/0 = SubResource("TileSetAtlasSource_g61rj")
-
-[sub_resource type="RectangleShape2D" id="P1"]
-size = Vector2(112, 32)
-
-[sub_resource type="RectangleShape2D" id="P2"]
-size = Vector2(112, 32)
-
-[sub_resource type="RectangleShape2D" id="P3"]
-size = Vector2(128, 32)
-
-[sub_resource type="RectangleShape2D" id="P4"]
-size = Vector2(224, 48)
-
-[sub_resource type="RectangleShape2D" id="P5"]
-size = Vector2(112, 32)
-
-[sub_resource type="RectangleShape2D" id="P6"]
-size = Vector2(112, 32)
-
-[sub_resource type="RectangleShape2D" id="P7"]
-size = Vector2(272, 48)
-
-[sub_resource type="RectangleShape2D" id="P8"]
-size = Vector2(96, 32)
-
-[sub_resource type="RectangleShape2D" id="P9"]
-size = Vector2(96, 32)
-
-[sub_resource type="RectangleShape2D" id="P10"]
-size = Vector2(304, 64)
-
-[sub_resource type="RectangleShape2D" id="P11"]
-size = Vector2(192, 48)
-
-[sub_resource type="RectangleShape2D" id="P12"]
-size = Vector2(128, 32)
 
 [node name="LanternRidge" type="Node2D" unique_id=86938233]
 script = ExtResource("script")
@@ -164,161 +87,70 @@ color = Color(0.8, 0.9, 1, 0.35)
 
 [node name="Terrain" type="Node2D" parent="." unique_id=1760904680]
 
-[node name="Ledge00" type="StaticBody2D" parent="Terrain" unique_id=1795748460]
-position = Vector2(184, 576)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge00" unique_id=1814370181]
-shape = SubResource("P0")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge00" unique_id=2093810664]
-position = Vector2(-184, -32)
+[node name="Ledge00" type="TileMapLayer" parent="Terrain" unique_id=1580694987]
+position = Vector2(0, 544)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAABAAAAAAAEAAAAAAACAAAAAAAFAAAAAAADAAAAAAAGAAAAAAABAAAAAAAHAAAAAAACAAAAAAAIAAAAAAADAAAAAAAJAAAAAAABAAAAAAAKAAAAAAACAAAAAAALAAAAAAADAAAAAAAMAAAAAAABAAAAAAANAAAAAAACAAAAAAAOAAAAAAADAAAAAAAPAAAAAAABAAAAAAAQAAAAAAACAAAAAAARAAAAAAADAAAAAAASAAAAAAABAAAAAAATAAAAAAACAAAAAAAUAAAAAAADAAAAAAAVAAAAAAABAAAAAAAWAAAAAAAEAAAAAAAAAAEAAAAAAAEAAAABAAEAAAACAAEAAAACAAEAAAADAAEAAAADAAEAAAABAAEAAAAEAAEAAAACAAEAAAAFAAEAAAADAAEAAAAGAAEAAAABAAEAAAAHAAEAAAACAAEAAAAIAAEAAAADAAEAAAAJAAEAAAABAAEAAAAKAAEAAAACAAEAAAALAAEAAAADAAEAAAAMAAEAAAABAAEAAAANAAEAAAACAAEAAAAOAAEAAAADAAEAAAAPAAEAAAABAAEAAAAQAAEAAAACAAEAAAARAAEAAAADAAEAAAASAAEAAAABAAEAAAATAAEAAAACAAEAAAAUAAEAAAADAAEAAAAVAAEAAAABAAEAAAAWAAEAAAAEAAEAAAAAAAIAAAAAAAEAAAABAAIAAAACAAEAAAACAAIAAAADAAEAAAADAAIAAAABAAEAAAAEAAIAAAACAAEAAAAFAAIAAAADAAEAAAAGAAIAAAABAAEAAAAHAAIAAAACAAEAAAAIAAIAAAADAAEAAAAJAAIAAAABAAEAAAAKAAIAAAACAAEAAAALAAIAAAADAAEAAAAMAAIAAAABAAEAAAANAAIAAAACAAEAAAAOAAIAAAADAAEAAAAPAAIAAAABAAEAAAAQAAIAAAACAAEAAAARAAIAAAADAAEAAAASAAIAAAABAAEAAAATAAIAAAACAAEAAAAUAAIAAAADAAEAAAAVAAIAAAABAAEAAAAWAAIAAAAEAAEAAAAAAAMAAAAAAAIAAAABAAMAAAACAAIAAAACAAMAAAADAAIAAAADAAMAAAABAAIAAAAEAAMAAAACAAIAAAAFAAMAAAADAAIAAAAGAAMAAAABAAIAAAAHAAMAAAACAAIAAAAIAAMAAAADAAIAAAAJAAMAAAABAAIAAAAKAAMAAAACAAIAAAALAAMAAAADAAIAAAAMAAMAAAABAAIAAAANAAMAAAACAAIAAAAOAAMAAAADAAIAAAAPAAMAAAABAAIAAAAQAAMAAAACAAIAAAARAAMAAAADAAIAAAASAAMAAAABAAIAAAATAAMAAAACAAIAAAAUAAMAAAADAAIAAAAVAAMAAAABAAIAAAAWAAMAAAAEAAIAAAAAAAQAAAAAAAMAAAACAAQAAAACAAMAAAADAAQAAAADAAMAAAAFAAQAAAAFAAMAAAAGAAQAAAAGAAMAAAAIAAQAAAAAAAMAAAAJAAQAAAABAAMAAAALAAQAAAADAAMAAAAMAAQAAAAEAAMAAAAOAAQAAAAGAAMAAAAPAAQAAAAHAAMAAAARAAQAAAABAAMAAAASAAQAAAACAAMAAAAUAAQAAAAEAAMAAAAVAAQAAAAFAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge01" type="StaticBody2D" parent="Terrain" unique_id=532426881]
-position = Vector2(472, 512)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge01" unique_id=1953084284]
-shape = SubResource("P1")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge01" unique_id=60447464]
-position = Vector2(-56, -16)
+[node name="Ledge01" type="TileMapLayer" parent="Terrain" unique_id=2118049920]
+position = Vector2(416, 496)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAADAAAAAAACAAAAAAABAAAAAAADAAAAAAACAAAAAAAEAAAAAAADAAAAAAAFAAAAAAABAAAAAAAGAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAADAAIAAAACAAEAAAABAAIAAAADAAEAAAACAAIAAAAEAAEAAAADAAIAAAAFAAEAAAABAAIAAAAGAAEAAAAEAAIAAAABAAIAAAABAAMAAAACAAIAAAACAAMAAAAEAAIAAAAEAAMAAAAFAAIAAAAFAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge02" type="StaticBody2D" parent="Terrain" unique_id=1082066110]
-position = Vector2(632, 464)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge02" unique_id=974999640]
-shape = SubResource("P2")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge02" unique_id=1245110369]
-position = Vector2(-56, -16)
+[node name="Ledge02" type="TileMapLayer" parent="Terrain" unique_id=374859853]
+position = Vector2(576, 448)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAAEAAAAAAABAAAAAAAFAAAAAAACAAAAAAAGAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAABAAIAAAACAAEAAAACAAIAAAADAAEAAAADAAIAAAAEAAEAAAABAAIAAAAFAAEAAAACAAIAAAAGAAEAAAAEAAIAAAAAAAIAAAAAAAMAAAABAAIAAAABAAMAAAADAAIAAAADAAMAAAAEAAIAAAAEAAMAAAAGAAIAAAAGAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge03" type="StaticBody2D" parent="Terrain" unique_id=925629701]
-position = Vector2(800, 408)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge03" unique_id=114232473]
-shape = SubResource("P3")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge03" unique_id=1543911085]
-position = Vector2(-64, -16)
+[node name="Ledge03" type="TileMapLayer" parent="Terrain" unique_id=603601586]
+position = Vector2(736, 392)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAABAAAAAAAEAAAAAAACAAAAAAAFAAAAAAADAAAAAAAGAAAAAAABAAAAAAAHAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAACAAIAAAACAAEAAAADAAIAAAADAAEAAAABAAIAAAAEAAEAAAACAAIAAAAFAAEAAAADAAIAAAAGAAEAAAABAAIAAAAHAAEAAAAEAAIAAAAAAAIAAAAAAAMAAAACAAIAAAACAAMAAAADAAIAAAADAAMAAAAFAAIAAAAFAAMAAAAGAAIAAAAGAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge04" type="StaticBody2D" parent="Terrain" unique_id=451381195]
-position = Vector2(1024, 472)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge04" unique_id=408937021]
-shape = SubResource("P4")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge04" unique_id=1321443000]
-position = Vector2(-112, -24)
+[node name="Ledge04" type="TileMapLayer" parent="Terrain" unique_id=1028631059]
+position = Vector2(912, 448)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAADAAAAAAACAAAAAAABAAAAAAADAAAAAAACAAAAAAAEAAAAAAADAAAAAAAFAAAAAAABAAAAAAAGAAAAAAACAAAAAAAHAAAAAAADAAAAAAAIAAAAAAABAAAAAAAJAAAAAAACAAAAAAAKAAAAAAADAAAAAAALAAAAAAABAAAAAAAMAAAAAAACAAAAAAANAAAAAAAEAAAAAAAAAAEAAAAAAAEAAAABAAEAAAADAAEAAAACAAEAAAABAAEAAAADAAEAAAACAAEAAAAEAAEAAAADAAEAAAAFAAEAAAABAAEAAAAGAAEAAAACAAEAAAAHAAEAAAADAAEAAAAIAAEAAAABAAEAAAAJAAEAAAACAAEAAAAKAAEAAAADAAEAAAALAAEAAAABAAEAAAAMAAEAAAACAAEAAAANAAEAAAAEAAEAAAAAAAIAAAAAAAIAAAABAAIAAAADAAIAAAACAAIAAAABAAIAAAADAAIAAAACAAIAAAAEAAIAAAADAAIAAAAFAAIAAAABAAIAAAAGAAIAAAACAAIAAAAHAAIAAAADAAIAAAAIAAIAAAABAAIAAAAJAAIAAAACAAIAAAAKAAIAAAADAAIAAAALAAIAAAABAAIAAAAMAAIAAAACAAIAAAANAAIAAAAEAAIAAAABAAMAAAABAAMAAAACAAMAAAACAAMAAAAEAAMAAAAEAAMAAAAFAAMAAAAFAAMAAAAHAAMAAAAHAAMAAAAIAAMAAAAAAAMAAAAKAAMAAAACAAMAAAALAAMAAAADAAMAAAANAAMAAAAFAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge05" type="StaticBody2D" parent="Terrain" unique_id=1955841674]
-position = Vector2(1272, 448)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge05" unique_id=1519757119]
-shape = SubResource("P5")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge05" unique_id=1865916110]
-position = Vector2(-56, -16)
+[node name="Ledge05" type="TileMapLayer" parent="Terrain" unique_id=759274794]
+position = Vector2(1216, 432)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAAEAAAAAAABAAAAAAAFAAAAAAACAAAAAAAGAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAABAAIAAAACAAEAAAACAAIAAAADAAEAAAADAAIAAAAEAAEAAAABAAIAAAAFAAEAAAACAAIAAAAGAAEAAAAEAAIAAAAAAAIAAAAAAAMAAAABAAIAAAABAAMAAAADAAIAAAADAAMAAAAEAAIAAAAEAAMAAAAGAAIAAAAGAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge06" type="StaticBody2D" parent="Terrain" unique_id=1280857401]
-position = Vector2(1464, 400)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge06" unique_id=1545685712]
-shape = SubResource("P6")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge06" unique_id=1008998792]
-position = Vector2(-56, -16)
+[node name="Ledge06" type="TileMapLayer" parent="Terrain" unique_id=295700834]
+position = Vector2(1408, 384)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAABAAAAAAAEAAAAAAACAAAAAAAFAAAAAAADAAAAAAAGAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAACAAIAAAACAAEAAAADAAIAAAADAAEAAAABAAIAAAAEAAEAAAACAAIAAAAFAAEAAAADAAIAAAAGAAEAAAAEAAIAAAAAAAIAAAAAAAMAAAACAAIAAAACAAMAAAADAAIAAAADAAMAAAAFAAIAAAAFAAMAAAAGAAIAAAAGAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge07" type="StaticBody2D" parent="Terrain" unique_id=704055595]
-position = Vector2(1736, 488)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge07" unique_id=355536174]
-shape = SubResource("P7")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge07" unique_id=913516160]
-position = Vector2(-136, -24)
+[node name="Ledge07" type="TileMapLayer" parent="Terrain" unique_id=579628108]
+position = Vector2(1600, 464)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAADAAAAAAACAAAAAAABAAAAAAADAAAAAAACAAAAAAAEAAAAAAADAAAAAAAFAAAAAAABAAAAAAAGAAAAAAACAAAAAAAHAAAAAAADAAAAAAAIAAAAAAABAAAAAAAJAAAAAAACAAAAAAAKAAAAAAADAAAAAAALAAAAAAABAAAAAAAMAAAAAAACAAAAAAANAAAAAAADAAAAAAAOAAAAAAABAAAAAAAPAAAAAAACAAAAAAAQAAAAAAAEAAAAAAAAAAEAAAAAAAEAAAABAAEAAAADAAEAAAACAAEAAAABAAEAAAADAAEAAAACAAEAAAAEAAEAAAADAAEAAAAFAAEAAAABAAEAAAAGAAEAAAACAAEAAAAHAAEAAAADAAEAAAAIAAEAAAABAAEAAAAJAAEAAAACAAEAAAAKAAEAAAADAAEAAAALAAEAAAABAAEAAAAMAAEAAAACAAEAAAANAAEAAAADAAEAAAAOAAEAAAABAAEAAAAPAAEAAAACAAEAAAAQAAEAAAAEAAEAAAAAAAIAAAAAAAIAAAABAAIAAAADAAIAAAACAAIAAAABAAIAAAADAAIAAAACAAIAAAAEAAIAAAADAAIAAAAFAAIAAAABAAIAAAAGAAIAAAACAAIAAAAHAAIAAAADAAIAAAAIAAIAAAABAAIAAAAJAAIAAAACAAIAAAAKAAIAAAADAAIAAAALAAIAAAABAAIAAAAMAAIAAAACAAIAAAANAAIAAAADAAIAAAAOAAIAAAABAAIAAAAPAAIAAAACAAIAAAAQAAIAAAAEAAIAAAABAAMAAAABAAMAAAACAAMAAAACAAMAAAAEAAMAAAAEAAMAAAAFAAMAAAAFAAMAAAAHAAMAAAAHAAMAAAAIAAMAAAAAAAMAAAAKAAMAAAACAAMAAAALAAMAAAADAAMAAAANAAMAAAAFAAMAAAAOAAMAAAAGAAMAAAAQAAMAAAAAAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge08" type="StaticBody2D" parent="Terrain" unique_id=1293380287]
-position = Vector2(1968, 416)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge08" unique_id=1071059341]
-shape = SubResource("P8")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge08" unique_id=1827549954]
-position = Vector2(-48, -16)
+[node name="Ledge08" type="TileMapLayer" parent="Terrain" unique_id=1253625214]
+position = Vector2(1920, 400)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAAEAAAAAAABAAAAAAAFAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAABAAIAAAACAAEAAAACAAIAAAADAAEAAAADAAIAAAAEAAEAAAABAAIAAAAFAAEAAAAEAAIAAAAAAAIAAAAAAAMAAAABAAIAAAABAAMAAAADAAIAAAADAAMAAAAEAAIAAAAEAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge09" type="StaticBody2D" parent="Terrain" unique_id=562022606]
-position = Vector2(2128, 352)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge09" unique_id=1247222862]
-shape = SubResource("P9")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge09" unique_id=1324407549]
-position = Vector2(-48, -16)
+[node name="Ledge09" type="TileMapLayer" parent="Terrain" unique_id=384143990]
+position = Vector2(2080, 336)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAABAAAAAAAEAAAAAAACAAAAAAAFAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAACAAIAAAACAAEAAAADAAIAAAADAAEAAAABAAIAAAAEAAEAAAACAAIAAAAFAAEAAAAEAAIAAAAAAAIAAAAAAAMAAAACAAIAAAACAAMAAAADAAIAAAADAAMAAAAFAAIAAAAFAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge10" type="StaticBody2D" parent="Terrain" unique_id=142564400]
-position = Vector2(2408, 464)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge10" unique_id=147173473]
-shape = SubResource("P10")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge10" unique_id=964781086]
-position = Vector2(-152, -32)
+[node name="Ledge10" type="TileMapLayer" parent="Terrain" unique_id=659790599]
+position = Vector2(2256, 432)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAADAAAAAAACAAAAAAABAAAAAAADAAAAAAACAAAAAAAEAAAAAAADAAAAAAAFAAAAAAABAAAAAAAGAAAAAAACAAAAAAAHAAAAAAADAAAAAAAIAAAAAAABAAAAAAAJAAAAAAACAAAAAAAKAAAAAAADAAAAAAALAAAAAAABAAAAAAAMAAAAAAACAAAAAAANAAAAAAADAAAAAAAOAAAAAAABAAAAAAAPAAAAAAACAAAAAAAQAAAAAAADAAAAAAARAAAAAAABAAAAAAASAAAAAAAEAAAAAAAAAAEAAAAAAAEAAAABAAEAAAADAAEAAAACAAEAAAABAAEAAAADAAEAAAACAAEAAAAEAAEAAAADAAEAAAAFAAEAAAABAAEAAAAGAAEAAAACAAEAAAAHAAEAAAADAAEAAAAIAAEAAAABAAEAAAAJAAEAAAACAAEAAAAKAAEAAAADAAEAAAALAAEAAAABAAEAAAAMAAEAAAACAAEAAAANAAEAAAADAAEAAAAOAAEAAAABAAEAAAAPAAEAAAACAAEAAAAQAAEAAAADAAEAAAARAAEAAAABAAEAAAASAAEAAAAEAAEAAAAAAAIAAAAAAAEAAAABAAIAAAADAAEAAAACAAIAAAABAAEAAAADAAIAAAACAAEAAAAEAAIAAAADAAEAAAAFAAIAAAABAAEAAAAGAAIAAAACAAEAAAAHAAIAAAADAAEAAAAIAAIAAAABAAEAAAAJAAIAAAACAAEAAAAKAAIAAAADAAEAAAALAAIAAAABAAEAAAAMAAIAAAACAAEAAAANAAIAAAADAAEAAAAOAAIAAAABAAEAAAAPAAIAAAACAAEAAAAQAAIAAAADAAEAAAARAAIAAAABAAEAAAASAAIAAAAEAAEAAAAAAAMAAAAAAAIAAAABAAMAAAADAAIAAAACAAMAAAABAAIAAAADAAMAAAACAAIAAAAEAAMAAAADAAIAAAAFAAMAAAABAAIAAAAGAAMAAAACAAIAAAAHAAMAAAADAAIAAAAIAAMAAAABAAIAAAAJAAMAAAACAAIAAAAKAAMAAAADAAIAAAALAAMAAAABAAIAAAAMAAMAAAACAAIAAAANAAMAAAADAAIAAAAOAAMAAAABAAIAAAAPAAMAAAACAAIAAAAQAAMAAAADAAIAAAARAAMAAAABAAIAAAASAAMAAAAEAAIAAAABAAQAAAABAAMAAAACAAQAAAACAAMAAAAEAAQAAAAEAAMAAAAFAAQAAAAFAAMAAAAHAAQAAAAHAAMAAAAIAAQAAAAAAAMAAAAKAAQAAAACAAMAAAALAAQAAAADAAMAAAANAAQAAAAFAAMAAAAOAAQAAAAGAAMAAAAQAAQAAAAAAAMAAAARAAQAAAABAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge11" type="StaticBody2D" parent="Terrain" unique_id=151796623]
-position = Vector2(1296, 248)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge11" unique_id=874568098]
-shape = SubResource("P11")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge11" unique_id=2097005143]
-position = Vector2(-96, -24)
+[node name="Ledge11" type="TileMapLayer" parent="Terrain" unique_id=1162483578]
+position = Vector2(1200, 224)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAAEAAAAAAABAAAAAAAFAAAAAAACAAAAAAAGAAAAAAADAAAAAAAHAAAAAAABAAAAAAAIAAAAAAACAAAAAAAJAAAAAAADAAAAAAAKAAAAAAABAAAAAAALAAAAAAAEAAAAAAAAAAEAAAAAAAEAAAABAAEAAAABAAEAAAACAAEAAAACAAEAAAADAAEAAAADAAEAAAAEAAEAAAABAAEAAAAFAAEAAAACAAEAAAAGAAEAAAADAAEAAAAHAAEAAAABAAEAAAAIAAEAAAACAAEAAAAJAAEAAAADAAEAAAAKAAEAAAABAAEAAAALAAEAAAAEAAEAAAAAAAIAAAAAAAIAAAABAAIAAAABAAIAAAACAAIAAAACAAIAAAADAAIAAAADAAIAAAAEAAIAAAABAAIAAAAFAAIAAAACAAIAAAAGAAIAAAADAAIAAAAHAAIAAAABAAIAAAAIAAIAAAACAAIAAAAJAAIAAAADAAIAAAAKAAIAAAABAAIAAAALAAIAAAAEAAIAAAAAAAMAAAAAAAMAAAABAAMAAAABAAMAAAADAAMAAAADAAMAAAAEAAMAAAAEAAMAAAAGAAMAAAAGAAMAAAAHAAMAAAAHAAMAAAAJAAMAAAABAAMAAAAKAAMAAAACAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
-[node name="Ledge12" type="StaticBody2D" parent="Terrain" unique_id=1295155982]
-position = Vector2(1536, 304)
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ledge12" unique_id=2080551]
-shape = SubResource("P12")
-
-[node name="TerrainTiles" type="TileMapLayer" parent="Terrain/Ledge12" unique_id=2062894456]
-position = Vector2(-64, -16)
+[node name="Ledge12" type="TileMapLayer" parent="Terrain" unique_id=212975433]
+position = Vector2(1472, 288)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAACAAAAAAACAAAAAAADAAAAAAADAAAAAAABAAAAAAAEAAAAAAACAAAAAAAFAAAAAAADAAAAAAAGAAAAAAABAAAAAAAHAAAAAAAEAAAAAAAAAAEAAAAAAAIAAAABAAEAAAACAAIAAAACAAEAAAADAAIAAAADAAEAAAABAAIAAAAEAAEAAAACAAIAAAAFAAEAAAADAAIAAAAGAAEAAAABAAIAAAAHAAEAAAAEAAIAAAAAAAIAAAAAAAMAAAACAAIAAAACAAMAAAADAAIAAAADAAMAAAAFAAIAAAAFAAMAAAAGAAIAAAAGAAMAAAA=")
-tile_set = SubResource("TileSet_lca6b")
+tile_set = ExtResource("7_bcton")
 
 [node name="Actors" type="Node2D" parent="." unique_id=123105136]
 
@@ -417,7 +249,7 @@ script = ExtResource("17_crkry")
 offset_left = 45.0
 offset_top = 435.0
 theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
@@ -427,7 +259,7 @@ text = "01 / LANTERN RIDGE"
 offset_left = 570.0
 offset_top = 362.0
 theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
@@ -437,7 +269,7 @@ text = "TWO SHELLS. KEEP CLIMBING."
 offset_left = 935.0
 offset_top = 315.0
 theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
@@ -447,7 +279,7 @@ text = "02 / THE HIGH ROAD"
 offset_left = 1610.0
 offset_top = 332.0
 theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
@@ -457,7 +289,7 @@ text = "03 / THE LAST STRETCH"
 offset_left = 2300.0
 offset_top = 330.0
 theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.10, 0.12, 0.20, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11

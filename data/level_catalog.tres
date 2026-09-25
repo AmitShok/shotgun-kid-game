@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+[ext_resource type="Script" path="res://scripts/level_catalog.gd" id="script"]
+[ext_resource type="Resource" path="res://data/levels/lantern_ridge.tres" id="l0"]
+[ext_resource type="Resource" path="res://data/levels/mossy_comet.tres" id="l1"]
+[ext_resource type="Resource" path="res://data/levels/copper_cloud.tres" id="l2"]
+[ext_resource type="Resource" path="res://data/levels/velvet_glacier.tres" id="l3"]
+[ext_resource type="Resource" path="res://data/levels/echo_orchard.tres" id="l4"]
+[resource]
+script=ExtResource("script")
+levels=Array[Resource]([ExtResource("l0"), ExtResource("l1"), ExtResource("l2"), ExtResource("l3"), ExtResource("l4")])

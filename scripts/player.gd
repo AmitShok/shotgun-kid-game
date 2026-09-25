@@ -1,5 +1,6 @@
 extends CharacterBody2D
 signal died
+@export var fall_limit_y := 720.0
 @export var run_speed := 170.0
 @export var jump_speed := 310.0
 @export var gravity := 900.0
@@ -93,7 +94,7 @@ func _physics_process(delta: float) -> void:
  animation_time+=delta
  $Sprite2D.frame=(6 if velocity.y<0 else 7) if not is_on_floor() else (2+int(animation_time*12)%4 if absf(velocity.x)>15 else int(animation_time*2)%2)
  $Sprite2D.flip_h=facing<0
- if global_position.y>720: hurt()
+ if global_position.y>fall_limit_y: hurt()
 func _on_fired(direction: Vector2) -> void:
  var tangent := velocity-direction*velocity.dot(direction)
  # Keep useful lateral motion without weakening an upward boost with downward carry.

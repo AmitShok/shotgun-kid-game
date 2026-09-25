@@ -1,6 +1,11 @@
 # Shotgun Kid
 
-A Godot 4.7 2D traversal platformer set in Lantern Ridge. Open `project.godot` in Godot and press F6 on the level or F5 to run the project.
+A Godot 4.7 2D traversal platformer set in Lantern Ridge. Open `project.godot` in Godot and press F5 for the main menu (F6 on a level still runs that level directly).
+
+## Main menu
+The game opens with **Start game**, **Options**, and **Quit**. Start game opens the level selector; choose **01 / Lantern Ridge** to play or resume its saved checkpoint. The pause menu also has **Main menu**.
+
+The **CRT monitor filter** can be switched off in either options menu and remembers your preference. It adds subtle scanlines, phosphor texture, chromatic separation, vignette, and screen curvature without flicker.
 
 ## Controls
 - A/D: move.
@@ -26,7 +31,7 @@ Movement includes quick acceleration and reversals, air steering, coyote time, j
 ## Structure and editing
 - `scenes/actors/`: reusable player, boost mine, checkpoint, spikes, and exit.
 - `scenes/components/`: shotgun, particles, explosion, and platform.
-- `scenes/levels/training_yard.tscn`: Lantern Ridge with editable TileMapLayers, explicit platform collisions, scenery, and actors.
+- `scenes/levels/training_yard.tscn`: Lantern Ridge with editable TileMapLayers, native tile collision, scenery, and actors.
 - `scenes/ui/hud.tscn`: HUD, pause menu, and options submenu.
 - `scripts/player.gd`: locomotion; `player_camera.gd`: camera feedback.
 - `scripts/sfx.gd`: autoload for the bounded audio voice pool.
@@ -36,12 +41,12 @@ Movement includes quick acceleration and reversals, air steering, coyote time, j
 - `assets/terrain_tileset.tres`: native Godot TileSet.
 - `assets/audio/`: original WAV effects.
 
-Movement and mine tuning are exposed in the Inspector. TileMapLayers provide artwork; each platform's CollisionShape2D defines its solid area. Resize both when changing platform dimensions.
+Movement and mine tuning are exposed in the Inspector. TileMapLayers provide both artwork and collision through the shared TileSet physics layer. Paint or erase cells to change solid ground; no separate ground collision boxes are needed. See `docs/LEVEL_BUILDING.md`.
 
 ## Asset workflow
 All custom visual assets were authored and exported in Aseprite using its Lua API. No reference-game assets, external sprite packs, or image-generation services were used. Godot's built-in font and controls provide text and panels.
 
-Edit the Aseprite source and export its PNG, or run `tools/export_art.ps1`. `tools/art_lantern_ridge.lua` recreates matching source documents and overwrites them, so back up manual edits first. `tools/build_terrain.gd` rebuilds the atlas and terrain layers. `tools/make_sounds.py` creates original WAV effects using Python's standard library without external samples.
+Edit the Aseprite source and export its PNG, or run `tools/export_art.ps1`. `tools/art_lantern_ridge.lua` recreates matching source documents and overwrites them, so back up manual edits first. `tools/build_terrain.gd` configures atlas collision and migrates legacy platforms while preserving painted cells. `tools/make_sounds.py` creates original WAV effects using Python's standard library without external samples.
 
 ## Checks
 Use an isolated save profile for tests to protect real player progress. Start each gameplay suite with a fresh test profile:
@@ -59,3 +64,11 @@ Run `tests/settings_save_test.gd` across three processes using `-- --save-file=u
 This remains a prototype to tune together. Human feedback is still needed on movement feel, sound balance, and level pacing.
 
 Grounded arrow-key aiming gently pans the camera in that direction. Releasing aim or leaving the floor eases the view back to normal; airborne aim never controls the look offset. Camera shake is the master shake switch, with independent shot and mine switches beneath it. Zoom works independently. All four settings persist, and old camera-effect preferences migrate automatically.
+
+The main menu level list uses editable resources in `data/levels/`; add another LevelDefinition resource to the shared `data/level_catalog.tres` Levels array to expose another playable level. Main and pause menus share `scenes/ui/options_panel.tscn`. CRT rendering lives in `assets/shaders/crt.gdshader` and the always-running `CRTOverlay` autoload.
+
+
+## Five-level campaign scaffolding
+Lantern Ridge is followed by Mossy Comet, Copper Cloud, Velvet Glacier, and Echo Orchard. The four new scenes are ready to edit, with the same background, shared scripts, native tile physics, player, checkpoint, exit, HUD, and empty content containers. A removable flat test floor is the only starter geometry.
+
+Levels unlock sequentially when the current exit is reached. Completion and unlocks save immediately. Next Level continues from the completion menu. Restart Level keeps unlocks; Options > Reset progress (lock levels 2-5) clears campaign/checkpoint progress while preserving settings. Preview individual scenes with F6 when designing locked levels.

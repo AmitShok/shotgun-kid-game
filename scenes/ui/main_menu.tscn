@@ -1,0 +1,97 @@
+[gd_scene load_steps=8 format=3]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/options_panel.tscn" id="options"]
+[ext_resource type="Texture2D" path="res://assets/textures/background.png" id="sky"]
+[ext_resource type="Texture2D" path="res://assets/textures/mountains_far.png" id="far"]
+[ext_resource type="Texture2D" path="res://assets/textures/mountains_near.png" id="near"]
+[ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
+[ext_resource type="Script" path="res://scripts/menu_motion.gd" id="motion"]
+[node name="MainMenu" type="Control"]
+layout_mode=3
+anchors_preset=15
+anchor_right=1.0
+anchor_bottom=1.0
+theme=ExtResource("theme")
+script=ExtResource("script")
+[node name="Sky" type="TextureRect" parent="."]
+anchors_preset=15
+anchor_right=1.0
+anchor_bottom=1.0
+texture=ExtResource("sky")
+expand_mode=1
+mouse_filter=2
+[node name="Far" type="TextureRect" parent="."]
+anchors_preset=15
+anchor_right=1.0
+anchor_bottom=1.0
+texture=ExtResource("far")
+expand_mode=1
+mouse_filter=2
+[node name="Near" type="TextureRect" parent="."]
+anchors_preset=15
+anchor_right=1.0
+anchor_bottom=1.0
+texture=ExtResource("near")
+expand_mode=1
+mouse_filter=2
+[node name="Shade" type="ColorRect" parent="."]
+anchors_preset=15
+anchor_right=1.0
+anchor_bottom=1.0
+color=Color(0.025,0.04,0.08,0.60)
+mouse_filter=2
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset=15
+anchor_right=1.0
+anchor_bottom=1.0
+[node name="Home" type="VBoxContainer" parent="Center"]
+custom_minimum_size=Vector2(330,0)
+theme_override_constants/separation=12
+[node name="Title" type="Label" parent="Center/Home"]
+custom_minimum_size=Vector2(0,62)
+vertical_alignment=1
+theme_override_constants/outline_size=3
+theme_override_colors/font_outline_color=Color(0.05,0.08,0.13,1)
+theme_override_constants/shadow_offset_x=2
+theme_override_constants/shadow_offset_y=4
+text="SHOTGUN KID"
+theme_override_font_sizes/font_size=40
+theme_override_colors/font_color=Color(1,0.79,0.57,1)
+horizontal_alignment=1
+[node name="Tagline" type="Label" parent="Center/Home"]
+text="TWO SHELLS. A LONG WAY UP."
+theme_override_font_sizes/font_size=11
+theme_override_colors/font_color=Color(0.62,0.85,0.82,1)
+horizontal_alignment=1
+[node name="Space" type="Control" parent="Center/Home"]
+custom_minimum_size=Vector2(0,12)
+[node name="Start" type="Button" parent="Center/Home"]
+text="Start game"
+custom_minimum_size=Vector2(0,32)
+[node name="Options" type="Button" parent="Center/Home"]
+text="Options"
+custom_minimum_size=Vector2(0,32)
+[node name="Quit" type="Button" parent="Center/Home"]
+text="Quit"
+custom_minimum_size=Vector2(0,32)
+[node name="Levels" type="VBoxContainer" parent="Center"]
+visible=false
+custom_minimum_size=Vector2(440,0)
+theme_override_constants/separation=8
+[node name="Title" type="Label" parent="Center/Levels"]
+text="CHOOSE A LEVEL"
+theme_override_font_sizes/font_size=28
+horizontal_alignment=1
+[node name="List" type="VBoxContainer" parent="Center/Levels"]
+theme_override_constants/separation=8
+[node name="Status" type="Label" parent="Center/Levels"]
+text="More adventures will follow."
+theme_override_font_sizes/font_size=11
+horizontal_alignment=1
+[node name="Back" type="Button" parent="Center/Levels"]
+text="Back  [ESC]"
+[node name="Options" parent="Center" instance=ExtResource("options")]
+visible=false
+
+[node name="MenuMotion" type="Node" parent="."]
+script=ExtResource("motion")

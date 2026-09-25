@@ -54,11 +54,8 @@ func run() -> void:
  for decoration in level.get_node("Scenery").get_children():
   if decoration.name.begins_with("Banner"): continue
   var foot=decoration.position+Vector2(decoration.texture.get_width()/2.0,decoration.texture.get_height())
-  var supported=false
-  for platform in level.get_node("Terrain").get_children():
-   var size=platform.get_node("CollisionShape2D").shape.size
-   var top=platform.position-size/2
-   if absf(foot.y-top.y)<1 and foot.x>=top.x and foot.x<=top.x+size.x: supported=true
+  var ray=PhysicsRayQueryParameters2D.create(foot-Vector2(0,3),foot+Vector2(0,3),1)
+  var supported=not level.get_world_2d().direct_space_state.intersect_ray(ray).is_empty()
   check(supported,String(decoration.name)+" rests on a platform")
  var hud=level.get_node("HUD")
  hud._toggle_pause()
