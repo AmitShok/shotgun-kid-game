@@ -58,7 +58,7 @@ func _physics_process(delta: float) -> void:
   velocity.y=-jump_speed
   can_cut_jump=true
   visual_scale=Vector2(0.88,1.12)
-  $Camera2D.impact(0.25,0.012)
+  $Camera2D.impact(0.25)
   Sfx.play("jump",-8.0)
   jump_buffer=0
   coyote=0
@@ -79,7 +79,7 @@ func _physics_process(delta: float) -> void:
  if is_on_floor():
   if not was_grounded and impact_speed>90:
    Sfx.play("land",lerpf(-16.0,-5.0,clampf(impact_speed/580.0,0,1)))
-   $Camera2D.impact(clampf(impact_speed/360.0,0.3,1.5),0.013)
+   $Camera2D.impact(clampf(impact_speed/360.0,0.3,1.5))
    visual_scale=Vector2(1.15,0.88)
    step_distance=0
   step_distance+=absf(position.x-before_move.x)
@@ -104,7 +104,7 @@ func _on_fired(direction: Vector2) -> void:
  recoil_lock=0.075
  coyote=0
  visual_scale=Vector2(0.93,1.07)
- $Camera2D.impact(1.4,0.025,"shot")
+ $Camera2D.impact(1.4,"shot")
 func _steer(axis: float, delta: float) -> void:
  if is_on_floor():
   velocity.x=move_toward(velocity.x,axis*run_speed,(ground_braking if axis==0 else ground_acceleration)*delta)

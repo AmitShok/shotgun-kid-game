@@ -33,7 +33,7 @@ func hit() -> void:
   var offset: Vector2=player.global_position-global_position
   # Camera feedback also reaches nearby spectators outside the impulse radius.
   if offset.length()<360:
-   player.get_node("Camera2D").impact(2.2*(1.0-offset.length()/360.0),-0.025,"mine")
+   player.get_node("Camera2D").impact(2.2*(1.0-offset.length()/360.0),"mine")
   if offset.length()>blast_radius: continue
   var ray := PhysicsRayQueryParameters2D.create(global_position,player.global_position,1)
   if not get_world_2d().direct_space_state.intersect_ray(ray).is_empty(): continue

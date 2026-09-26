@@ -24,7 +24,7 @@ func run() -> void:
   hud.get_node("Overlay/Center/Menu/Options").pressed.emit()
   check(hud.get_node("Overlay/Center/Options").visible and paused,"Options opens while paused")
   hud.get_node("Overlay/Center/Options/VolumeRow/Volume").value=30
-  hud.get_node("Overlay/Center/Options/CameraZoom").button_pressed=false
+  check(not hud.get_node("Overlay/Center/Options").has_node("CameraZoom"),"Cosmetic zoom setting removed")
   hud.get_node("Overlay/Center/Options/CRT/Preset").select(0)
   hud.get_node("Overlay/Center/Options/CRT/Preset").item_selected.emit(0)
   hud.get_node("Overlay/Center/Options/CameraShake").button_pressed=true
@@ -48,9 +48,9 @@ func run() -> void:
   scene.get_node("Checkpoint1")._on_body_entered(player)
   check(data.checkpoint=="Checkpoint1","Checkpoint is saved on contact")
  elif "--read" in args:
-  check(is_equal_approx(sound.volume,0.3) and not data.camera_zoom,"Audio and camera preferences survive a new process")
+  check(is_equal_approx(sound.volume,0.3),"Audio preference survives a new process")
   check(not data.crt_filter and not root.get_node("CRTOverlay/Filter").visible,"CRT off persists across launches")
-  check(data.camera_shake and not data.shot_shake and data.mine_shake and not data.camera_zoom,"Independent camera switches persist")
+  check(data.camera_shake and not data.shot_shake and data.mine_shake,"Independent camera switches persist")
   check(not data.show_controls and not data.show_level_hints and not data.show_hud,"Text preferences survive a new process")
   check(player.spawn_point==scene.get_node("Checkpoint1").position+Vector2(0,-14),"New process restores saved checkpoint")
   check(not hud.get_node("Bottom").visible and not scene.get_node("Signs").visible,"Loaded preferences apply to scene")

@@ -49,7 +49,6 @@ func set_volume(value: float) -> void:
 func set_camera_fx(value: bool) -> void:
  camera_fx=value
  SaveData.camera_shake=value
- SaveData.camera_zoom=value
  _save()
 func _apply_volume() -> void:
  AudioServer.set_bus_volume_db(0,linear_to_db(maxf(volume,0.001)))

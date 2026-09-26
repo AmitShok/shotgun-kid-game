@@ -12,7 +12,7 @@ func run() -> void:
   quit(1)
   return
  data.clear_progress()
- for key in ["camera_shake","camera_zoom","shot_shake","mine_shake"]: data.set_preference(key,true)
+ for key in ["camera_shake","shot_shake","mine_shake"]: data.set_preference(key,true)
  var level=load("res://scenes/levels/training_yard.tscn").instantiate()
  root.add_child(level)
  current_scene=level
@@ -37,17 +37,16 @@ func run() -> void:
  Input.action_release("aim_down")
  camera.reset_feedback()
  data.shot_shake=false
- camera.impact(1.4,0.025,"shot")
- check(camera.shot_impact==0 and camera.zoom_kick>0,"Shot shake can be off while zoom stays on")
- camera.impact(2,0,"mine")
+ camera.impact(1.4,"shot")
+ check(camera.shot_impact==0,"Shot shake can be disabled independently")
+ camera.impact(2,"mine")
  check(camera.mine_impact>0,"Mine shake remains independently enabled")
  camera.reset_feedback()
  data.mine_shake=false
  data.shot_shake=true
- data.camera_zoom=false
- camera.impact(2,-0.025,"mine")
- camera.impact(1.4,0.025,"shot")
- check(camera.mine_impact==0 and camera.shot_impact>0 and camera.zoom_kick==0,"Shot shake works with mine shake and zoom disabled")
+ camera.impact(2,"mine")
+ camera.impact(1.4,"shot")
+ check(camera.mine_impact==0 and camera.shot_impact>0,"Shot shake works with mine shake disabled")
  data.camera_shake=false
  await frames(2)
  check(camera.offset==Vector2.ZERO and camera.zoom.is_equal_approx(Vector2.ONE*camera.landing_zoom),"Master shake switch suppresses all shake")
@@ -69,7 +68,7 @@ func run() -> void:
  hud._close_options()
  hud._toggle_pause()
  player.set_physics_process(true)
- for key in ["camera_shake","camera_zoom","shot_shake","mine_shake"]: data.set_preference(key,true)
+ for key in ["camera_shake","shot_shake","mine_shake"]: data.set_preference(key,true)
  for point in [Vector2(88,528),Vector2(1000,430),Vector2(1680,440),Vector2(2430,410)]:
   player.position=point
   player.velocity=Vector2.ZERO

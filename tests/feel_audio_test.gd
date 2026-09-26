@@ -54,7 +54,7 @@ func run() -> void:
  check(camera.zoom.x>=camera.minimum_landing_zoom*0.95 and camera.zoom.x<=1.04,"Zoom pulse stays within subtle limits")
  var saved_fx: bool=sound.camera_fx
  sound.set_camera_fx(false)
- camera.impact(3,0.03)
+ camera.impact(3)
  await frames(3)
  check(camera.offset==Vector2.ZERO and camera.zoom.is_equal_approx(Vector2.ONE*camera.landing_zoom),"Camera effects can be disabled")
  sound.set_camera_fx(saved_fx)
@@ -77,3 +77,4 @@ func run() -> void:
  check(not InputMap.has_action("mode") and root.get_node_or_null("Settings")==null,"Manual-only control preference remains intact")
  print("FEEL/AUDIO RESULT: %d checks, %d failures" % [checks,failures])
  await root.get_node("Sfx").shutdown(1 if failures else 0)
+

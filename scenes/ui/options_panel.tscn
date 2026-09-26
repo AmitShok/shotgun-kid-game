@@ -28,10 +28,6 @@ value=55.0
 theme_override_font_sizes/font_size=12
 text="Camera shake"
 button_pressed=true
-[node name="CameraZoom" type="CheckButton" parent="."]
-theme_override_font_sizes/font_size=12
-text="Camera zoom effects"
-button_pressed=true
 [node name="ShotShake" type="CheckButton" parent="."]
 theme_override_font_sizes/font_size=12
 text="Shake when shooting"

@@ -1,6 +1,6 @@
 extends VBoxContainer
 signal back_requested
-const TOGGLES = [["CameraShake","camera_shake"],["CameraZoom","camera_zoom"],["ShotShake","shot_shake"],["MineShake","mine_shake"],["Controls","show_controls"],["LevelHints","show_level_hints"],["HUD","show_hud"]]
+const TOGGLES = [["CameraShake","camera_shake"],["ShotShake","shot_shake"],["MineShake","mine_shake"],["Controls","show_controls"],["LevelHints","show_level_hints"],["HUD","show_hud"]]
 func _ready() -> void:
  $ResetProgress.pressed.connect(func(): $ResetConfirmation.popup_centered())
  $ResetConfirmation.confirmed.connect(_reset_progress)

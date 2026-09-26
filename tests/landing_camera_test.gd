@@ -12,7 +12,6 @@ func run() -> void:
   quit(1)
   return
  data.clear_progress()
- data.set_preference("camera_zoom",false)
  var level=load("res://scenes/levels/training_yard.tscn").instantiate()
  root.add_child(level)
  current_scene=level

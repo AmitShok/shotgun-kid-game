@@ -1,5 +1,5 @@
 extends Camera2D
-## Grounded aim look, independent zoom, and separately gated impact sources.
+## Grounded aim look, landing framing, and separately gated impact shakes.
 @export_range(0.4,1.0,0.01) var minimum_landing_zoom := 0.55
 @export_range(200.0,2000.0,10.0) var ground_scan_distance := 1000.0
 var tracked_ground_y := 0.0
@@ -16,7 +16,6 @@ var target_landing_offset := 0.0
 var shake := 0.0
 var shot_impact := 0.0
 var mine_impact := 0.0
-var zoom_kick := 0.0
 var elapsed := 0.0
 var aim_look := Vector2.ZERO
 func _process(delta: float) -> void:
@@ -38,7 +37,6 @@ func _process(delta: float) -> void:
  shake=move_toward(shake,0,16.0*delta)
  shot_impact=move_toward(shot_impact,0,12.0*delta)
  mine_impact=move_toward(mine_impact,0,14.0*delta)
- zoom_kick=lerpf(zoom_kick,0,1.0-exp(-14.0*delta))
  if not SaveData.shot_shake: shot_impact=0.0
  if not SaveData.mine_shake: mine_impact=0.0
  if not SaveData.camera_shake:
@@ -47,11 +45,7 @@ func _process(delta: float) -> void:
   mine_impact=0.0
  var amplitude := maxf(shake,maxf(shot_impact,mine_impact))
  offset=Vector2(sin(elapsed*103),cos(elapsed*127))*amplitude
- var speed_zoom := clampf((player.velocity.length()-260.0)/14000.0,0,0.035)
- var cosmetic_zoom := clampf(1.0-speed_zoom+zoom_kick,0.95,1.04) if SaveData.camera_zoom else 1.0
- # Positive cosmetic pulses must not crop the landing framing during a high flight.
- if landing_zoom<0.98: cosmetic_zoom=minf(cosmetic_zoom,1.0)
- zoom=Vector2.ONE*landing_zoom*cosmetic_zoom
+ zoom=Vector2.ONE*landing_zoom
 func _physics_process(delta: float) -> void:
  var player := get_parent() as CharacterBody2D
  ground_found=false
@@ -109,7 +103,7 @@ func _physics_process(delta: float) -> void:
  var velocity_bias := clampf(player.velocity.y*0.035,-25,20)
  target_landing_offset=(center_offset+48.0-velocity_bias)*blend
 
-func impact(strength: float, pulse: float = 0.0, source: String = "movement") -> void:
+func impact(strength: float, source: String = "movement") -> void:
  if SaveData.camera_shake:
   var amount := minf(strength,3.0)
   if source=="shot":
@@ -117,7 +111,6 @@ func impact(strength: float, pulse: float = 0.0, source: String = "movement") ->
   elif source=="mine":
    if SaveData.mine_shake: mine_impact=maxf(mine_impact,amount)
   else: shake=maxf(shake,amount)
- if SaveData.camera_zoom: zoom_kick=clampf(pulse,-0.045,0.035)
 func reset_feedback() -> void:
  tracked_ground_y=0.0
  has_ground_track=false
@@ -132,7 +125,6 @@ func reset_feedback() -> void:
  shake=0.0
  shot_impact=0.0
  mine_impact=0.0
- zoom_kick=0.0
  aim_look=Vector2.ZERO
  offset=Vector2.ZERO
  zoom=Vector2.ONE

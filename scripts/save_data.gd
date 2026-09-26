@@ -8,7 +8,6 @@ var path := "user://settings.cfg"
 var volume := 0.55
 var camera_fx := true # Legacy preference used only for migration.
 var camera_shake := true
-var camera_zoom := true
 var crt_mode := 2 # 0 Off, 1 Light, 2 Heavy.
 # Compatibility for existing saves and code that only enables/disables CRT.
 var crt_filter: bool:
@@ -34,7 +33,7 @@ func _ready() -> void:
  if (saved_volume is float or saved_volume is int) and is_finite(float(saved_volume)):
   volume=clampf(float(saved_volume),0,1)
  camera_fx=_read_bool(config,"camera_fx")
- for key in ["camera_shake","camera_zoom","shot_shake","mine_shake"]:
+ for key in ["camera_shake","shot_shake","mine_shake"]:
   var value: Variant=config.get_value("accessibility",key,camera_fx)
   set(key,value if value is bool else camera_fx)
  crt_filter=_read_bool(config,"crt_filter")
@@ -58,7 +57,7 @@ func _read_bool(config: ConfigFile,key: String) -> bool:
  return value if value is bool else true
 
 func set_preference(key: String,value: Variant) -> void:
- if not key in ["volume","camera_fx","camera_shake","camera_zoom","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]: return
+ if not key in ["volume","camera_fx","camera_shake","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]: return
  if key=="crt_mode": value=clampi(int(value),0,2)
  set(key,value)
  save()
@@ -79,7 +78,7 @@ func clear_progress() -> void:
 func save() -> void:
  var config := ConfigFile.new()
  config.set_value("audio","volume",volume)
- for key in ["camera_fx","camera_shake","camera_zoom","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]:
+ for key in ["camera_fx","camera_shake","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]:
   config.set_value("accessibility",key,get(key))
  config.set_value("progress","completed_count",completed_count)
  config.set_value("progress","checkpoint",checkpoint)
