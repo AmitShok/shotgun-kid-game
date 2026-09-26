@@ -1,4 +1,7 @@
 extends CanvasLayer
+const AMMO_FULL = preload("res://assets/textures/ui_ammo_full.png")
+const AMMO_EMPTY = preload("res://assets/textures/ui_ammo_empty.png")
+const SIGN_STYLE = preload("res://scenes/ui/sign_style.tres")
 var message := "SPACE jump  /  SHIFT or J fire  /  shoot mines for a blast boost"
 var show_input := false
 var message_left := 0.0
@@ -15,6 +18,9 @@ func _ready() -> void:
  $Overlay/Center/Options.back_requested.connect(_close_options)
  SaveData.preferences_changed.connect(_apply_preferences)
  _apply_preferences()
+ for sign_label in get_parent().get_node("Signs").find_children("*", "Label", true, false):
+  sign_label.add_theme_stylebox_override("normal", SIGN_STYLE)
+  sign_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 func _apply_preferences() -> void:
  $Bottom.visible=SaveData.show_controls
  $Top.visible=SaveData.show_hud
@@ -35,9 +41,10 @@ func _process(delta: float) -> void:
  if Input.is_action_just_pressed("pause"): _toggle_pause()
  if Input.is_action_just_pressed("restart"): _restart()
  $Top/Margin/Row/Mode.text=get_parent().level_title
+ $Top/Margin/Row/Ammo.modulate=Color(1.0,0.76,0.51) if player.shotgun.ammo==0 else Color.WHITE
  $Top/Margin/Row/Ammo.text="SHELLS  %d / 2" % player.shotgun.ammo
- $Top/Margin/Row/Shell1.modulate=Color.WHITE if player.shotgun.ammo>0 else Color(0.3,0.35,0.45)
- $Top/Margin/Row/Shell2.modulate=Color.WHITE if player.shotgun.ammo>1 else Color(0.3,0.35,0.45)
+ $Top/Margin/Row/Shell1.texture=AMMO_FULL if player.shotgun.ammo>0 else AMMO_EMPTY
+ $Top/Margin/Row/Shell2.texture=AMMO_FULL if player.shotgun.ammo>1 else AMMO_EMPTY
  if not get_tree().paused: message_left=maxf(0,message_left-delta)
  var hint := "Jump above a mine. Shoot down. Ride the blast."
  if player.position.x>500: hint="Two shells. Land to reload. Chain your shots to climb."
@@ -46,7 +53,6 @@ func _process(delta: float) -> void:
  if player.position.x>2250: hint="The mountain gate is just ahead."
  if SaveData.level_index(get_parent().scene_file_path)!=0: hint="Two shells. Land to reload. Reach the exit."
  $Bottom/Margin/Column/Hint.text=message if message_left>0 else hint
- $Bottom/Margin/Column/Controls.text="A/D move  /  SPACE jump  /  ARROWS aim  /  SHIFT fire  /  ESC pause"
  $InputReadout.visible=show_input
  if show_input:
   var states := PackedStringArray()
