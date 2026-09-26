@@ -48,3 +48,11 @@ Rendered pickup test: 11 checks passed for actual overlap collection, grounded/f
 
 ## Godot 4.7.2 verification, September 26
 Verified engine 4.7.2.stable.official.ed1daf0bf. Fixed mixed indentation in level.gd checkpoint restoration. Clean editor import; gameplay 28, mine 18, diagonal jump 72, ten-gap traversal, rendered menu/CRT 18, rendered feel/audio 28, rendered shell pickup 11, and separate-process campaign progression/reset suites all passed. Player save files were isolated from tests. Project launcher tools/open_editor.ps1 checks version before opening the editor. Menu button tilt now chooses a stable small random angle per button, capped at 1.7 degrees (smaller in the tightly packed Options panel).
+
+
+## Terrain-aware landing framing
+Godot 4.7.2: 11 dedicated checks passed for high-flight player/ground visibility between HUD panels, bounded zoom independent of cosmetic settings, live moved/painted/erased terrain detection, no airborne aim panning, empty-gap behavior, landing recovery, and reset. Rendered screenshot: landing_camera.png. Existing camera/scenery (30) and feel/audio (28) checks passed with assertions separating cosmetic zoom from landing framing.
+
+
+## Smoother platform-height transitions
+Landing camera now blends detected world-space surface heights, caps upward retargeting speed, retains its previous surface across gaps shorter than 0.18 seconds, and waits 0.10 seconds after touchdown before returning to normal. Zoom-in and upward framing recovery are gentler. Rendered Godot 4.7.2 landing-camera suite: 14/14 passed, including higher-platform height blending, bounded frame-to-frame zoom change, short-gap retention, high-flight visibility, and normal landing recovery.

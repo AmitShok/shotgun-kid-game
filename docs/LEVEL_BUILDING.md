@@ -38,3 +38,9 @@ Restart Level restarts the current scene and clears checkpoint progress while pr
 Drag `scenes/actors/shell_pickup.tscn` into a level's Pickups container and position it along an airborne route. It restores exactly one shell on contact while airborne, up to the two-shell maximum. Full-ammo or grounded players do not consume it. It fades to a faint silhouette for three seconds, then becomes usable again. Recharge Seconds and Bob Phase are editable in the Inspector. Death resets all pickups, and pausing freezes recharge. The art reuses the existing Aseprite shell and glow textures.
 
 Lantern Ridge includes one example at (245, 465). The four design-ready levels have empty Pickups containers so you can choose their placements yourself.
+
+
+## Terrain-aware landing camera
+The player camera scans downward against World collision (layer 1) during flight, using the surface directly beneath the player or nearby travel-direction probes over gaps. It smoothly reframes the player and landing surface, reserving space for the HUD and hints. Native tile painting, erasing, and layer movement automatically affect the next scan; no ground-height markers are required.
+
+The Player/Camera2D Inspector exposes Minimum Landing Zoom (default 0.55) and Ground Scan Distance (1000 world pixels). Cosmetic zoom effects remain separately switchable. Empty gaps return toward normal zoom with a bounded downward look. Landing and respawning restore normal framing; airborne arrow aiming never controls the camera. Keep the level root's Camera Bounds large enough to include the playable terrain. At distances beyond the zoom limit, both the player and ground may not fit simultaneously.

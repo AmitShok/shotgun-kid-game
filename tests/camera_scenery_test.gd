@@ -50,7 +50,7 @@ func run() -> void:
  check(camera.mine_impact==0 and camera.shot_impact>0 and camera.zoom_kick==0,"Shot shake works with mine shake and zoom disabled")
  data.camera_shake=false
  await frames(2)
- check(camera.offset==Vector2.ZERO and camera.zoom==Vector2.ONE,"Master shake switch suppresses all shake")
+ check(camera.offset==Vector2.ZERO and camera.zoom.is_equal_approx(Vector2.ONE*camera.landing_zoom),"Master shake switch suppresses all shake")
  for decoration in level.get_node("Scenery").get_children():
   if decoration.name.begins_with("Banner"): continue
   var foot=decoration.position+Vector2(decoration.texture.get_width()/2.0,decoration.texture.get_height())
