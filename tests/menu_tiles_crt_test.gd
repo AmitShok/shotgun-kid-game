@@ -28,9 +28,11 @@ func run() -> void:
  menu.get_node("Center/Home/Options").pressed.emit()
  await process_frame
  check(menu.get_node("Center/Options").size.y<=360,"Shared options fit the viewport")
- menu.get_node("Center/Options/CRT").button_pressed=false
+ menu.get_node("Center/Options/CRT/Preset").select(0)
+ menu.get_node("Center/Options/CRT/Preset").item_selected.emit(0)
  check(not root.get_node("CRTOverlay/Filter").visible,"CRT toggle disables post-processing immediately")
- menu.get_node("Center/Options/CRT").button_pressed=true
+ menu.get_node("Center/Options/CRT/Preset").select(2)
+ menu.get_node("Center/Options/CRT/Preset").item_selected.emit(2)
  check(root.get_node("CRTOverlay/Filter").visible,"CRT toggle re-enables post-processing")
  await capture("main_options")
  menu.get_node("Center/Options/Back").pressed.emit()
@@ -71,8 +73,9 @@ func run() -> void:
  var hud=level.get_node("HUD")
  hud._toggle_pause()
  hud._open_options()
- check(not hud.get_node("Overlay/Center/Options/CRT").button_pressed,"Pause options share main-menu preferences")
- hud.get_node("Overlay/Center/Options/CRT").button_pressed=true
+ check(hud.get_node("Overlay/Center/Options/CRT/Preset").selected==0,"Pause options share main-menu preferences")
+ hud.get_node("Overlay/Center/Options/CRT/Preset").select(2)
+ hud.get_node("Overlay/Center/Options/CRT/Preset").item_selected.emit(2)
  check(root.get_node("CRTOverlay/Filter").visible,"CRT can be changed while paused")
  await capture("options_menu")
  hud._close_options()

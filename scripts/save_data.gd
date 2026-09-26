@@ -9,7 +9,11 @@ var volume := 0.55
 var camera_fx := true # Legacy preference used only for migration.
 var camera_shake := true
 var camera_zoom := true
-var crt_filter := true
+var crt_mode := 2 # 0 Off, 1 Light, 2 Heavy.
+# Compatibility for existing saves and code that only enables/disables CRT.
+var crt_filter: bool:
+ get: return crt_mode!=0
+ set(value): crt_mode=2 if value else 0
 var shot_shake := true
 var mine_shake := true
 var show_controls := true
@@ -34,6 +38,8 @@ func _ready() -> void:
   var value: Variant=config.get_value("accessibility",key,camera_fx)
   set(key,value if value is bool else camera_fx)
  crt_filter=_read_bool(config,"crt_filter")
+ var saved_crt_mode: Variant=config.get_value("accessibility","crt_mode",crt_mode)
+ if saved_crt_mode is int: crt_mode=clampi(saved_crt_mode,0,2)
  show_controls=_read_bool(config,"show_controls")
  show_level_hints=_read_bool(config,"show_level_hints")
  show_hud=_read_bool(config,"show_hud")
@@ -52,7 +58,8 @@ func _read_bool(config: ConfigFile,key: String) -> bool:
  return value if value is bool else true
 
 func set_preference(key: String,value: Variant) -> void:
- if not key in ["volume","camera_fx","camera_shake","camera_zoom","crt_filter","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]: return
+ if not key in ["volume","camera_fx","camera_shake","camera_zoom","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]: return
+ if key=="crt_mode": value=clampi(int(value),0,2)
  set(key,value)
  save()
  preferences_changed.emit()
@@ -72,7 +79,7 @@ func clear_progress() -> void:
 func save() -> void:
  var config := ConfigFile.new()
  config.set_value("audio","volume",volume)
- for key in ["camera_fx","camera_shake","camera_zoom","crt_filter","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]:
+ for key in ["camera_fx","camera_shake","camera_zoom","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]:
   config.set_value("accessibility",key,get(key))
  config.set_value("progress","completed_count",completed_count)
  config.set_value("progress","checkpoint",checkpoint)

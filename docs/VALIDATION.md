@@ -56,3 +56,7 @@ Godot 4.7.2: 11 dedicated checks passed for high-flight player/ground visibility
 
 ## Smoother platform-height transitions
 Landing camera now blends detected world-space surface heights, caps upward retargeting speed, retains its previous surface across gaps shorter than 0.18 seconds, and waits 0.10 seconds after touchdown before returning to normal. Zoom-in and upward framing recovery are gentler. Rendered Godot 4.7.2 landing-camera suite: 14/14 passed, including higher-platform height blending, bounded frame-to-frame zoom change, short-gap retention, high-flight visibility, and normal landing recovery.
+
+
+## CRT presets
+Off / Light / Heavy selector shared by both Options menus. Light uses the exact original shader; Heavy retains the enhanced shader. Legacy enabled/disabled saves migrate to Heavy/Off. Rendered menu integration passed (18 checks), and separate-process tests verified choosing Light, its shader/selector state, and persistence after relaunch.

@@ -25,7 +25,8 @@ func run() -> void:
   check(hud.get_node("Overlay/Center/Options").visible and paused,"Options opens while paused")
   hud.get_node("Overlay/Center/Options/VolumeRow/Volume").value=30
   hud.get_node("Overlay/Center/Options/CameraZoom").button_pressed=false
-  hud.get_node("Overlay/Center/Options/CRT").button_pressed=false
+  hud.get_node("Overlay/Center/Options/CRT/Preset").select(0)
+  hud.get_node("Overlay/Center/Options/CRT/Preset").item_selected.emit(0)
   hud.get_node("Overlay/Center/Options/CameraShake").button_pressed=true
   hud.get_node("Overlay/Center/Options/ShotShake").button_pressed=false
   hud.get_node("Overlay/Center/Options/MineShake").button_pressed=true

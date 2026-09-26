@@ -1,9 +1,11 @@
 extends VBoxContainer
 signal back_requested
-const TOGGLES = [["CameraShake","camera_shake"],["CameraZoom","camera_zoom"],["ShotShake","shot_shake"],["MineShake","mine_shake"],["CRT","crt_filter"],["Controls","show_controls"],["LevelHints","show_level_hints"],["HUD","show_hud"]]
+const TOGGLES = [["CameraShake","camera_shake"],["CameraZoom","camera_zoom"],["ShotShake","shot_shake"],["MineShake","mine_shake"],["Controls","show_controls"],["LevelHints","show_level_hints"],["HUD","show_hud"]]
 func _ready() -> void:
  $ResetProgress.pressed.connect(func(): $ResetConfirmation.popup_centered())
  $ResetConfirmation.confirmed.connect(_reset_progress)
+ for label in ["Off","Light","Heavy"]: $CRT/Preset.add_item(label)
+ $CRT/Preset.item_selected.connect(func(index: int): SaveData.set_preference("crt_mode",index))
  $Back.pressed.connect(func(): back_requested.emit())
  $VolumeRow/Volume.value_changed.connect(func(value: float): Sfx.set_volume(value/100.0))
  for pair in TOGGLES:
@@ -15,6 +17,7 @@ func _ready() -> void:
 func _sync() -> void:
  if not is_node_ready(): return
  $VolumeRow/Volume.set_value_no_signal(Sfx.volume*100)
+ $CRT/Preset.select(SaveData.crt_mode)
  for pair in TOGGLES:
   get_node(pair[0]).set_pressed_no_signal(SaveData.get(pair[1]))
 func focus_first() -> void:

@@ -78,3 +78,5 @@ Floating shell pickups restore one shot while airborne, never exceeding two shel
 
 ## Engine version
 Use **Godot 4.7.2 only** for this project. `tools/open_editor.ps1` checks the engine version and opens Shotgun Kid in the 4.7.2 editor. It accepts `-GodotConsole` if the engine is moved. Avoid opening/saving this project through older Godot versions.
+
+CRT Options now offers **Off**, **Light** (the original subtle effect), and **Heavy** (the stronger monitor effect). The selected preset saves automatically and is shared between the main and pause menus.

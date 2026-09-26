@@ -12,7 +12,7 @@ func refresh() -> void:
 func _collect(node: Node) -> void:
  if node is Window: return
  if node.name=="Top" or node.name=="Bottom": return
- if (node is Button and not node is CheckButton) or (node is Label and node.name=="Title"):
+ if (node is Button and not node is CheckButton and not node is OptionButton) or (node is Label and node.name=="Title"):
   var title := node is Label
   var compact := "/Center/Options/" in String(node.get_path())
   var tilt := -0.8 if compact else -2.7
@@ -47,7 +47,7 @@ func _button_direction(button: Button) -> float:
  var index := 0
  for sibling in button.get_parent().get_children():
   if sibling==button: break
-  if sibling is Button and not sibling is CheckButton and sibling.visible:
+  if sibling is Button and not sibling is CheckButton and not sibling is OptionButton and sibling.visible:
    index+=1
  return 1.0 if index%2==0 else -1.0
 
