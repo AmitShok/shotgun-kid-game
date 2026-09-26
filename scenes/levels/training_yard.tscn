@@ -25,6 +25,8 @@
 [ext_resource type="Texture2D" path="res://assets/textures/spruce.png" id="spruce"]
 [ext_resource type="Texture2D" path="res://assets/textures/waypost.png" id="waypost"]
 
+[ext_resource type="PackedScene" path="res://scenes/actors/shell_pickup.tscn" id="shell_pickup"]
+
 [node name="LanternRidge" type="Node2D" unique_id=86938233]
 script = ExtResource("script")
 
@@ -462,3 +464,8 @@ centered = false
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1265089116 instance=ExtResource("hud")]
 script = ExtResource("24_ibptg")
 
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="ShellPickup0" parent="Pickups" instance=ExtResource("shell_pickup")]
+position=Vector2(245,465)

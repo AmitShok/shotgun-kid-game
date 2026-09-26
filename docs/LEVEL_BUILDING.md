@@ -32,3 +32,9 @@ Restart Level restarts the current scene and clears checkpoint progress while pr
 
 ## TileSet maintenance
 `tools/build_terrain.gd` configures the atlas physics and can migrate old platform boxes. It preserves existing painted cells and layer positions, and repeated runs do not rebuild the layout. The shared external TileSet lets collision edits apply to all levels using it. Visual textures continue to come from the editable Aseprite source files.
+
+
+## Floating shell pickups
+Drag `scenes/actors/shell_pickup.tscn` into a level's Pickups container and position it along an airborne route. It restores exactly one shell on contact while airborne, up to the two-shell maximum. Full-ammo or grounded players do not consume it. It fades to a faint silhouette for three seconds, then becomes usable again. Recharge Seconds and Bob Phase are editable in the Inspector. Death resets all pickups, and pausing freezes recharge. The art reuses the existing Aseprite shell and glow textures.
+
+Lantern Ridge includes one example at (245, 465). The four design-ready levels have empty Pickups containers so you can choose their placements yourself.

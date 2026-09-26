@@ -28,3 +28,5 @@ position=Vector2(336,544)
 [node name="Player" parent="." instance=ExtResource("player")]
 position=Vector2(88,528)
 [node name="HUD" parent="." instance=ExtResource("hud")]
+
+[node name="Pickups" type="Node2D" parent="."]

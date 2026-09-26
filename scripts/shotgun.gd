@@ -17,6 +17,12 @@ func refill() -> void:
  ammo=MAX_AMMO
  ammo_changed.emit(ammo)
  Sfx.play("reload",-10.0)
+func add_ammo(amount: int = 1) -> bool:
+ if amount<=0 or ammo>=MAX_AMMO: return false
+ ammo=mini(ammo+amount,MAX_AMMO)
+ ammo_changed.emit(ammo)
+ Sfx.play("reload",-8.0,1.2)
+ return true
 func shoot() -> bool:
  if ammo<=0 or remaining>0: return false
  ammo-=1

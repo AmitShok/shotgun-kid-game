@@ -1,6 +1,6 @@
 # Shotgun Kid
 
-A Godot 4.7 2D traversal platformer set in Lantern Ridge. Open `project.godot` in Godot and press F5 for the main menu (F6 on a level still runs that level directly).
+A Godot 4.7.2 2D traversal platformer set in Lantern Ridge. Open `project.godot` in Godot and press F5 for the main menu (F6 on a level still runs that level directly).
 
 ## Main menu
 The game opens with **Start game**, **Options**, and **Quit**. Start game opens the level selector; choose **01 / Lantern Ridge** to play or resume its saved checkpoint. The pause menu also has **Main menu**.
@@ -72,3 +72,9 @@ The main menu level list uses editable resources in `data/levels/`; add another 
 Lantern Ridge is followed by Mossy Comet, Copper Cloud, Velvet Glacier, and Echo Orchard. The four new scenes are ready to edit, with the same background, shared scripts, native tile physics, player, checkpoint, exit, HUD, and empty content containers. A removable flat test floor is the only starter geometry.
 
 Levels unlock sequentially when the current exit is reached. Completion and unlocks save immediately. Next Level continues from the completion menu. Restart Level keeps unlocks; Options > Reset progress (lock levels 2-5) clears campaign/checkpoint progress while preserving settings. Preview individual scenes with F6 when designing locked levels.
+
+Floating shell pickups restore one shot while airborne, never exceeding two shells. They fade after collection and recharge after three seconds. Place `scenes/actors/shell_pickup.tscn` in any level; recharge time is adjustable in the Inspector.
+
+
+## Engine version
+Use **Godot 4.7.2 only** for this project. `tools/open_editor.ps1` checks the engine version and opens Shotgun Kid in the 4.7.2 editor. It accepts `-GodotConsole` if the engine is moved. Avoid opening/saving this project through older Godot versions.

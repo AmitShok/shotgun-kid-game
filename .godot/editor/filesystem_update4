@@ -1,7 +1,4 @@
-res://scenes/ui/options_panel.tscn
-res://scripts/hud.gd
-res://scripts/level.gd
-res://scripts/options_panel.gd
-res://scripts/player.gd
-res://scripts/save_data.gd
-res://tests/menu_tiles_crt_test.gd
+res://scripts/menu_motion.gd
+res://scenes/levels/mossy_comet.tscn
+res://assets/terrain_tileset.tres
+res://scenes/ui/menu_theme.tres

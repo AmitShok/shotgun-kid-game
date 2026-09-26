@@ -40,3 +40,11 @@ Rendered progression test verifies all five playable spawns, backgrounds and sta
 
 ## Menu and HUD visual polish
 Tilted menu headings and buttons, smooth focus/hover/press transforms, short page fades, warm focus accents, beveled panel edges and shadows. Settings rows and gameplay HUD text stay stable. Rendered menu integration passed all 18 existing checks; screenshots reviewed for main menu, five-level selector, crowded Options panel, and pause menu. Native focus/navigation and progression logic retained.
+
+
+## Airborne shell pickup
+Rendered pickup test: 11 checks passed for actual overlap collection, grounded/full-ammo rejection, one-shell restoration and capacity cap, fade, three-second reuse, pause behavior, usable restored ammo, and death reset. Existing gameplay regression: 28/28 checks passed. Screenshot: shell_pickup.png. Tests used isolated save files.
+
+
+## Godot 4.7.2 verification, September 26
+Verified engine 4.7.2.stable.official.ed1daf0bf. Fixed mixed indentation in level.gd checkpoint restoration. Clean editor import; gameplay 28, mine 18, diagonal jump 72, ten-gap traversal, rendered menu/CRT 18, rendered feel/audio 28, rendered shell pickup 11, and separate-process campaign progression/reset suites all passed. Player save files were isolated from tests. Project launcher tools/open_editor.ps1 checks version before opening the editor. Menu button tilt now chooses a stable small random angle per button, capped at 1.7 degrees (smaller in the tightly packed Options panel).
