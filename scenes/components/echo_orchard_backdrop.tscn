@@ -1,0 +1,67 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/biome_backdrop.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/textures/echo_orchard_sky.png" id="sky"]
+[ext_resource type="Texture2D" path="res://assets/textures/echo_orchard_far.png" id="far"]
+[ext_resource type="Texture2D" path="res://assets/textures/echo_orchard_middle.png" id="middle"]
+[ext_resource type="Texture2D" path="res://assets/textures/echo_orchard_near.png" id="near"]
+[ext_resource type="Texture2D" path="res://assets/textures/echo_orchard_mote.png" id="mote"]
+[node name="Backdrop" type="CanvasLayer"]
+layer = -10
+script = ExtResource("script")
+[node name="Sky" type="Sprite2D" parent="."]
+texture = ExtResource("sky")
+centered = false
+[node name="Far" type="Node2D" parent="."]
+[node name="Plane0" type="Sprite2D" parent="Far"]
+position = Vector2(0, 0)
+texture = ExtResource("far")
+centered = false
+[node name="Plane1" type="Sprite2D" parent="Far"]
+position = Vector2(640, 0)
+texture = ExtResource("far")
+centered = false
+[node name="Plane2" type="Sprite2D" parent="Far"]
+position = Vector2(1280, 0)
+texture = ExtResource("far")
+centered = false
+[node name="Middle" type="Node2D" parent="."]
+[node name="Plane0" type="Sprite2D" parent="Middle"]
+position = Vector2(0, 0)
+texture = ExtResource("middle")
+centered = false
+[node name="Plane1" type="Sprite2D" parent="Middle"]
+position = Vector2(640, 0)
+texture = ExtResource("middle")
+centered = false
+[node name="Plane2" type="Sprite2D" parent="Middle"]
+position = Vector2(1280, 0)
+texture = ExtResource("middle")
+centered = false
+[node name="Near" type="Node2D" parent="."]
+[node name="Plane0" type="Sprite2D" parent="Near"]
+position = Vector2(0, 0)
+texture = ExtResource("near")
+centered = false
+[node name="Plane1" type="Sprite2D" parent="Near"]
+position = Vector2(640, 0)
+texture = ExtResource("near")
+centered = false
+[node name="Plane2" type="Sprite2D" parent="Near"]
+position = Vector2(1280, 0)
+texture = ExtResource("near")
+centered = false
+
+[node name="Atmosphere" type="CPUParticles2D" parent="."]
+position = Vector2(320,180)
+amount = 18
+texture = ExtResource("mote")
+lifetime = 20.0
+preprocess = 20.0
+emission_shape = 3
+emission_rect_extents = Vector2(350,220)
+direction = Vector2(-0.45,1)
+spread = 18.0
+gravity = Vector2(0,0)
+initial_velocity_min = 3.0
+initial_velocity_max = 8.0
+color = Color(1,1,1,0.4)

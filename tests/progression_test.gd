@@ -72,9 +72,9 @@ func run() -> void:
    await frames(20)
    check(player.is_on_floor(),"Level %d has safe playable spawn" % (i+1))
    if i>0:
-    check(level.has_node("Backdrop/Snow") and level.has_node("Backdrop/Far/Plane2"),"Placeholder keeps complete ridge background")
-    check(level.has_node("Terrain/Ground") and level.has_node("Checkpoint0") and level.has_node("Exit") and level.has_node("Mines") and level.has_node("Hazards"),"Placeholder has required editable structure")
-    check(level.get_node("Scenery").get_child_count()==0 and level.get_node("Terrain").get_child_count()==1,"Placeholder leaves level design empty except test floor")
+    check(level.has_node("Backdrop/Atmosphere") and level.has_node("Backdrop/Middle/Plane2") and level.has_node("Backdrop/Far/Plane2"),"Themed level includes complete layered background")
+    check(level.has_node("Terrain/Ground") and level.has_node("Checkpoint0") and level.has_node("Exit") and level.has_node("Mines") and level.has_node("Hazards"),"Themed level retains required editable structure")
+    check(level.has_node("Scenery/ThemeDetails") and level.get_node("Terrain/Ground").tile_set.resource_path!="res://assets/terrain_tileset.tres","Themed level has its own terrain and editable scenery")
    if i==1: await capture("level_template")
    player.position=level.get_node("Exit").position-Vector2(0,10)
    player.velocity=Vector2.ZERO

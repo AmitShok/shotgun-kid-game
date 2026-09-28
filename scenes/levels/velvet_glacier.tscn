@@ -1,11 +1,13 @@
 [gd_scene format=3]
 [ext_resource type="Script" path="res://scripts/level.gd" id="level"]
-[ext_resource type="PackedScene" path="res://scenes/components/ridge_backdrop.tscn" id="backdrop"]
-[ext_resource type="TileSet" path="res://assets/terrain_tileset.tres" id="tiles"]
+[ext_resource type="PackedScene" path="res://scenes/components/velvet_glacier_backdrop.tscn" id="backdrop"]
+[ext_resource type="TileSet" path="res://assets/velvet_glacier_tileset.tres" id="tiles"]
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="player"]
 [ext_resource type="PackedScene" path="res://scenes/actors/checkpoint.tscn" id="checkpoint"]
 [ext_resource type="PackedScene" path="res://scenes/actors/exit.tscn" id="exit"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="hud"]
+[ext_resource type="Texture2D" path="res://assets/textures/velvet_glacier_decor.png" id="theme_decor"]
+
 [node name="VelvetGlacier" type="Node2D"]
 script=ExtResource("level")
 level_title="VELVET GLACIER"
@@ -30,3 +32,20 @@ position=Vector2(88,528)
 [node name="HUD" parent="." instance=ExtResource("hud")]
 
 [node name="Pickups" type="Node2D" parent="."]
+
+[node name="ThemeDetails" type="Node2D" parent="Scenery"]
+z_index = -1
+
+[node name="Detail1" type="Sprite2D" parent="Scenery/ThemeDetails"]
+position = Vector2(168.0, 529.0)
+texture = ExtResource("theme_decor")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Detail2" type="Sprite2D" parent="Scenery/ThemeDetails"]
+position = Vector2(280.0, 529.0)
+texture = ExtResource("theme_decor")
+hframes = 4
+vframes = 2
+frame = 2

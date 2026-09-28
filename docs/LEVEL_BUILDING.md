@@ -17,11 +17,11 @@ Open any of these independent scenes and press F6 to preview it while designing:
 - `scenes/levels/velvet_glacier.tscn`
 - `scenes/levels/echo_orchard.tscn`
 
-Each scene includes the original layered background and snow, a native Ground tilemap using the shared physics TileSet, Player, HUD, checkpoint, exit door, and empty Mines, Hazards, Scenery, and Signs containers. The only painted area is a small removable flat test floor; no challenge layout or decorative placement has been designed for you.
+Each scene now has its own Aseprite biome background, ambient particles, and native physics TileSet, alongside Player, HUD, checkpoint and exit. Mossy Comet preserves your edited layout and actor placements. The remaining starter layouts are still available for you to design. Small themed props sit under Scenery/ThemeDetails; move or remove these as you change the terrain.
 
 Paint Terrain/Ground, move Player to your start, move the exit to the finish, and move/duplicate the root checkpoint flags as needed. Drag `boost_mine.tscn` into Mines and `spikes.tscn` into Hazards from `scenes/actors/`. Place the existing Aseprite scenery in Scenery. The root node exposes Level Title, Camera Bounds, and Fall Limit Y; adjust these to fit a larger or taller layout. Keep the named Player/HUD/Signs nodes and root checkpoint flags so the shared scripts can find them.
 
-The shared backdrop is `scenes/components/ridge_backdrop.tscn`, copied exactly from Lantern Ridge. New levels reference it without changing the first level's background.
+Lantern Ridge retains `scenes/components/ridge_backdrop.tscn`. Levels 2–5 reference their respective `<biome>_backdrop.tscn` scenes and `assets/<biome>_tileset.tres`. See `LEVEL_THEMES.md` for the atlas guide and source files.
 
 ## Campaign order and names
 The single ordered campaign catalog is `data/level_catalog.tres`. It references five resources in `data/levels/`. Edit a level resource's Title and Scene Path to rename or redirect an entry; edit the level root's Level Title for its HUD title. Add future resources to the catalog's Levels array. Both menu selection and progression use this same catalog.
@@ -37,10 +37,10 @@ Restart Level restarts the current scene and clears checkpoint progress while pr
 ## Floating shell pickups
 Drag `scenes/actors/shell_pickup.tscn` into a level's Pickups container and position it along an airborne route. It restores exactly one shell on contact while airborne, up to the two-shell maximum. Full-ammo or grounded players do not consume it. It fades to a faint silhouette for three seconds, then becomes usable again. Recharge Seconds and Bob Phase are editable in the Inspector. Death resets all pickups, and pausing freezes recharge. The art reuses the existing Aseprite shell and glow textures.
 
-Lantern Ridge includes one example at (245, 465). The four design-ready levels have empty Pickups containers so you can choose their placements yourself.
+Lantern Ridge includes one example at (245, 465). The themed levels preserve any pickups you have placed; add more in their Pickups containers as needed.
 
 
 ## Terrain-aware landing camera
 The player camera scans downward against World collision (layer 1) during flight, using the surface directly beneath the player or nearby travel-direction probes over gaps. It smoothly reframes the player and landing surface, reserving space for the HUD and hints. Native tile painting, erasing, and layer movement automatically affect the next scan; no ground-height markers are required.
 
-The Player/Camera2D Inspector exposes Minimum Landing Zoom (default 0.55) and Ground Scan Distance (1000 world pixels). Cosmetic zoom effects remain separately switchable. Empty gaps return toward normal zoom with a bounded downward look. Landing and respawning restore normal framing; airborne arrow aiming never controls the camera. Keep the level root's Camera Bounds large enough to include the playable terrain. At distances beyond the zoom limit, both the player and ground may not fit simultaneously.
+The Player/Camera2D Inspector exposes Minimum Landing Zoom (default 0.55) and Ground Scan Distance (1000 world pixels). Cosmetic speed/impact zoom has been removed; this automatic landing framing remains active. Empty gaps return toward normal zoom with a bounded downward look. Landing and respawning restore normal framing; airborne arrow aiming never controls the camera. Keep the level root's Camera Bounds large enough to include the playable terrain. At distances beyond the zoom limit, both the player and ground may not fit simultaneously.

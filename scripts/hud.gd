@@ -40,7 +40,6 @@ func _close_options() -> void:
 func _process(delta: float) -> void:
  if Input.is_action_just_pressed("pause"): _toggle_pause()
  if Input.is_action_just_pressed("restart"): _restart()
- $Top/Margin/Row/Mode.text=get_parent().level_title
  $Top/Margin/Row/Ammo.modulate=Color(1.0,0.76,0.51) if player.shotgun.ammo==0 else Color.WHITE
  $Top/Margin/Row/Ammo.text="SHELLS  %d / 2" % player.shotgun.ammo
  $Top/Margin/Row/Shell1.texture=AMMO_FULL if player.shotgun.ammo>0 else AMMO_EMPTY

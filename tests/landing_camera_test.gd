@@ -25,7 +25,7 @@ func run() -> void:
  player.set_physics_process(false)
  await frames(120)
  check(camera.ground_found and absf(camera.landing_ground.y-544)<1,"Camera detects actual terrain beneath high player")
- check(camera.zoom.x<0.7 and camera.zoom.x>=camera.minimum_landing_zoom,"High flight zooms out within its limit even with cosmetic zoom off")
+ check(camera.zoom.x<0.7 and camera.zoom.x>=camera.minimum_landing_zoom,"High flight zooms out within its limit without cosmetic zoom")
  camera.force_update_scroll()
  var transform=root.get_canvas_transform()
  var player_screen=transform*player.position

@@ -51,7 +51,7 @@ func run() -> void:
  check(player.get_node("Camera2D").shot_impact>1.0,"Shot triggers bounded camera impact")
  await frames(4)
  var camera=player.get_node("Camera2D")
- check(camera.zoom.x>=camera.minimum_landing_zoom*0.95 and camera.zoom.x<=1.04,"Zoom pulse stays within subtle limits")
+ check(camera.zoom.is_equal_approx(Vector2.ONE*camera.landing_zoom),"Camera zoom uses only landing framing")
  var saved_fx: bool=sound.camera_fx
  sound.set_camera_fx(false)
  camera.impact(3)

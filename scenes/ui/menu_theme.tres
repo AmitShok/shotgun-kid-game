@@ -94,8 +94,8 @@ texture_margin_top = 3.0
 texture_margin_bottom = 3.0
 content_margin_left = 0.0
 content_margin_right = 0.0
-content_margin_top = 0.0
-content_margin_bottom = 0.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxTexture" id="fill"]
 texture = ExtResource("slider_fill")
@@ -105,8 +105,8 @@ texture_margin_top = 3.0
 texture_margin_bottom = 3.0
 content_margin_left = 0.0
 content_margin_right = 0.0
-content_margin_top = 0.0
-content_margin_bottom = 0.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
 
 [sub_resource type="StyleBoxFlat" id="row"]
 content_margin_left = 8.0
