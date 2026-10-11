@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="script"]
 [ext_resource type="PackedScene" path="res://scenes/ui/options_panel.tscn" id="options"]
 [ext_resource type="Texture2D" path="res://assets/textures/background.png" id="sky"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" path="res://assets/textures/mountains_near.png" id="near"]
 [ext_resource type="Theme" path="res://scenes/ui/menu_theme.tres" id="theme"]
 [ext_resource type="Script" path="res://scripts/menu_motion.gd" id="motion"]
+[ext_resource type="PackedScene" path="res://scenes/ui/wardrobe_panel.tscn" id="wardrobe"]
 [node name="MainMenu" type="Control"]
 layout_mode=3
 anchors_preset=15
@@ -68,6 +69,9 @@ custom_minimum_size=Vector2(0,12)
 [node name="Start" type="Button" parent="Center/Home"]
 text="Start game"
 custom_minimum_size=Vector2(0,32)
+[node name="Wardrobe" type="Button" parent="Center/Home"]
+text="Wardrobe"
+custom_minimum_size=Vector2(0,32)
 [node name="Options" type="Button" parent="Center/Home"]
 text="Options"
 custom_minimum_size=Vector2(0,32)
@@ -95,3 +99,6 @@ visible=false
 
 [node name="MenuMotion" type="Node" parent="."]
 script=ExtResource("motion")
+
+[node name="Wardrobe" parent="Center" instance=ExtResource("wardrobe")]
+visible=false

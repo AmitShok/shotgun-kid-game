@@ -10,7 +10,7 @@ func refresh() -> void:
  items.clear()
  _collect(get_parent())
 func _collect(node: Node) -> void:
- if node is Window: return
+ if node is Window or node.has_meta("static_menu_layout"): return
  if node.name=="Top" or node.name=="Bottom": return
  if (node is Button and not node is CheckButton and not node is OptionButton) or (node is Label and node.name=="Title"):
   var title := node is Label

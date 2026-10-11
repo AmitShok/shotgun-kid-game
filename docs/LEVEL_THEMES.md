@@ -1,6 +1,6 @@
 # Shotgun Kid: level themes
 
-All artwork was authored and exported in Aseprite, using the same pixel density and shared dark blue shadows as Lantern Ridge. Foreground surface caps carry the brightest edge; background shapes have lower contrast. Level layouts, player starts, exits, checkpoints, mines, and pickups were preserved.
+All artwork was authored and exported in Aseprite, using the same pixel density and shared dark blue shadows as Lantern Ridge. Foreground surface caps carry the brightest edge; background shapes have lower contrast. The subsequent campaign redesign rearranged terrain, starts, exits, checkpoints, mines, and pickups while retaining this artwork. See CAMPAIGN_DESIGN.md for the current routes.
 
 | Level | Visual identity | Terrain | Ambient detail |
 | --- | --- | --- | --- |

@@ -18,9 +18,16 @@ var shot_impact := 0.0
 var mine_impact := 0.0
 var elapsed := 0.0
 var aim_look := Vector2.ZERO
+# Long campaign gaps get an encounter view selected on the ground, never by air aim.
+var route_framing := false
+var route_center := Vector2.ZERO
+var route_fit := 1.0
+var route_blend := 0.0
 func _process(delta: float) -> void:
  var player := get_parent() as CharacterBody2D
  elapsed+=delta
+ _update_route_view(player)
+ route_blend=lerpf(route_blend,1.0 if route_framing else 0.0,1.0-exp(-4.0*delta))
  var weight := 1.0-exp(-8.0*delta)
  var look_target := Vector2.ZERO
  if player.is_on_floor():
@@ -28,12 +35,16 @@ func _process(delta: float) -> void:
   look_target=aim_input.normalized()*Vector2(52,64)
  # In the air, return gently to the normal framing; aiming cannot pan the camera.
  aim_look=aim_look.lerp(look_target,1.0-exp(-5.0*delta))
- position.x=lerpf(position.x,clampf(player.velocity.x*0.18,-50,70)+aim_look.x,weight)
+ var view_x=clampf(player.velocity.x*0.18,-50,70)+aim_look.x
+ view_x=lerpf(view_x,route_center.x-player.global_position.x+aim_look.x*0.3,route_blend)
+ position.x=lerpf(position.x,view_x,weight)
  var framing_speed := 6.0 if target_landing_zoom<landing_zoom else 3.0
  landing_zoom=lerpf(landing_zoom,target_landing_zoom,1.0-exp(-framing_speed*delta))
  var offset_weight := 1.0-exp(-(6.0 if target_landing_offset>landing_offset else 4.0)*delta)
  landing_offset=lerpf(landing_offset,target_landing_offset,offset_weight)
- position.y=lerpf(position.y,-48.0+clampf(player.velocity.y*0.035,-25,20)+aim_look.y+landing_offset,weight)
+ var view_y=-48.0+clampf(player.velocity.y*0.035,-25,20)+aim_look.y+landing_offset
+ view_y=lerpf(view_y,route_center.y-player.global_position.y+aim_look.y*0.3,route_blend)
+ position.y=lerpf(position.y,view_y,weight)
  shake=move_toward(shake,0,16.0*delta)
  shot_impact=move_toward(shot_impact,0,12.0*delta)
  mine_impact=move_toward(mine_impact,0,14.0*delta)
@@ -45,7 +56,27 @@ func _process(delta: float) -> void:
   mine_impact=0.0
  var amplitude := maxf(shake,maxf(shot_impact,mine_impact))
  offset=Vector2(sin(elapsed*103),cos(elapsed*127))*amplitude
- zoom=Vector2.ONE*landing_zoom
+ zoom=Vector2.ONE*minf(landing_zoom,lerpf(1.0,route_fit,route_blend))
+func _update_route_view(player: CharacterBody2D) -> void:
+ if not player.is_on_floor(): return
+ var level=player.get_parent()
+ route_framing=false
+ if not level.has_meta("traversal_route"): return
+ var nearest: Dictionary={}
+ var distance=INF
+ for step in level.get_meta("traversal_route"):
+  var d=player.global_position.distance_to(step.get("start",step.launch))
+  if d<distance: nearest=step;distance=d
+ if nearest.is_empty() or distance>float(nearest.width): return
+ if not nearest.kind in ["mine","shell","relay"]: return
+ route_framing=true
+ var launch: Vector2=nearest.launch
+ var target: Vector2=nearest.target
+ route_center=(launch+target)*0.5+Vector2(0,-100)
+ var span=(target-launch).abs()+Vector2(float(nearest.width)+100,300)
+ var usable=get_viewport_rect().size-Vector2(64,100)
+ route_fit=clampf(minf(usable.x/span.x,usable.y/span.y),0.38,1.0)
+
 func _physics_process(delta: float) -> void:
  var player := get_parent() as CharacterBody2D
  ground_found=false
@@ -126,6 +157,9 @@ func reset_feedback() -> void:
  shot_impact=0.0
  mine_impact=0.0
  aim_look=Vector2.ZERO
+ route_framing=false
+ route_blend=0.0
+ route_fit=1.0
  offset=Vector2.ZERO
  zoom=Vector2.ONE
  position=Vector2(0,-48)

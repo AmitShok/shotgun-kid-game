@@ -3,9 +3,14 @@ extends Area2D
 signal collected
 @export_range(0.2,30.0,0.1) var recharge_seconds := 3.0
 @export var bob_phase := 0.0
+@export_range(8.0,32.0,1.0) var collection_radius := 12.0
 var available := true
 var recharge_left := 0.0
 var time := 0.0
+func _ready() -> void:
+ var shape=CircleShape2D.new()
+ shape.radius=collection_radius
+ $CollisionShape2D.shape=shape
 func _physics_process(delta: float) -> void:
  time+=delta
  $Visual.position.y=sin(time*2.4+bob_phase)*3.0
@@ -27,6 +32,7 @@ func try_collect(body: Node2D) -> bool:
  if not body.shotgun.add_ammo(1): return false
  available=false
  recharge_left=recharge_seconds
+ preload("res://scripts/traversal_particles.gd").burst(self,global_position,Vector2.UP,"pickup")
  collected.emit()
  return true
 func reset() -> void:

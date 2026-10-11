@@ -10,14 +10,14 @@ All 13 layers reference `assets/terrain_tileset.tres`, which has a World physics
 
 For a new island, add a TileMapLayer beneath Terrain, assign the shared TileSet, and paint it. Keep the layer's collision enabled and scale at 1. Use 16-pixel grid snapping for new construction. Reposition scenery so tree trunks, lantern feet, and plants meet the tile surface. Hanging banners belong on the stone face.
 
-## Four prepared levels
+## Four authored campaign levels
 Open any of these independent scenes and press F6 to preview it while designing:
 - `scenes/levels/mossy_comet.tscn`
 - `scenes/levels/copper_cloud.tscn`
 - `scenes/levels/velvet_glacier.tscn`
 - `scenes/levels/echo_orchard.tscn`
 
-Each scene now has its own Aseprite biome background, ambient particles, and native physics TileSet, alongside Player, HUD, checkpoint and exit. Mossy Comet preserves your edited layout and actor placements. The remaining starter layouts are still available for you to design. Small themed props sit under Scenery/ThemeDetails; move or remove these as you change the terrain.
+Each scene has its own Aseprite biome background, ambient particles, native physics TileSet, Player, HUD, checkpoints and exit. Levels 2–5 now contain authored traversal campaigns with 10, 12, 14 and 16 encounters. See CAMPAIGN_DESIGN.md for their routes, backups, validation, and the root traversal_route metadata used by long-gap camera framing. Small themed props sit under Scenery/ThemeDetails; move or remove these as you change the terrain. The one-shot tools/design_campaign.gd overwrites all four scenes; do not run it after hand editing unless you intend to rebuild them.
 
 Paint Terrain/Ground, move Player to your start, move the exit to the finish, and move/duplicate the root checkpoint flags as needed. Drag `boost_mine.tscn` into Mines and `spikes.tscn` into Hazards from `scenes/actors/`. Place the existing Aseprite scenery in Scenery. The root node exposes Level Title, Camera Bounds, and Fall Limit Y; adjust these to fit a larger or taller layout. Keep the named Player/HUD/Signs nodes and root checkpoint flags so the shared scripts can find them.
 

@@ -1,2 +1,7 @@
+.godot/
 *.tmp
 exports/
+
+# Local backups and generated diagnostics
+backups/
+*.log

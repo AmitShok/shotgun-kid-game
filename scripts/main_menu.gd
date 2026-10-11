@@ -4,6 +4,8 @@ var page := "Home"
 func _ready() -> void:
  get_tree().paused=false
  $Center/Home/Start.pressed.connect(func(): _show_page("Levels"))
+ $Center/Home/Wardrobe.pressed.connect(func(): _show_page("Wardrobe"))
+ $Center/Wardrobe.back_requested.connect(func(): _show_page("Home"))
  $Center/Home/Options.pressed.connect(func(): _show_page("Options"))
  $Center/Home/Quit.pressed.connect(func(): Sfx.shutdown())
  $Center/Levels/Back.pressed.connect(func(): _show_page("Home"))
@@ -37,7 +39,8 @@ func _show_page(next_page: String) -> void:
  page=next_page
  for panel in $Center.get_children(): panel.visible=panel.name==page
  $MenuMotion.reveal(get_node("Center/"+page))
- if page=="Options": $Center/Options.focus_first()
+ if page=="Wardrobe": $Center/Wardrobe.focus_first()
+ elif page=="Options": $Center/Options.focus_first()
  elif page=="Levels":
   if $Center/Levels/List.get_child_count()>0: $Center/Levels/List.get_child(0).grab_focus()
   else: $Center/Levels/Back.grab_focus()

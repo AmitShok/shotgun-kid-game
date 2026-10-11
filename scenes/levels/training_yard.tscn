@@ -23,7 +23,6 @@
 [ext_resource type="Texture2D" path="res://assets/textures/snowflake.png" id="snowflake"]
 [ext_resource type="PackedScene" path="res://scenes/actors/spikes.tscn" id="spikes"]
 [ext_resource type="Texture2D" path="res://assets/textures/spruce.png" id="spruce"]
-[ext_resource type="Texture2D" path="res://assets/textures/waypost.png" id="waypost"]
 
 [ext_resource type="PackedScene" path="res://scenes/actors/shell_pickup.tscn" id="shell_pickup"]
 
@@ -247,56 +246,6 @@ script = ExtResource("17_crkry")
 
 [node name="Signs" type="Node2D" parent="." unique_id=912586683]
 
-[node name="Sign0" type="Label" parent="Signs" unique_id=1337254843]
-offset_left = 45.0
-offset_top = 435.0
-theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 11
-text = "01 / LANTERN RIDGE"
-
-[node name="Sign1" type="Label" parent="Signs" unique_id=1853901019]
-offset_left = 570.0
-offset_top = 362.0
-theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 11
-text = "TWO SHELLS. KEEP CLIMBING."
-
-[node name="Sign2" type="Label" parent="Signs" unique_id=1622603262]
-offset_left = 935.0
-offset_top = 315.0
-theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 11
-text = "02 / THE HIGH ROAD"
-
-[node name="Sign3" type="Label" parent="Signs" unique_id=811182136]
-offset_left = 1610.0
-offset_top = 332.0
-theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 11
-text = "03 / THE LAST STRETCH"
-
-[node name="Sign4" type="Label" parent="Signs" unique_id=300464671]
-offset_left = 2300.0
-offset_top = 330.0
-theme_override_colors/font_color = Color(0.92, 0.88, 0.81, 1)
-theme_override_colors/font_shadow_color = Color(0.1, 0.12, 0.2, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 11
-text = "THE WAY HOME"
-
 [node name="Scenery" type="Node2D" parent="." unique_id=84416452]
 
 [node name="Spruce0" type="Sprite2D" parent="Scenery" unique_id=645273848]
@@ -441,24 +390,6 @@ centered = false
 z_index = 1
 position = Vector2(2310, 448)
 texture = ExtResource("banner")
-centered = false
-
-[node name="Waypost0" type="Sprite2D" parent="Scenery" unique_id=1805350700]
-z_index = -1
-position = Vector2(275, 512)
-texture = ExtResource("waypost")
-centered = false
-
-[node name="Waypost1" type="Sprite2D" parent="Scenery" unique_id=1912455258]
-z_index = -1
-position = Vector2(1050, 416)
-texture = ExtResource("waypost")
-centered = false
-
-[node name="Waypost3" type="Sprite2D" parent="Scenery" unique_id=1668580796]
-z_index = -1
-position = Vector2(2400, 400)
-texture = ExtResource("waypost")
 centered = false
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1265089116 instance=ExtResource("hud")]

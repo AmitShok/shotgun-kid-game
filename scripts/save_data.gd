@@ -1,5 +1,8 @@
 extends Node
 ## Preferences and checkpoint progress are written immediately, independently of quitting.
+signal appearance_changed
+const WARDROBE = preload("res://scripts/wardrobe_catalog.gd")
+var appearance: Dictionary = WARDROBE.DEFAULTS.duplicate()
 signal preferences_changed
 signal progress_changed
 const CATALOG=preload("res://data/level_catalog.tres")
@@ -29,6 +32,9 @@ func _ready() -> void:
   if arg.begins_with("--save-file="): path=arg.trim_prefix("--save-file=")
  var config := ConfigFile.new()
  if config.load(path)!=OK: return
+ for category in WARDROBE.DEFAULTS:
+  var selection=config.get_value("wardrobe",category,WARDROBE.DEFAULTS[category])
+  if WARDROBE.valid(category,selection): appearance[category]=selection
  var saved_volume: Variant=config.get_value("audio","volume",0.55)
  if (saved_volume is float or saved_volume is int) and is_finite(float(saved_volume)):
   volume=clampf(float(saved_volume),0,1)
@@ -78,6 +84,7 @@ func clear_progress() -> void:
 func save() -> void:
  var config := ConfigFile.new()
  config.set_value("audio","volume",volume)
+ for category in appearance: config.set_value("wardrobe",category,appearance[category])
  for key in ["camera_fx","camera_shake","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]:
   config.set_value("accessibility",key,get(key))
  config.set_value("progress","completed_count",completed_count)
@@ -114,3 +121,15 @@ func reset_progress() -> void:
  completed_count=0
  clear_progress()
  progress_changed.emit()
+
+func equip(category: String,id: String) -> void:
+ if not WARDROBE.valid(category,id) or appearance.get(category)==id: return
+ appearance[category]=id
+ save()
+ appearance_changed.emit()
+
+func set_appearance(selection: Dictionary) -> void:
+ for category in WARDROBE.DEFAULTS:
+  if WARDROBE.valid(category,selection.get(category)): appearance[category]=selection[category]
+ save()
+ appearance_changed.emit()

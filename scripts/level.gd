@@ -2,6 +2,7 @@ extends Node2D
 @export var level_title := "LANTERN RIDGE"
 @export var fall_limit_y := 720.0
 @export var camera_bounds := Rect2(0,-160,2560,840)
+@export var checkpoint_fall_distance := 0.0
 var deaths := 0
 var elapsed := 0.0
 var complete := false
@@ -27,10 +28,11 @@ func _on_player_died() -> void:
 	for mine in get_tree().get_nodes_in_group("boost_mines"): mine.reset()
 	for pickup in get_tree().get_nodes_in_group("shell_pickups"): pickup.reset()
 func _process(delta: float) -> void:
+	if checkpoint_fall_distance>0:
+		$Player.fall_limit_y=minf(fall_limit_y,$Player.spawn_point.y+checkpoint_fall_distance)
 	if not complete and not get_tree().paused: elapsed+=delta
 func checkpoint_reached() -> void:
 	Sfx.play("checkpoint",-7.0)
-	$HUD.show_message("CHECKPOINT SAVED  /  take another run whenever you need")
 func finish() -> void:
 	if complete: return
 	complete=true

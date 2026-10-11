@@ -1,4 +1,6 @@
 extends CharacterBody2D
+const PARTICLES=preload("res://scripts/traversal_particles.gd")
+var trail_time := 0.0
 signal died
 @export var fall_limit_y := 720.0
 @export var run_speed := 170.0
@@ -60,6 +62,7 @@ func _physics_process(delta: float) -> void:
   visual_scale=Vector2(0.88,1.12)
   $Camera2D.impact(0.25)
   Sfx.play("jump",-8.0)
+  PARTICLES.burst(self,global_position+Vector2(0,10),Vector2.UP,"jump",0.4)
   jump_buffer=0
   coyote=0
  if Input.is_action_just_released("jump") and velocity.y< -120 and can_cut_jump:
@@ -81,21 +84,28 @@ func _physics_process(delta: float) -> void:
    Sfx.play("land",lerpf(-16.0,-5.0,clampf(impact_speed/580.0,0,1)))
    $Camera2D.impact(clampf(impact_speed/360.0,0.3,1.5))
    visual_scale=Vector2(1.15,0.88)
+   PARTICLES.burst(self,global_position+Vector2(0,10),Vector2.UP,"land",impact_speed/580.0)
    step_distance=0
   step_distance+=absf(position.x-before_move.x)
   if step_distance>=34 and absf(velocity.x)>35:
    step_distance=0
    Sfx.play("step",-15.0,randf_range(0.9,1.12))
+   PARTICLES.burst(self,global_position+Vector2(-facing*4,10),Vector2(-facing,-0.5),"step")
  else: step_distance=0
  # Confirmed landing restores shells immediately, including before a buffered jump.
  # A shot made while already grounded still waits for its recoil recovery.
  if is_on_floor() and (not was_grounded or recoil_lock<=0):
   shotgun.refill()
+ trail_time-=delta
+ if blast_boost_time>0 and trail_time<=0:
+  trail_time=0.07
+  PARTICLES.burst(self,global_position,-velocity.normalized(),"boost")
  animation_time+=delta
  $Sprite2D.frame=(6 if velocity.y<0 else 7) if not is_on_floor() else (2+int(animation_time*12)%4 if absf(velocity.x)>15 else int(animation_time*2)%2)
  $Sprite2D.flip_h=facing<0
  if global_position.y>fall_limit_y: hurt()
 func _on_fired(direction: Vector2) -> void:
+ PARTICLES.burst(self,global_position+Vector2(0,2)+direction*23,direction,"shot")
  var tangent := velocity-direction*velocity.dot(direction)
  # Keep useful lateral motion without weakening an upward boost with downward carry.
  if direction.y>0: tangent.y=minf(tangent.y,0.0)
@@ -138,6 +148,7 @@ func respawn() -> void:
  can_cut_jump=false
  step_distance=0
  visual_scale=Vector2.ONE
+ $Scarf.reset_trail()
  $Camera2D.reset_feedback()
  invincible=1.0
  shotgun.refill()

@@ -45,14 +45,6 @@ text="CRT monitor filter"
 [node name="Preset" type="OptionButton" parent="CRT"]
 custom_minimum_size=Vector2(115,0)
 theme_override_font_sizes/font_size=12
-[node name="Controls" type="CheckButton" parent="."]
-theme_override_font_sizes/font_size=12
-text="Show controls + hints box"
-button_pressed=true
-[node name="LevelHints" type="CheckButton" parent="."]
-theme_override_font_sizes/font_size=12
-text="Show hints in the level"
-button_pressed=true
 [node name="HUD" type="CheckButton" parent="."]
 theme_override_font_sizes/font_size=12
 text="Show shell HUD"

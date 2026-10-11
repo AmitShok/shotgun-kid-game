@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/textures/kid.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/textures/kid_scarf_ready.png" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/components/shotgun.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/player_camera.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/player_scarf.gd" id="scarf"]
+[ext_resource type="Script" path="res://scripts/player_appearance.gd" id="appearance"]
 [sub_resource type="RectangleShape2D" id="Shape"]
 size=Vector2(12,21)
 [node name="Player" type="CharacterBody2D" groups=["player"]]
@@ -12,6 +14,8 @@ floor_snap_length=4.0
 script=ExtResource("1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape=SubResource("Shape")
+[node name="Scarf" type="Node2D" parent="."]
+script=ExtResource("scarf")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture=ExtResource("2")
 hframes=8
@@ -26,3 +30,6 @@ limit_left=0
 limit_top=-160
 limit_right=2560
 limit_bottom=680
+
+[node name="Appearance" type="Node" parent="."]
+script=ExtResource("appearance")

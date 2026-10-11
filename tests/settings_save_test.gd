@@ -30,9 +30,13 @@ func run() -> void:
   hud.get_node("Overlay/Center/Options/CameraShake").button_pressed=true
   hud.get_node("Overlay/Center/Options/ShotShake").button_pressed=false
   hud.get_node("Overlay/Center/Options/MineShake").button_pressed=true
-  for name in ["Controls","LevelHints","HUD"]:
-   hud.get_node("Overlay/Center/Options/"+name).button_pressed=false
-  check(not hud.get_node("Bottom").visible and not scene.get_node("Signs").visible and not hud.get_node("Top").visible,"All gameplay text can be hidden")
+  # Legacy saved hint preferences must never bring tutorial UI back.
+  data.set_preference("show_controls",true)
+  data.set_preference("show_level_hints",true)
+  hud.get_node("Overlay/Center/Options/HUD").button_pressed=false
+  check(not hud.has_node("Bottom") and scene.get_node("Signs").get_child_count()==0,"Tutorial UI removed even with legacy preferences enabled")
+  check(not hud.get_node("Overlay/Center/Options").has_node("Controls") and not hud.get_node("Overlay/Center/Options").has_node("LevelHints"),"Obsolete hint options removed")
+  check(not hud.get_node("Top").visible,"Shell HUD can still be hidden")
   if DisplayServer.get_name()!="headless":
    await process_frame
    await RenderingServer.frame_post_draw
@@ -51,17 +55,17 @@ func run() -> void:
   check(is_equal_approx(sound.volume,0.3),"Audio preference survives a new process")
   check(not data.crt_filter and not root.get_node("CRTOverlay/Filter").visible,"CRT off persists across launches")
   check(data.camera_shake and not data.shot_shake and data.mine_shake,"Independent camera switches persist")
-  check(not data.show_controls and not data.show_level_hints and not data.show_hud,"Text preferences survive a new process")
+  check(not data.show_hud,"Shell HUD preference survives a new process")
   check(player.spawn_point==scene.get_node("Checkpoint1").position+Vector2(0,-14),"New process restores saved checkpoint")
-  check(not hud.get_node("Bottom").visible and not scene.get_node("Signs").visible,"Loaded preferences apply to scene")
+  check(not hud.has_node("Bottom") and scene.get_node("Signs").get_child_count()==0,"Loaded preferences apply to scene")
   hud._restart()
   await process_frame
   await process_frame
   check(data.checkpoint=="" and current_scene.get_node("Player").spawn_point.x==88,"Restart clears saved checkpoint and starts at beginning")
-  check(not data.show_controls and is_equal_approx(sound.volume,0.3),"Restart keeps settings")
+  check(not data.show_hud and is_equal_approx(sound.volume,0.3),"Restart keeps settings")
  else:
   check(data.checkpoint=="" and player.spawn_point.x==88,"Restart remains cleared after another launch")
-  check(not data.show_controls and is_equal_approx(sound.volume,0.3),"Settings remain saved after restart and relaunch")
+  check(not data.show_hud and is_equal_approx(sound.volume,0.3),"Settings remain saved after restart and relaunch")
  print("SAVE TEST FAILURES: ",failures)
  if failures:
   await sound.shutdown(1)
