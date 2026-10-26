@@ -32,3 +32,17 @@ static func tail(id: String) -> Texture2D:
   atlas.region=Rect2(0,int(item("scarves",id).row)*3,5,3)
   textures[key]=atlas
  return textures[key]
+
+static func icon(category: String,id: String) -> Texture2D:
+ # Gameplay frames retain alignment padding; buttons center only visible pixels.
+ var key="icon/"+category+"/"+id
+ if textures.has(key): return textures[key]
+ var source=tail(id) if category=="scarves" else texture(category,id,true)
+ if source==null: return null
+ var bounds=source.get_image().get_used_rect()
+ if not bounds.has_area(): return null
+ var cropped=AtlasTexture.new()
+ cropped.atlas=source.atlas
+ cropped.region=Rect2(source.region.position+Vector2(bounds.position),Vector2(bounds.size))
+ textures[key]=cropped
+ return cropped

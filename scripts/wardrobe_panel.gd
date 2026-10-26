@@ -66,12 +66,20 @@ func _select_category(next: String,sound: bool=true) -> void:
  for entry in CATALOG.entries(category):
   var card=Button.new();card.custom_minimum_size=Vector2(80,44);card.toggle_mode=true;card.tooltip_text=entry.name
   card.set_meta("item_id",entry.id);grid.add_child(card);cards.append(card)
-  var content=VBoxContainer.new();content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-  content.add_theme_constant_override("separation",0);content.mouse_filter=Control.MOUSE_FILTER_IGNORE;card.add_child(content)
-  var icon=TextureRect.new();icon.custom_minimum_size=Vector2(0,28);icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+  var content=VBoxContainer.new();card.add_child(content)
+  content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+  content.offset_left=4;content.offset_right=-4;content.offset_top=2;content.offset_bottom=-2
+  content.add_theme_constant_override("separation",0);content.mouse_filter=Control.MOUSE_FILTER_IGNORE
+  var icon_area=CenterContainer.new();icon_area.custom_minimum_size.y=28
+  icon_area.mouse_filter=Control.MOUSE_FILTER_IGNORE;content.add_child(icon_area)
+  var icon=TextureRect.new();icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
   icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;icon.mouse_filter=Control.MOUSE_FILTER_IGNORE
-  icon.texture=CATALOG.tail(entry.id) if category=="scarves" else CATALOG.texture(category,entry.id,true)
-  content.add_child(icon);content.add_child(label(entry.name,8))
+  icon.texture=CATALOG.icon(category,entry.id)
+  if icon.texture:
+   var art_size=icon.texture.get_size()
+   var zoom=minf(4 if category=="scarves" else 2,minf(64/art_size.x,24/art_size.y))
+   icon.custom_minimum_size=(art_size*zoom).round()
+  icon_area.add_child(icon);content.add_child(label(entry.name,8))
   var check=TextureRect.new();check.name="Equipped";check.texture=preload("res://assets/textures/wardrobe_check.png")
   check.position=Vector2(70,3);check.mouse_filter=Control.MOUSE_FILTER_IGNORE;card.add_child(check)
   card.pressed.connect(func(): SaveData.equip(category,entry.id);_sync();Sfx.play("ui",-13))
