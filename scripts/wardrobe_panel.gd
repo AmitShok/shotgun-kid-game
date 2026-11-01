@@ -48,8 +48,8 @@ func _ready() -> void:
  button("Turn",poses,func(): facing=-facing)
  var right=VBoxContainer.new();right.size_flags_horizontal=Control.SIZE_EXPAND_FILL;right.add_theme_constant_override("separation",6);body.add_child(right)
  var categories=HBoxContainer.new();right.add_child(categories)
- for key in ["hats","scarves","outfits"]:
-  var tab=button(key.capitalize(),categories,func(): _select_category(key))
+ for key in ["hats","scarves","outfits","guns"]:
+  var tab=button("Shotguns" if key=="guns" else key.capitalize(),categories,func(): _select_category(key))
   tab.toggle_mode=true;tabs[key]=tab
  grid=GridContainer.new();grid.columns=4;grid.custom_minimum_size=Vector2(332,188)
  grid.add_theme_constant_override("h_separation",4);grid.add_theme_constant_override("v_separation",4);right.add_child(grid)

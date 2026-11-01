@@ -16,6 +16,7 @@ func apply() -> void:
  hat.texture=CATALOG.texture("hats",SaveData.appearance.hats)
  neck.texture=CATALOG.texture("scarves",SaveData.appearance.scarves)
  player.get_node("Scarf").set_style(SaveData.appearance.scarves)
+ player.get_node("Shotgun/Sprite2D").texture=CATALOG.texture("guns",SaveData.appearance.guns)
  _process(0)
 func _process(_delta: float) -> void:
  hat.frame=body.frame;neck.frame=body.frame

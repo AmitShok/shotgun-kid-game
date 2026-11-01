@@ -484,7 +484,7 @@ func _draw_kid() -> void:
  # The shotgun points where the kid aims; it eases back to forward after a shot.
  if flash<=0: aim=aim.lerp(Vector2(facing,0),0.2).normalized()
  draw_set_transform(body+Vector2(0,5*S),aim.angle(),Vector2(S,-S if aim.x<-0.01 else S))
- draw_texture(SHOTGUN,Vector2(-3,-5))
+ draw_texture(CATALOG.texture("guns",SaveData.appearance.guns),Vector2(-3,-5))
  if flash>0:
   draw_texture(BLAST,Vector2(16,-16),Color(1,1,1,minf(1.0,flash*16.0)))
  draw_set_transform(Vector2.ZERO)

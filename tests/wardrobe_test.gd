@@ -32,7 +32,7 @@ func run():
  check(get_nodes_in_group("player").is_empty(),"Preview excluded from gameplay player group")
  for category in C.DEFAULTS:
   w._select_category(category,false);await frames()
-  check(w.cards.size()==(12 if category=="outfits" else 13),category+" card count")
+  check(w.cards.size()==C.entries(category).size() and w.cards.size()>=8,category+" card count")
   check(fits(w.cards.back()),category+" last card fits")
   w.cards[7].pressed.emit()
   check(save.appearance[category]==C.entries(category)[7].id,category+" equip from UI")

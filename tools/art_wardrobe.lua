@@ -86,7 +86,8 @@ end
 local function leg(x,y,hipx,hipy,foot,pants)
  local fx,fy=x+foot[1],y+foot[2]
  line(x+hipx,y+hipy,fx+1,fy-1,pants);line(x+hipx+1,y+hipy,fx+2,fy-1,pants)
- rect(fx,fy,4,2,'34465f');rect(fx+1,fy,2,1,'94adb4');px(fx+3,fy+1,'263349')
+ -- Chunky boots: a toe cap that catches the light and a dark sole.
+ rect(fx,fy,5,2,'3b4f6e');rect(fx+1,fy,3,1,'7f98b2');px(fx+4,fy,'5a7090');rect(fx,fy+1,5,1,'263349')
 end
 local function body(x,y,v,f)
  local p=poses[f+1];local tx,ty=p.t[1],p.t[2];local hx,hy=p.h[1],p.h[2]
@@ -108,21 +109,28 @@ local function body(x,y,v,f)
  elseif v==9 then T(2,1,3,3,d);T(3,2,1,1,'72ccca');T(4,1,1,1,'ef8490')
  elseif v==10 then T(-2,1,12,4,a);T(-1,3,10,1,h);T(1,1,6,1,d)
  else T(3,0,1,5,'eee5ce');T(0,1,1,3,'eee5ce');T(0,4,8,1,d) end
+ -- Belt, then light from the upper left: a lit front edge and a dithered shade down the back,
+ -- which the CRT beam softens into a rounded torso.
  T(0,5,8,1,v==7 and 'd9a45e' or '485b73')
+ if v~=10 and v~=8 then for dy=0,4 do if dy%2==0 then T(6,dy,1,1,d) end end;T(1,0,5,1,h) end
  leg(x,y,13+tx,19+ty,p.f,'3e5272')
- -- Head: hair wraps the back, face in three-quarter view looking right.
+ -- Head: a rounder, larger head (10 wide, 7 tall) in three-quarter view looking right.
  local X,Y=x+hx,y+hy
- rect(X+8,Y+8,9,1,hair);rect(X+8,Y+9,3,4,hair);px(X+9,Y+9,hair_hi)
- rect(X+11,Y+9,6,4,skin);px(X+17,Y+11,skin);px(X+11,Y+9,hair);px(X+12,Y+9,hair)
- px(X+10,Y+11,'e5a58c');px(X+11,Y+12,skin_shade);px(X+12,Y+12,skin_shade)
- px(X+13,Y+10,ink);px(X+13,Y+11,ink);px(X+16,Y+10,ink);px(X+16,Y+11,ink);px(X+16,Y+10,'3c3a5c')
- px(X+14,Y+12,blush);px(X+17,Y+12,blush)
+ rect(X+9,Y+7,8,1,hair);rect(X+8,Y+8,10,1,hair);rect(X+8,Y+9,3,4,hair);px(X+9,Y+13,hair)
+ rect(X+10,Y+7,3,1,hair_hi);px(X+9,Y+8,hair_hi)
+ rect(X+11,Y+9,7,4,skin);rect(X+12,Y+13,5,1,skin);px(X+18,Y+11,skin)
+ px(X+11,Y+9,hair);px(X+12,Y+9,hair);px(X+13,Y+9,hair)
+ px(X+10,Y+11,'e5a58c');px(X+11,Y+12,skin_shade);px(X+12,Y+13,skin_shade)
+ -- Eyes with a catchlight, a soft blush and a small mouth.
+ px(X+14,Y+10,'fff8ec');px(X+14,Y+11,ink);px(X+17,Y+10,'fff8ec');px(X+17,Y+11,ink)
+ px(X+14,Y+12,blush);px(X+18,Y+12,blush);px(X+16,Y+13,'c7787a')
  -- Front hand rests where the shotgun mounts.
- T(6,1,2,1,d);rect(x+15+tx,y+16+ty,2,2,skin)
+ T(6,1,2,1,d);rect(x+15+tx,y+16+ty,2,2,skin);px(x+16+tx,y+17+ty,skin_shade)
  outline(x,y)
 end
 local function hat(x,y,v,f)
- local p=poses[f+1];x=x+p.h[1];y=y+p.h[2]
+ -- The head now starts a row higher, so hats sit one pixel up (the tall wizard hat keeps its tip in frame).
+ local p=poses[f+1];x=x+p.h[1];y=y+p.h[2]-(v==7 and 0 or 1)
  if v==0 then
   rect(x+6,y+3,12,6,ink);rect(x+8,y+2,8,1,'f4b596');rect(x+6,y+4,11,4,'d75c70');rect(x+8,y+3,8,2,'ef8490');rect(x+6,y+7,13,2,'a63f62');rect(x+7,y+7,10,1,'ffae9c');rect(x+9,y+3,1,4,'fbb09f')
  elseif v==1 then
@@ -180,8 +188,61 @@ for yy=7,43,8 do rect(6,yy,52,1,'23384b') end
 rect(8,49,48,3,ink);rect(10,47,44,2,'94bfb9');rect(11,49,42,6,'3c596b');rect(13,54,38,2,'172638');rect(28,58,8,1,'547a89');rect(6,8,1,35,'3c596b');rect(57,8,1,35,'3c596b')
 save('wardrobe_stage')
 start(7,7,'Equipped marker');line(1,3,3,5,'a4e9d6');line(3,5,6,1,'a4e9d6');save('wardrobe_check')
+-- Shotguns: one 24x10 row each, pointing right, grip around x=8 (the sprite is centred 9px out
+-- from the kid's hand and rotates with the aim). Barrels end at x=23 where the blast appears.
+local guns={'Trusty Pump','Twin Barrel','Brass Blunderbuss','Frost Pump','Bramble Gun','Copper Riveter','Blossom Popper','Comet Blaster'}
+-- wood: dark, mid, light; metal: dark, mid, light; trim
+local gunpal={
+ {wood={'5e3424','93593a','c98552'},metal={'2c3348','4f5b78','a3b2cc'},trim='d9b26a'},
+ {wood={'4a2a20','7a4630','b26f48'},metal={'2a2f40','505a72','b7c3d6'},trim='e8c06e'},
+ {wood={'5e3424','8f5638','c5824f'},metal={'7a5121','c08a3a','f2d48a'},trim='fff0b8'},
+ {wood={'6d86a8','a9c3df','e8f2fb'},metal={'2c3a6a','4f6aa8','9cc2ec'},trim='ffffff'},
+ {wood={'3f4a2c','667a3f','9cb35a'},metal={'2d3533','4f5e57','98ad9e'},trim='e88aa0'},
+ {wood={'4f2d22','7d4632','b76b45'},metal={'5a3328','a35a3a','e09a63'},trim='7fc0b0'},
+ {wood={'d6a3b6','f0c8d4','fff0f4'},metal={'7d5a78','b685ae','eec3df'},trim='ffd27a'},
+ {wood={'2b2347','4c3e7a','7a68b8'},metal={'1f1d36','3f3c6a','8a86c6'},trim='7ff6f0'},
+}
+local function gun(oy,v)
+ local p=gunpal[v+1];local w,m=p.wood,p.metal
+ local function R(x,y,ww,hh,col) rect(x,oy+y,ww,hh,col) end
+ -- Stock and grip (the wood), shaped so the silhouette reads at a glance.
+ R(0,4,6,3,w[2]);R(0,4,6,1,w[3]);R(0,6,6,1,w[1]);R(5,5,3,3,w[2]);px(6,oy+7,w[1])
+ if v==1 then R(0,3,4,1,w[2]) end
+ -- Receiver.
+ R(7,3,6,4,m[2]);R(7,3,6,1,m[3]);R(7,6,6,1,m[1]);px(9,oy+7,m[1]);px(10,oy+8,m[2])
+ -- Barrel(s).
+ if v==1 then R(12,2,12,2,m[2]);R(12,2,12,1,m[3]);R(12,4,12,2,m[2]);R(12,5,12,1,m[1]);R(16,2,1,4,p.trim);R(21,2,1,4,p.trim)
+ elseif v==2 then R(12,3,10,2,m[2]);R(12,3,10,1,m[3]);R(20,2,3,4,m[2]);R(21,1,3,6,m[2]);R(21,1,3,1,m[3]);R(23,2,1,4,m[1]);R(15,3,1,2,p.trim)
+ else R(12,3,12,2,m[2]);R(12,3,12,1,m[3]);R(22,3,2,2,m[1]) end
+ -- Fore-end / pump under the barrel.
+ if v~=1 and v~=2 then R(14,5,6,2,w[2]);R(14,5,6,1,w[3]);for xx=15,19,2 do px(xx,oy+6,w[1]) end end
+ -- Per-gun character.
+ if v==0 then px(9,oy+4,p.trim);px(11,oy+4,p.trim)
+ elseif v==3 then R(8,4,4,1,'ffffff');px(18,oy+2,p.trim);px(14,oy+2,'e8f2fb')
+ elseif v==4 then for xx=1,21,4 do px(xx,oy+(xx%8==1 and 3 or 7),'5f9c4a');px(xx+1,oy+(xx%8==1 and 2 or 8),'8bc55a') end;px(19,oy+2,p.trim);px(20,oy+1,'f6c2d0')
+ elseif v==5 then for xx=8,12,2 do px(xx,oy+4,p.trim) end;px(13,oy+3,'e09a63');R(18,2,2,1,p.trim)
+ elseif v==6 then px(2,oy+5,p.trim);px(3,oy+4,'ffffff');px(3,oy+6,'ffffff');px(4,oy+5,'ffffff');px(19,oy+2,'ffd27a')
+ elseif v==7 then R(13,2,8,1,p.trim);px(14,oy+5,p.trim);px(16,oy+5,p.trim);px(18,oy+5,p.trim);R(22,2,2,4,m[2]);px(23,oy+3,p.trim);px(23,oy+4,p.trim) end
+ -- Ink outline around the whole gun.
+ local marks={}
+ for y=oy,oy+9 do for x=0,23 do
+  if app.pixelColor.rgbaA(im:getPixel(x,y))==0 then
+   for _,d in ipairs({{1,0},{-1,0},{0,1},{0,-1}}) do
+    local nx,ny=x+d[1],y+d[2]
+    if nx>=0 and nx<24 and ny>=oy and ny<oy+10 and app.pixelColor.rgbaA(im:getPixel(nx,ny))>0 then table.insert(marks,{x,y});break end
+   end
+  end
+ end end
+ for _,mk in ipairs(marks) do px(mk[1],mk[2],ink) end
+end
+start(24,10*#guns,'Shotguns')
+for v=0,#guns-1 do gun(v*10,v) end
+save('wardrobe_guns')
+-- The default gun doubles as the player scene's base gun texture.
+start(24,10,'Shotgun');gun(0,0);save('shotgun')
 -- One stable catalogue accompanies the art exports.
-local cat={hats={},scarves={},outfits={}}
+local cat={hats={},scarves={},outfits={},guns={}}
+for i,name in ipairs(guns) do table.insert(cat.guns,{id=name:lower():gsub(' ','_'),name=name,row=i-1}) end
 local function slug(name) return name:lower():gsub(' ','_') end
 for i,name in ipairs(hats) do table.insert(cat.hats,{id=slug(name),name=name,row=i-1}) end
 for i,name in ipairs(scarves) do table.insert(cat.scarves,{id=slug(name),name=name,row=i-1,length=({2.7,2.5,2.8,3.0,2.4,2.7,3.1,2.5,2.6,3.0,2.9,2.8,0})[i]}) end

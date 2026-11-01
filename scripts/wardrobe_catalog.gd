@@ -1,9 +1,9 @@
 extends RefCounted
 ## Stable IDs and atlas rows. Purely cosmetic; never changes player physics.
 const ITEMS = preload("res://data/wardrobe_items.gd").ITEMS
-const SHEETS = {"hats":preload("res://assets/textures/wardrobe_hats.png"),"outfits":preload("res://assets/textures/wardrobe_outfits.png"),"scarves":preload("res://assets/textures/wardrobe_necks.png")}
+const SHEETS = {"hats":preload("res://assets/textures/wardrobe_hats.png"),"outfits":preload("res://assets/textures/wardrobe_outfits.png"),"scarves":preload("res://assets/textures/wardrobe_necks.png"),"guns":preload("res://assets/textures/wardrobe_guns.png")}
 const TAILS = preload("res://assets/textures/wardrobe_tails.png")
-const DEFAULTS = {"hats":"rose_beanie","scarves":"lagoon","outfits":"trail_coat"}
+const DEFAULTS = {"hats":"rose_beanie","scarves":"lagoon","outfits":"trail_coat","guns":"trusty_pump"}
 static var textures: Dictionary = {}
 static func entries(category: String) -> Array:
  return ITEMS.get(category,[])
@@ -21,7 +21,8 @@ static func texture(category: String,id: String,icon: bool=false) -> Texture2D:
  if textures.has(key): return textures[key]
  var atlas=AtlasTexture.new()
  atlas.atlas=SHEETS[category]
- atlas.region=Rect2(0,int(item(category,id).row)*24,24 if icon else 384,24)
+ # Shotguns are single 24x10 sprites; the body layers are 16-frame 24x24 strips.
+ atlas.region=Rect2(0,int(item(category,id).row)*10,24,10) if category=="guns" else Rect2(0,int(item(category,id).row)*24,24 if icon else 384,24)
  textures[key]=atlas
  return atlas
 static func tail(id: String) -> Texture2D:
