@@ -28,7 +28,7 @@ func _ready() -> void:
  $Backdrop.world=tour_world
  $Mascot.set_world(tour_world)
  _refresh_levels()
- $Center/Home/Start.text="Continue" if SaveData.completed_count>0 else "Start game"
+ _refresh_start_label()
  $Center/Home/Start.grab_focus()
 func _refresh_levels() -> void:
  world_map.refresh()
@@ -37,6 +37,7 @@ func _refresh_levels() -> void:
  $Center/Levels/Status.text="%d / %d levels cleared   ·   %d golden shells" % [progress.x,WORLDS.WORLDS.size()*WORLDS.STAGES,progress.y]
  var frontier: int=world_map.frontier_world()
  $Center/Home/Footer.text="WORLD %d  ·  %s   |   %d / %d cleared   |   %d golden shells" % [frontier+1,WORLDS.WORLDS[frontier].title,progress.x,WORLDS.WORLDS.size()*WORLDS.STAGES,progress.y]
+ _refresh_start_label()
  $MenuMotion.refresh()
 func _process(delta: float) -> void:
  clock+=delta
@@ -75,6 +76,7 @@ func _show_page(next_page: String) -> void:
   world_map.focus_best_stage()
  else:
   tour_time=0.0
+  _refresh_start_label()
   $Center/Home/Start.grab_focus()
 func _start_level(scene_path: String) -> void:
  if not SaveData.is_level_unlocked(scene_path): return
@@ -82,3 +84,6 @@ func _start_level(scene_path: String) -> void:
  var error := get_tree().change_scene_to_file(scene_path)
  if error!=OK:
   $Center/Levels/Status.text="This level could not be opened."
+## Continue once the player has entered a level (or cleared one); Play on a fresh or reset save.
+func _refresh_start_label() -> void:
+ $Center/Home/Start.text="Continue" if SaveData.has_progress() else "Play"

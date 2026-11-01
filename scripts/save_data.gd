@@ -30,6 +30,8 @@ var show_level_hints := true
 var show_hud := true
 var checkpoint := ""
 var level_path := ""
+# Set once the player has entered any level, so the menu offers Continue rather than Play.
+var started := false
 var checkpoint_position := Vector2.ZERO
 # Replay goals, keyed by level scene path: banked golden shells and best {time, falls}.
 var golden_shells: Array[String] = []
@@ -69,6 +71,8 @@ func _ready() -> void:
   var legacy: Variant=config.get_value("progress","completed_count",0)
   if legacy is int:
    for i in clampi(legacy,0,LEGACY_ORDER.size()): completed.append(LEGACY_ORDER[i])
+ var saved_started: Variant=config.get_value("progress","started",false)
+ started=saved_started is bool and saved_started
  var saved_checkpoint: Variant=config.get_value("progress","checkpoint","")
  var saved_level: Variant=config.get_value("progress","level","")
  var saved_position: Variant=config.get_value("progress","position",Vector2.ZERO)
@@ -87,6 +91,8 @@ func _ready() -> void:
    var entry: Variant=saved_records[scene]
    if scene is String and level_index(scene)>=0 and entry is Dictionary and (entry.get("time") is float or entry.get("time") is int) and entry.get("falls") is int:
     records[scene]={"time":maxf(0.0,float(entry.time)),"falls":maxi(0,entry.falls)}
+ # Saves from before this flag existed: any progress means the player has started.
+ if not completed.is_empty() or not level_path.is_empty(): started=true
 
 func _read_bool(config: ConfigFile,key: String) -> bool:
  var value: Variant=config.get_value("accessibility",key,true)
@@ -120,6 +126,7 @@ func save() -> void:
  for key in ["camera_fx","camera_shake","crt_filter","crt_mode","shot_shake","mine_shake","show_controls","show_level_hints","show_hud"]:
   config.set_value("accessibility",key,get(key))
  config.set_value("progress","completed",completed)
+ config.set_value("progress","started",started)
  config.set_value("progress","checkpoint",checkpoint)
  config.set_value("progress","level",level_path)
  config.set_value("progress","position",checkpoint_position)
@@ -153,7 +160,16 @@ func next_level(scene: String) -> String:
  if index<=0 or index>=CATALOG.levels.size(): return ""
  var next: String=CATALOG.levels[index].scene_path
  return next if is_level_unlocked(next) else ""
+## True once the player has entered a level or cleared one: the menu then says Continue.
+func has_progress() -> bool:
+ return started or completed_count>0
+func mark_started() -> void:
+ if started: return
+ started=true
+ save()
+ progress_changed.emit()
 func reset_progress() -> void:
+ started=false
  completed.clear()
  golden_shells.clear()
  records.clear()

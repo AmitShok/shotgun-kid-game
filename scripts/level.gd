@@ -53,6 +53,8 @@ func _ready() -> void:
 	camera.limit_bottom=int(camera_bounds.end.y)
 	$Player.fall_limit_y=fall_limit_y
 	_scatter_terrain()
+	# Entering any level counts as starting the game: the menu offers Continue from now on.
+	SaveData.mark_started()
 	$Player.died.connect(_on_player_died)
 	PHASE.set_phase(get_tree(),0)
 	get_tree().call_group("crumble_blocks","reset")

@@ -76,7 +76,7 @@ theme_override_colors/font_outline_color=Color(0.03,0.05,0.1,1)
 [node name="Space" type="Control" parent="Center/Home"]
 custom_minimum_size=Vector2(0,6)
 [node name="Start" type="Button" parent="Center/Home"]
-text="Start game"
+text="Play"
 custom_minimum_size=Vector2(232,32)
 size_flags_horizontal=0
 alignment=0
