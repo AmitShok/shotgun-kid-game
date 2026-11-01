@@ -1,8 +1,10 @@
 extends Control
 ## A live mini level behind the title screen. A strip of terrain columns, drawn with the current
 ## world's tiles, runs along the bottom: a low runway under the menu, then walls, towers, spiked pits
-## and mine ledges. The kid, in the player's current wardrobe, traverses it with real shotgun moves
-## (hops, pops, double pops, kick dashes, mine launches). Every column he has passed rebuilds into the
+## mine ledges and spore pods. The kid, in the player's current wardrobe, traverses it with real shotgun moves
+## (hops, pops, double pops, kick dashes, mine launches, pod pulls). Every pod on screen is one he is
+## about to pull: pods appear only for the lap he is running, and he pulls any pod ahead of him even
+## from the air. Every column he has passed rebuilds into the
 ## next layout behind him, so the course is new each time he wraps around. Purely decorative.
 signal fired(direction: Vector2)
 const CATALOG=preload("res://scripts/wardrobe_catalog.gd")
@@ -62,6 +64,9 @@ var started := false
 var falls := 0
 # A spent tether lingers a moment after the kid reaches the pod.
 var tether_fade := 0.0
+# Pods the kid went past without pulling (read by tests; should stay at zero).
+var missed_pods := 0
+var layouts_made := 0
 
 func _ready() -> void:
  mouse_filter=Control.MOUSE_FILTER_IGNORE
@@ -86,7 +91,9 @@ func _generate() -> Array[Dictionary]:
  var out: Array[Dictionary] = []
  var n := count()
  var h := 2
- var pod_done := false
+ # Every other course is guaranteed a pod feature; the rest roll for one like any other.
+ layouts_made+=1
+ var pod_done := layouts_made%2==0
  while out.size()<n:
   var c := out.size()
   if c<RUNWAY+2 or c>=n-3:
@@ -97,9 +104,11 @@ func _generate() -> Array[Dictionary]:
    continue
   var room := n-3-c
   var pick := randf()
-  # Every course shows off a spore pod at least once.
-  if not pod_done and c>=RUNWAY+8 and room>=10 and h<=8: pick=0.7 if (h>4 or randf()<0.5) else 0.8
-  if pick>=0.6 and pick<0.86 and c>=RUNWAY+8: pod_done=true
+  # Guaranteed courses show off a spore pod at least once.
+  if not pod_done and c>=RUNWAY+4 and h<=8:
+   if room>=14 and (h>4 or randf()<0.5): pick=0.64
+   elif room>=7 and h<=4: pick=0.71
+  if (pick>=0.6 and pick<0.68 and room>=14 and h<=8 or pick>=0.68 and pick<0.74 and room>=7 and h<=4) and c>=RUNWAY+4: pod_done=true
   # No pit right after the runway: the drop-in from above needs somewhere to land.
   if pick<0.22 and room>=6 and c>=RUNWAY+4:
    # Spiked pit: kick dash across it.
@@ -121,9 +130,11 @@ func _generate() -> Array[Dictionary]:
    out.append(_col(h))
    h=mini(h+randi_range(10,11),15)
    for i in 2: out.append(_col(h))
-  elif pick<0.76 and room>=10 and h<=8 and c>=RUNWAY+8:
+  elif pick<0.68 and room>=14 and h<=8 and c>=RUNWAY+4:
    # Pod pit: too wide to kick across, with a spore pod hanging past the middle. Pod features
-   # start well right of the menu column, so a high pod never hangs over the title.
+   # get a flat approach first, so the kid always lands and walks up before shooting (he never
+   # arrives already flying from the last obstacle), and that keeps the pod clear of the title.
+   _approach(out,h)
    var width := randi_range(7,8)
    var first := out.size()
    for i in width:
@@ -134,9 +145,10 @@ func _generate() -> Array[Dictionary]:
    out[first+width/2+1].pod_h=h+3.5
    h=clampi(h+randi_range(-1,0),1,7)
    for i in 2: out.append(_col(h))
-  elif pick<0.86 and room>=5 and h<=4 and c>=RUNWAY+8:
+  elif pick<0.74 and room>=7 and h<=4 and c>=RUNWAY+4:
    # Pod tower: a tall wall with a pod just above its leading edge. Kept to 11 tiles so the
-   # pull and the landing stay well inside the screen.
+   # pull and the landing stay well inside the screen. Flat approach first, as for pod pits.
+   _approach(out,h)
    h=mini(h+randi_range(7,8),11)
    for i in 3:
     var wall := _col(h)
@@ -144,7 +156,7 @@ func _generate() -> Array[Dictionary]:
     out.append(wall)
    out[out.size()-3].pod=true
    out[out.size()-3].pod_h=h+1.5
-  elif pick<0.93:
+  elif pick<0.9:
    # Drop or small step.
    h=clampi(h+randi_range(-5,2),1,12)
    for i in randi_range(2,3): out.append(_col(h))
@@ -155,8 +167,12 @@ func _generate() -> Array[Dictionary]:
  for c in range(RUNWAY,mini(RUNWAY+6,n)): out[c].h=mini(out[c].h,10)
  return out
 
+## Four flat columns leading up to a pod feature.
+func _approach(out: Array[Dictionary],height: int) -> void:
+ for i in 4: out.append(_col(height))
+
 func _col(height: int,spiked := false) -> Dictionary:
- return {"h":height,"shown":float(height),"spikes":spiked,"mine":false,"armed":true,"regrow":0.0,"tex":tiles,"seed":randi()%997,"rebuild":false,"pod":false,"pod_h":0.0,"podpit":false,"podwall":false,"pod_hit":0.0}
+ return {"h":height,"shown":float(height),"spikes":spiked,"mine":false,"armed":true,"regrow":0.0,"tex":tiles,"seed":randi()%997,"rebuild":false,"pod":false,"pod_h":0.0,"podpit":false,"podwall":false,"pod_hit":0.0,"pod_live":false,"pod_used":false}
 
 func top(c: int) -> float:
  # Screen y of a column's top surface.
@@ -180,6 +196,7 @@ func _process(delta: float) -> void:
  if not started:
   started=true
   columns=_generate()
+  _arm_pods()
   next_layout=_generate()
   _drop_in()
  delta=minf(delta,1.0/30.0)
@@ -193,6 +210,7 @@ func _process(delta: float) -> void:
  if boom>0.5: boom=-1.0
  _rebuild_behind(delta)
  _think(delta)
+ _count_passed_pods()
  _move(delta)
  _update_particles(delta)
  queue_redraw()
@@ -208,7 +226,10 @@ func _rebuild_behind(delta: float) -> void:
    col.h=fresh.h
    col.spikes=fresh.spikes
    col.mine=fresh.mine
+   # The next lap's pod stays hidden until that lap starts, so a pod only ever shows when the
+   # kid is about to use it.
    for key in ["pod","pod_h","podpit","podwall"]: col[key]=fresh[key]
+   col.pod_live=false
    col.armed=true
    col.tex=tiles
    col.seed=fresh.seed
@@ -232,6 +253,7 @@ func _wrap() -> void:
    col.armed=true
    col.tex=tiles
   col.rebuild=false
+ _arm_pods()
  next_layout=_generate()
  _drop_in()
 
@@ -242,6 +264,15 @@ func _think(delta: float) -> void:
   _wrap()
   return
  # Coming down toward a spiked pit with a shell left (after a pop, a launch or a drop): kick across.
+ # Airborne with a pod just ahead (after a pop, a launch or a dash): pull on it from the air, so
+ # no pod on screen is ever flown past unused.
+ if not on_floor and plan in ["","wall","launch","flying"]:
+  var ahead_pod := _pod_ahead()
+  if ahead_pod>=0:
+   plan="pod"
+   plan_column=ahead_pod
+   _say("POD PULL!")
+   return
  # (Not while still dropping in from above: a dash fired up there would be off screen.)
  if not on_floor and vel.y>0 and ammo>0 and (plan in ["","wall","launch"] or plan=="drop" and pos.y>size.y*0.55) and _pit_ahead():
   _fire(Vector2(-1,1).normalized())
@@ -328,12 +359,15 @@ func _think(delta: float) -> void:
    # Fire as soon as the hop leaves the ground, while the pod is still a good way off, so the
    # pull is long enough to see.
    if columns[plan_column].podwall or not on_floor:
+    if ammo==0: ammo=1
     var to_pod: Vector2=pod_at(plan_column)-(pos+Vector2(0,-9))
     _fire(to_pod.normalized())
-    # The pod hands the shell back, and pulls instead of kicking. It flashes and squashes so
+    # The pod hands the shell back (so even an empty gun can pull), and pulls instead of
+    # kicking. It flashes and squashes so
     # the hit reads.
     ammo=mini(ammo+1,2)
     columns[plan_column].pod_hit=0.3
+    columns[plan_column].pod_used=true
     for i in 6: _puff(pod_at(plan_column),Vector2.RIGHT.rotated(randf()*TAU)*randf_range(20,60),Color(0.75,1.0,0.8,0.9),randf_range(1.5,2.5),0.35)
     plan="pull"
   "pull":
@@ -365,7 +399,7 @@ func _next_obstacle() -> Dictionary:
    return {"kind":"mine","c":c,"x":c*TILE}
   if col.podpit or col.podwall:
    for p in range(c,mini(c+6,columns.size())):
-    if columns[p].pod: return {"kind":"pod","c":p,"x":c*TILE,"wall":col.podwall}
+    if columns[p].pod and columns[p].pod_live and not columns[p].pod_used: return {"kind":"pod","c":p,"x":c*TILE,"wall":col.podwall}
   if col.h==0:
    return {"kind":"pit","c":c,"x":c*TILE}
   var rise: float=feet-top(c)
@@ -482,7 +516,7 @@ func _draw() -> void:
  _draw_terrain()
  for c in columns.size():
   if columns[c].mine and columns[c].h>0: _draw_mine(c)
-  if columns[c].pod: _draw_pod(c)
+  if columns[c].pod and columns[c].pod_live: _draw_pod(c)
  if plan=="pull" or tether_fade>0:
   # The spore tether, from the gun to the pod.
   var from: Vector2=pos-Vector2(0,FRAME*0.5*S)+Vector2(0,5*S)
@@ -595,3 +629,29 @@ func _drop_in() -> void:
  vel=Vector2.ZERO
  on_floor=false
  plan="drop"
+
+## Pods go live for the lap the kid is about to run, and only then.
+func _arm_pods() -> void:
+ for col in columns:
+  col.pod_live=col.pod
+  col.pod_used=false
+  col.pod_missed=false
+
+## Counts any live pod the kid has gone past without pulling (read by tests: should stay at zero).
+## Pods never disappear on their own; every pod on screen is one the kid is about to pull.
+func _count_passed_pods() -> void:
+ if plan in ["pod","pull"]: return
+ for c in columns.size():
+  var col: Dictionary=columns[c]
+  if col.pod and col.pod_live and not col.pod_used and not col.get("pod_missed",false) and c*TILE+TILE<pos.x-HALF-8:
+   col.pod_missed=true
+   missed_pods+=1
+
+## A live, unused pod just ahead of the kid (within a few tiles), or -1.
+func _pod_ahead() -> int:
+ for p in columns.size():
+  var col: Dictionary=columns[p]
+  if not (col.pod and col.pod_live and not col.pod_used): continue
+  var dx: float=p*TILE+TILE*0.5-pos.x
+  if dx>8 and dx<120: return p
+ return -1
