@@ -1,11 +1,11 @@
 ; Echo Orchard 5 — ECHO CROWN. Built from data/rooms/specs/echo_orchard_5.gd.
 
 
-; C01 — Shelters: the whole span is one updraft under a spiked ceiling, with a few bare patches of bark. Shelter under one through each gust, and kick across to the next in the calm, catching a shell on the way; there is a spare tucked under each patch.
+; C01 — Shelters: the whole span is one updraft under a spiked ceiling, with a few bare patches of bark. Shelter under one through each gust, and kick across to the next in the calm, catching a shell on the way; there is a spare tucked under each patch, and something better under the last.
 @room C01 0 0
 ########################################################
 #.....vvv###vvvvvvvvv###vvvvvvvvv###vvvvvvvvv###vv.....#
-#.....~~~~~~~~~~~~~~~~s~~~~~~~~~~~s~~~~~~~~~~~s~~~.....#
+#.....~~~~~~~~~~~~~~~~s~~~~~~~~~~~s~~~~~~~~~~~G~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
@@ -21,6 +21,56 @@
 ######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
 ######^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^######
 ########################################################
+
+; C02 — Slit: the second pod is behind a copper pane, and the switch hides in a slit in the bark you can only see from right beneath it. Swing into the pane on the first pod, ride the draught up its face to the slit, open it, and swing on.
+@room C02 56 0
+########################################
+#####################w##################
+#####################.##################
+#####################.##################
+#####################.##################
+...................~~~a...............a.
+...................~~~a...............a.
+..........o........~~~a...............a.
+..P................~~~a.......o.......a.
+####...............~~~a.............####
+####...............~~~a.............####
+####...............~~~a.............####
+####...............~~~a.............####
+####...............~~~a.............####
+####...............~~~a.............####
+####...............~~~a.............####
+####...............~~~a.............####
+####...............~~~a.............####
+####^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^####
+########################################
+
+; C03 — Last gust: you come in sliding on black ice that will not let you stop, toward a pit. Off the end, blast off the mine into the draught, but only a gust will carry you up to the gate, so pace the ice until it comes: a shot ahead turns your slide around.
+@room C03 96 0
+########################################
+#..............................~~~~....#
+#..............................~~~~....#
+#..............................~~~~..E.#
+#..............................~~~~#####
+...............................~~~~#####
+...............................~~~~#####
+...............................~~~~#####
+...P...........................~~~~#####
+iiiiiiiiiiiiiiiiiiiiiiiiii.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################..m..~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################.....~~~~#####
+##########################^^^^^^^^^#####
+########################################
 
 ; Routes
 
@@ -54,3 +104,60 @@
 40 left
 42
 100 right
+
+@route C02 C03
+30
+10 right
+1 aim_right fire
+4 aim_right
+56
+1 aim_up fire
+4 aim_up
+4
+1 aim_right fire
+4 aim_right
+60 right
+
+@route C03 exit
+1 aim_left fire
+4 aim_left
+52
+12 right
+1 aim_down aim_left fire
+4 aim_down aim_left right
+60 right
+
+@route C01 gold
+26 right
+14 right jump
+6 left
+62
+1 aim_down aim_left fire
+4 aim_down aim_left
+18
+1 aim_down aim_left fire
+4 aim_down aim_left
+10
+40 left
+42
+1 aim_down aim_left fire
+4 aim_down aim_left
+18
+1 aim_down aim_left fire
+4 aim_down aim_left
+10
+40 left
+42
+1 aim_down aim_left fire
+4 aim_down aim_left
+24
+1 aim_down fire
+4 aim_down
+4 left
+80
+80 right
+
+@skipcheck C02 C03 without=switches
+@skipcheck C02 C03 without=pods
+@skipcheck C03 exit without=mines
+@skipcheck C03 exit without=wind
