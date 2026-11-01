@@ -15,9 +15,9 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Shotgun Kid"
-config/icon="res://assets/textures/game_icon.png"
 run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://assets/textures/game_icon.png"
 
 [autoload]
 
@@ -93,6 +93,10 @@ pause={
 
 2d_physics/layer_1="World"
 2d_physics/layer_2="Player"
+
+[physics]
+
+common/physics_interpolation=true
 
 [rendering]
 

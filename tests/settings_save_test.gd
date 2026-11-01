@@ -34,7 +34,7 @@ func run() -> void:
   data.set_preference("show_controls",true)
   data.set_preference("show_level_hints",true)
   hud.get_node("Overlay/Center/Options/HUD").button_pressed=false
-  check(not hud.has_node("Bottom") and scene.get_node("Signs").get_child_count()==0,"Tutorial UI removed even with legacy preferences enabled")
+  check(not hud.has_node("Bottom") and (not scene.has_node("Signs") or scene.get_node("Signs").get_child_count()==0),"Tutorial UI removed even with legacy preferences enabled")
   check(not hud.get_node("Overlay/Center/Options").has_node("Controls") and not hud.get_node("Overlay/Center/Options").has_node("LevelHints"),"Obsolete hint options removed")
   check(not hud.get_node("Top").visible,"Shell HUD can still be hidden")
   if DisplayServer.get_name()!="headless":
@@ -49,22 +49,23 @@ func run() -> void:
    root.get_texture().get_image().save_png("res://docs/pause_menu.png")
   hud._toggle_pause()
   check(not paused,"Escape resumes")
-  scene.get_node("Checkpoint1")._on_body_entered(player)
-  check(data.checkpoint=="Checkpoint1","Checkpoint is saved on contact")
+  # Lantern Ridge is room-based: entering a room saves it as the checkpoint.
+  scene._enter_room(scene.get_node("Rooms/R02"),false)
+  check(data.checkpoint=="R02","Room checkpoint is saved on entry")
  elif "--read" in args:
   check(is_equal_approx(sound.volume,0.3),"Audio preference survives a new process")
   check(not data.crt_filter and not root.get_node("CRTOverlay/Filter").visible,"CRT off persists across launches")
   check(data.camera_shake and not data.shot_shake and data.mine_shake,"Independent camera switches persist")
   check(not data.show_hud,"Shell HUD preference survives a new process")
-  check(player.spawn_point==scene.get_node("Checkpoint1").position+Vector2(0,-14),"New process restores saved checkpoint")
-  check(not hud.has_node("Bottom") and scene.get_node("Signs").get_child_count()==0,"Loaded preferences apply to scene")
+  check(player.spawn_point==scene.get_node("Rooms/R02").spawn_point(),"New process restores saved checkpoint")
+  check(not hud.has_node("Bottom") and (not scene.has_node("Signs") or scene.get_node("Signs").get_child_count()==0),"Loaded preferences apply to scene")
   hud._restart()
   await process_frame
   await process_frame
-  check(data.checkpoint=="" and current_scene.get_node("Player").spawn_point.x==88,"Restart clears saved checkpoint and starts at beginning")
+  check(data.checkpoint=="" and current_scene.get_node("Player").spawn_point==current_scene.get_node("Rooms/R01").spawn_point(),"Restart clears saved checkpoint and starts at beginning")
   check(not data.show_hud and is_equal_approx(sound.volume,0.3),"Restart keeps settings")
  else:
-  check(data.checkpoint=="" and player.spawn_point.x==88,"Restart remains cleared after another launch")
+  check(data.checkpoint=="" and player.spawn_point==scene.get_node("Rooms/R01").spawn_point(),"Restart remains cleared after another launch")
   check(not data.show_hud and is_equal_approx(sound.volume,0.3),"Settings remain saved after restart and relaunch")
  print("SAVE TEST FAILURES: ",failures)
  if failures:

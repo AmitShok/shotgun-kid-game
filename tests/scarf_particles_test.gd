@@ -8,7 +8,7 @@ func frames(n):
  for i in range(n): await physics_frame
 func run():
  if root.get_node("SaveData").path=="user://settings.cfg": quit(1);return
- var scene=load("res://scenes/levels/training_yard.tscn").instantiate();root.add_child(scene);current_scene=scene
+ var scene=load("res://tests/fixtures/legacy_ridge.tscn").instantiate();root.add_child(scene);current_scene=scene
  var p=scene.get_node("Player");var scarf=p.get_node("Scarf")
  await frames(30)
  Input.action_press("right");await frames(22);Input.action_release("right")

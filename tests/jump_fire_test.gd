@@ -31,7 +31,7 @@ func ground_reset() -> void:
  player.shotgun.refill()
  await frames(40)
 func run() -> void:
- var level=load("res://scenes/levels/training_yard.tscn").instantiate()
+ var level=load("res://tests/fixtures/legacy_ridge.tscn").instantiate()
  root.add_child(level)
  current_scene=level
  player=level.get_node("Player")

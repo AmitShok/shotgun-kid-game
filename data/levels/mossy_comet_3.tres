@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_s03rg"]
+
+[resource]
+script = ExtResource("1_s03rg")
+title = "CANOPY LINE"
+description = "Long pod chains over spikes, with shells and mines in the gaps."
+scene_path = "res://scenes/levels/mossy_comet_3.tscn"
+world = 1
+stage = 3

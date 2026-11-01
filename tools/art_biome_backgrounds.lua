@@ -127,7 +127,24 @@ local function ice_inclusions()
   line(x,y,x+7,y+h,'94a7bc')
  end
 end
-local function export(name)
+-- Aerial perspective: blend a layer's opaque pixels toward a haze colour. Deeper layers get
+-- more haze and less contrast, so the playable terrain (drawn separately) always reads first.
+local function haze(l,col,t)
+ local h=c(col);local pc=app.pixelColor
+ for _,cel in ipairs(l.cels) do
+  local img=cel.image:clone()
+  for it in img:pixels() do
+   local v=it();local a=pc.rgbaA(v)
+   if a>0 then
+    local r,g,b=pc.rgbaR(v),pc.rgbaG(v),pc.rgbaB(v)
+    it(pc.rgba(math.floor(r+(h.red-r)*t+.5),math.floor(g+(h.green-g)*t+.5),math.floor(b+(h.blue-b)*t+.5),a))
+   end
+  end
+  cel.image=img
+ end
+end
+local function export(name,depth)
+ for _,l in ipairs(s.layers) do local d=depth and depth[l.name];if d then haze(l,d[1],d[2]) end end
  s:saveAs(root..'/assets/source/'..name..'_backdrop.aseprite')
  local layers={};for _,l in ipairs(s.layers) do table.insert(layers,l) end
  for _,l in ipairs(layers) do
@@ -175,7 +192,7 @@ for _,x in ipairs({18,610}) do
  for k=0,4 do leaf(x+4,96+k*28,36,15,k%2==0 and 1 or -1,'214b3d','376548') end
 end
 for x=10,635,86 do for k=0,4 do leaf(x,392,22+k*4,25+k*5,k%2==0 and 1 or -1,'17353a','285844') end end
-export('mossy_comet')
+export('mossy_comet',{far={'2f5560',.5},middle={'2a4a55',.36},near={'0e1722',.35}})
 -- COPPER CLOUD: a complete skyline of roofs, domes, smokestacks and sky bridges.
 math.randomseed(240)
 start(640,400,'sky');gradient('545774','e6b58e')
@@ -224,7 +241,7 @@ layer('near')
 -- Patinated rooftop silhouettes peek from the lower cloud bank.
 for _,x in ipairs({19,375,611}) do tower(x,413,47,58,'55465b','90717a','58847e','bd9e91',2) end
 for i=0,6 do puff(i*115,396,89,24,'79697f','a18b99') end
-export('copper_cloud')
+export('copper_cloud',{far={'d9aa8a',.42},middle={'c48d7d',.28},near={'5a4660',.1}})
 -- VELVET GLACIER: no sky. A luminous tunnel bored through layered blue/purple ice.
 math.randomseed(88)
 start(640,400,'sky');gradient('171a3b','383758')
@@ -272,7 +289,7 @@ layer('near')
 poly({{0,0},{640,0},{640,32},{571,28},{522,40},{447,24},{378,31},{311,22},{253,35},{172,26},{96,42},{31,25},{0,32}},'22263f')
 for _,v in ipairs({{56,20,28,71},{218,21,17,53},{412,18,27,67},{579,19,20,45}}) do shard(v[1],v[2],v[3],v[4],true,'303c57','4b6b83','202a44') end
 poly({{0,378},{93,366},{186,382},{291,368},{375,385},{482,370},{561,384},{640,378},{640,400},{0,400}},'252b48')
-export('velvet_glacier')
+export('velvet_glacier',{sky={'1d1f3d',.35},far={'26294a',.52},middle={'2b2c52',.4},near={'14152c',.5}})
 -- ECHO ORCHARD: bright open country, immense fruit trees and wildflower meadows.
 math.randomseed(451)
 start(640,400,'sky');gradient('6d94a5','e6d6b2')
@@ -312,4 +329,4 @@ for _,x in ipairs({18,104,365,594}) do
  blossom(x-4,y,9,'b98f9f','e1ba82');blossom(x+12,y+17,6,'d1b5ac','ead4a4')
 end
 for x=-25,665,61 do leaf(x,404,44,16,1,'456e62','608b6e') end
-export('echo_orchard')
+export('echo_orchard',{far={'dcd8bc',.45},middle={'c9cdb0',.3},near={'8e9a78',.1}})

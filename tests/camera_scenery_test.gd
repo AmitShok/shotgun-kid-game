@@ -13,7 +13,7 @@ func run() -> void:
   return
  data.clear_progress()
  for key in ["camera_shake","shot_shake","mine_shake"]: data.set_preference(key,true)
- var level=load("res://scenes/levels/training_yard.tscn").instantiate()
+ var level=load("res://tests/fixtures/legacy_ridge.tscn").instantiate()
  root.add_child(level)
  current_scene=level
  var player=level.get_node("Player")

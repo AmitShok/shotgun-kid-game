@@ -10,7 +10,11 @@ func run():
  data.clear_progress();data.set_preference("crt_mode",0)
  for biome in ["mossy_comet","copper_cloud","velvet_glacier","echo_orchard"]:
   var scene=load("res://scenes/levels/"+biome+".tscn").instantiate();root.add_child(scene);current_scene=scene
-  check(not scene.get_node("HUD").has_node("Bottom") and scene.get_node("Signs").get_child_count()==0,biome+" clean gameplay presentation")
+  check(not scene.get_node("HUD").has_node("Bottom") and (not scene.has_node("Signs") or scene.get_node("Signs").get_child_count()==0),biome+" clean gameplay presentation")
+  # Room-built levels use room cameras, verified by tests/room_routes_test.gd.
+  if scene.has_node("Rooms"):
+   scene.free()
+   continue
   var p=scene.get_node("Player");var camera=p.get_node("Camera2D")
   var route=scene.get_meta("traversal_route")
   for index in range(route.size()):

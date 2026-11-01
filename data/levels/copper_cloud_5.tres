@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_1ooyy"]
+
+[resource]
+script = ExtResource("1_1ooyy")
+title = "THE GREAT GEARWORK"
+description = "Every trick the sky has taught you, turning together."
+scene_path = "res://scenes/levels/copper_cloud_5.tscn"
+world = 2
+stage = 5

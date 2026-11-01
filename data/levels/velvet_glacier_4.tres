@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_74h6o"]
+
+[resource]
+script = ExtResource("1_74h6o")
+title = "AVALANCHE SHAFT"
+description = "A climb up a shaft of breaking ice - keep moving, or fall."
+scene_path = "res://scenes/levels/velvet_glacier_4.tscn"
+world = 3
+stage = 4

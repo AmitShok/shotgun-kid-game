@@ -2,6 +2,8 @@
 [ext_resource type="Script" path="res://scripts/level_definition.gd" id="1"]
 [resource]
 script=ExtResource("1")
-title="05 / ECHO ORCHARD"
+title="ECHO ORCHARD"
 description=""
 scene_path="res://scenes/levels/echo_orchard.tscn"
+world=4
+stage=1

@@ -1,9 +1,9 @@
 shader_type canvas_item;
 render_mode unshaded;
-uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear;
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 uniform float curvature : hint_range(0.0, 0.02) = 0.008;
 uniform float scanline_strength : hint_range(0.0, 0.3) = 0.16;
-uniform float color_fringe : hint_range(0.0, 1.5) = 0.8;
+uniform float color_fringe : hint_range(0.0, 1.5) = 0.4;
 void fragment() {
  vec2 centered = SCREEN_UV * 2.0 - 1.0;
  vec2 uv = SCREEN_UV + centered * dot(centered, centered) * curvature;

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_hikht"]
+
+[resource]
+script = ExtResource("1_hikht")
+title = "COMET CRATER"
+description = "Climb out of the crater: pods, mines and spiked walls stacked high."
+scene_path = "res://scenes/levels/mossy_comet_4.tscn"
+world = 1
+stage = 4

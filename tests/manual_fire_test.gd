@@ -28,7 +28,7 @@ func reset_player() -> void:
  player.invincible=999
  await frames(2)
 func run() -> void:
- var level=load("res://scenes/levels/training_yard.tscn").instantiate()
+ var level=load("res://tests/fixtures/legacy_ridge.tscn").instantiate()
  root.add_child(level)
  current_scene=level
  player=level.get_node("Player")

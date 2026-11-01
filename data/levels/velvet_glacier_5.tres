@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_sfcf2"]
+
+[resource]
+script = ExtResource("1_sfcf2")
+title = "GLACIER HEART"
+description = "Every trick the mountain knows, deep in the ice."
+scene_path = "res://scenes/levels/velvet_glacier_5.tscn"
+world = 3
+stage = 5

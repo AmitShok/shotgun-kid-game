@@ -12,6 +12,8 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
  rotation=aim.angle()
  $Sprite2D.flip_v=aim.x<0
+ # An empty gun reads cold and dim, so ammo is visible without looking at the HUD.
+ $Sprite2D.modulate=$Sprite2D.modulate.lerp(Color(0.55,0.62,0.78,0.85) if ammo==0 else Color.WHITE,1.0-exp(-18.0*_delta))
 func refill() -> void:
  if ammo==MAX_AMMO: return
  ammo=MAX_AMMO
@@ -36,8 +38,11 @@ func shoot() -> bool:
  for group in ["shot_targets"]:
   for target in get_tree().get_nodes_in_group(group):
    var offset: Vector2=target.global_position-global_position
-   if offset.length()>blast_range: continue
-   if offset.length()>20 and aim.dot(offset.normalized())<0.80: continue
+   # Targets may override reach and aim tolerance (spore pods: long range, tight cone).
+   var reach: float=target.shot_range if "shot_range" in target else blast_range
+   var cone: float=target.shot_cone if "shot_cone" in target else 0.80
+   if offset.length()>reach: continue
+   if offset.length()>20 and aim.dot(offset.normalized())<cone: continue
    var query := PhysicsRayQueryParameters2D.create(global_position,target.global_position,1)
    if not get_world_2d().direct_space_state.intersect_ray(query).is_empty(): continue
    target.hit()

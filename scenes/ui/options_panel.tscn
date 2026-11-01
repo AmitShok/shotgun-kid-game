@@ -24,6 +24,18 @@ min_value=0.0
 max_value=100.0
 step=5.0
 value=55.0
+[node name="MusicRow" type="HBoxContainer" parent="."]
+theme_override_constants/separation=02
+[node name="Label" type="Label" parent="./MusicRow"]
+theme_override_font_sizes/font_size=12
+text="Music volume"
+[node name="Music" type="HSlider" parent="./MusicRow"]
+size_flags_horizontal=3
+custom_minimum_size=Vector2(160,24)
+min_value=0.0
+max_value=100.0
+step=5.0
+value=60.0
 [node name="CameraShake" type="CheckButton" parent="."]
 theme_override_font_sizes/font_size=12
 text="Camera shake"

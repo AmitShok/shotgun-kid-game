@@ -15,12 +15,11 @@ func _collect(node: Node) -> void:
  if (node is Button and not node is CheckButton and not node is OptionButton) or (node is Label and node.name=="Title"):
   var title := node is Label
   var compact := "/Center/Options/" in String(node.get_path())
-  var tilt := -0.8 if compact else -2.7
-  if not title:
-   # Randomize only the amount; adjacent visible buttons alternate direction.
-   if not node.has_meta("menu_tilt_amount"):
-    node.set_meta("menu_tilt_amount",randf_range(0.15,0.55) if compact else randf_range(0.55,1.7))
-   tilt=float(node.get_meta("menu_tilt_amount"))
+  # The shell selector points at list-style buttons; the world map draws its own highlights.
+  if node is Button and not ("/Center/Levels/" in String(node.get_path()) and node.name!="Back"):
+   node.add_to_group("menu_selectable")
+  # Buttons sit straight; only page titles keep a slight tilt and sway.
+  var tilt := (-0.8 if compact else -2.7) if title else 0.0
   items.append({"node":weakref(node),"tilt":tilt,"title":title,"compact":compact,"phase":items.size()*0.8,"active":false})
  for child in node.get_children(): _collect(child)
 func _process(delta: float) -> void:
@@ -53,8 +52,23 @@ func _button_direction(button: Button) -> float:
 
 func reveal(panel: Control) -> void:
  if reveal_tween and reveal_tween.is_valid(): reveal_tween.kill()
+ # A page switched mid-reveal must not leave its buttons half faded.
+ for item in items:
+  var control=item.node.get_ref()
+  if is_instance_valid(control): control.self_modulate.a=1.0
  for sibling in panel.get_parent().get_children():
   if sibling is Control: sibling.modulate.a=1.0
- panel.modulate.a=0.25
- reveal_tween=create_tween()
- reveal_tween.tween_property(panel,"modulate:a",1.0,0.16).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+ # Pages pop in: a quick fade with a slight zoom and settle, scaled about their centre, and their
+ # buttons slide in one after another.
+ panel.modulate.a=0.0
+ panel.pivot_offset=panel.size*0.5
+ panel.scale=Vector2.ONE*0.94
+ reveal_tween=create_tween().set_parallel()
+ reveal_tween.tween_property(panel,"modulate:a",1.0,0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+ reveal_tween.tween_property(panel,"scale",Vector2.ONE,0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+ var order := 0
+ for child in panel.get_children():
+  if child is Button and child.visible:
+   child.self_modulate.a=0.0
+   reveal_tween.tween_property(child,"self_modulate:a",1.0,0.2).set_delay(0.06+order*0.05)
+   order+=1

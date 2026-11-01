@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_u60pa"]
+
+[resource]
+script = ExtResource("1_u60pa")
+title = "CINDER STEPS"
+description = "Old tricks, longer drops: pops, kicks and a floating refill."
+scene_path = "res://scenes/levels/lantern_ridge_2.tscn"
+stage = 2

@@ -13,6 +13,8 @@ Traversal is the focus. Drones and hostile projectiles are removed. Static spike
 | Air acceleration | 1050 px/s²; x1.45 when reversing |
 | Neutral air drag | 180 px/s²; 65 during mine carry |
 | Coyote time / jump buffer | 0.12 / 0.14 seconds |
+| Ceiling corner correction | up to 4 px sideways while rising |
+| Ledge assist | up to 5 px lift while pushing into a wall |
 | Shot recoil | 390 px/s; 85% perpendicular carry |
 | Shot cooldown / lock | 0.18 / 0.075 seconds |
 | Mine impulse / lock | +420 px/s / 0.16 seconds |

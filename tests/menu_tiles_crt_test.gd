@@ -37,7 +37,7 @@ func run() -> void:
  await capture("main_options")
  menu.get_node("Center/Options/Back").pressed.emit()
  menu.get_node("Center/Home/Start").pressed.emit()
- check(menu.page=="Levels" and menu.levels.size()==5,"Start opens extensible level selector")
+ check(menu.page=="Levels" and menu.levels.size()==root.get_node("SaveData").CATALOG.levels.size(),"Start opens extensible level selector")
  await capture("level_select")
  menu.get_node("Center/Levels/List").get_child(0).pressed.emit()
  await scene_changed
@@ -47,7 +47,7 @@ func run() -> void:
  var player=level.get_node("Player")
  check(player.is_on_floor(),"Player stands on native tile collision")
  var terrain=level.get_node("Terrain")
- check(terrain.get_child_count()==13,"Original platform positions retained")
+ check(level.has_node("Rooms") and level.get_node("Rooms").get_child_count()>=10,"Lantern Ridge is built from camera-locked rooms")
  var shared=load("res://assets/terrain_tileset.tres")
  var all_native=true
  for layer in terrain.get_children():

@@ -2,6 +2,8 @@
 [ext_resource type="Script" path="res://scripts/level_definition.gd" id="1"]
 [resource]
 script=ExtResource("1")
-title="03 / COPPER CLOUD"
+title="COPPER CLOUD"
 description=""
 scene_path="res://scenes/levels/copper_cloud.tscn"
+world=2
+stage=1

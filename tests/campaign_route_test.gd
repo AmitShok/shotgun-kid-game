@@ -28,6 +28,10 @@ func run():
   if filtered: continue
   var scene=load("res://scenes/levels/"+biome+".tscn").instantiate();root.add_child(scene);current_scene=scene
   var p=scene.get_node("Player")
+  # Room-built levels are verified by tests/room_routes_test.gd instead of traversal metadata.
+  if scene.has_node("Rooms"):
+   scene.free()
+   continue
   if "--without-mines" in args:
    for mine in scene.get_node("Mines").get_children(): mine.remove_from_group("shot_targets")
   if "--without-shells" in args:

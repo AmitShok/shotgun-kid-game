@@ -8,6 +8,7 @@ func _ready() -> void:
  $CRT/Preset.item_selected.connect(func(index: int): SaveData.set_preference("crt_mode",index))
  $Back.pressed.connect(func(): back_requested.emit())
  $VolumeRow/Volume.value_changed.connect(func(value: float): Sfx.set_volume(value/100.0))
+ $MusicRow/Music.value_changed.connect(func(value: float): SaveData.set_preference("music_volume",value/100.0))
  for pair in TOGGLES:
   var toggle: CheckButton=get_node(pair[0])
   toggle.toggled.connect(func(value: bool): SaveData.set_preference(pair[1],value))
@@ -17,6 +18,7 @@ func _ready() -> void:
 func _sync() -> void:
  if not is_node_ready(): return
  $VolumeRow/Volume.set_value_no_signal(Sfx.volume*100)
+ $MusicRow/Music.set_value_no_signal(SaveData.music_volume*100)
  $CRT/Preset.select(SaveData.crt_mode)
  for pair in TOGGLES:
   get_node(pair[0]).set_pressed_no_signal(SaveData.get(pair[1]))

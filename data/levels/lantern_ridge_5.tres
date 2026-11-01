@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_ppaw6"]
+
+[resource]
+script = ExtResource("1_ppaw6")
+title = "LANTERN CROWN"
+description = "Every trick on the ridge, chained, with no room to breathe."
+scene_path = "res://scenes/levels/lantern_ridge_5.tscn"
+stage = 5

@@ -6,7 +6,7 @@ func _initialize() -> void: call_deferred("run")
 func frames(count: int) -> void:
  for i in count: await physics_frame
 func run() -> void:
- level=load("res://scenes/levels/training_yard.tscn").instantiate()
+ level=load("res://tests/fixtures/legacy_ridge.tscn").instantiate()
  root.add_child(level)
  current_scene=level
  player=level.get_node("Player")

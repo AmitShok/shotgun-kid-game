@@ -103,6 +103,6 @@ func _process(delta: float) -> void:
  preview.velocity=Vector2(facing*110,0) if pose==1 else Vector2(facing*80,-100) if pose==2 else Vector2.ZERO
  preview.position=Vector2(34+sin(clock*2)*2 if pose==1 else 34,32+sin(clock*3)*2 if pose==2 else 35)
  var sprite=preview.get_node("Sprite2D")
- sprite.frame=2+int(clock*10)%4 if pose==1 else 6 if pose==2 else int(clock*2)%2
+ sprite.frame=4+int(clock*12)%6 if pose==1 else 10 if pose==2 else int(clock*5)%4
  sprite.flip_h=facing<0
  preview.get_node("Appearance")._process(0)

@@ -21,7 +21,7 @@ static func texture(category: String,id: String,icon: bool=false) -> Texture2D:
  if textures.has(key): return textures[key]
  var atlas=AtlasTexture.new()
  atlas.atlas=SHEETS[category]
- atlas.region=Rect2(0,int(item(category,id).row)*24,24 if icon else 192,24)
+ atlas.region=Rect2(0,int(item(category,id).row)*24,24 if icon else 384,24)
  textures[key]=atlas
  return atlas
 static func tail(id: String) -> Texture2D:

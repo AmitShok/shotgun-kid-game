@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_ikqij"]
+
+[resource]
+script = ExtResource("1_ikqij")
+title = "VERDIGRIS VAULT"
+description = "A tall vault of lids and cages: every swap opens one door and shuts another."
+scene_path = "res://scenes/levels/copper_cloud_4.tscn"
+world = 2
+stage = 4

@@ -18,12 +18,13 @@ shape=SubResource("Shape")
 script=ExtResource("scarf")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture=ExtResource("2")
-hframes=8
+hframes=16
 [node name="Shotgun" parent="." instance=ExtResource("3")]
-position=Vector2(0,2)
+position=Vector2(0,5)
 [node name="Camera2D" type="Camera2D" parent="."]
 script=ExtResource("4")
 position=Vector2(65,-50)
+process_callback=0
 position_smoothing_enabled=true
 position_smoothing_speed=10.0
 limit_left=0

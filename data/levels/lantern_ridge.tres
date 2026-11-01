@@ -2,6 +2,8 @@
 [ext_resource type="Script" path="res://scripts/level_definition.gd" id="1"]
 [resource]
 script=ExtResource("1")
-title="01 / LANTERN RIDGE"
+title="LANTERN RIDGE"
 description="Snowy ruins, floating mines, and a long way up."
 scene_path="res://scenes/levels/training_yard.tscn"
+world=0
+stage=1

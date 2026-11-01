@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_ruksm"]
+
+[resource]
+script = ExtResource("1_ruksm")
+title = "SPOREFALL HOLLOW"
+description = "Pods meet mines: grapple, blast and refill your way across."
+scene_path = "res://scenes/levels/mossy_comet_2.tscn"
+world = 1
+stage = 2

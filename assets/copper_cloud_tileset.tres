@@ -1,8 +1,7 @@
-[gd_resource type="TileSet" format=3]
+[gd_resource type="TileSet" format=3 uid="uid://dspmmnatda6ob"]
 
-[ext_resource type="Texture2D" path="res://assets/textures/copper_cloud_terrain.png" id="1_2hqfw"]
-
-[ext_resource type="Texture2D" path="res://assets/textures/copper_cloud_decor.png" id="decor"]
+[ext_resource type="Texture2D" uid="uid://boy2ur37tmveq" path="res://assets/textures/copper_cloud_terrain.png" id="1_2hqfw"]
+[ext_resource type="Texture2D" uid="uid://bof37w71okb5r" path="res://assets/textures/copper_cloud_decor.png" id="decor"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g61rj"]
 texture = ExtResource("1_2hqfw")

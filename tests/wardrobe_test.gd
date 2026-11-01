@@ -44,7 +44,7 @@ func run():
  for category in C.DEFAULTS:
   for entry in C.entries(category):
    save.equip(category,entry.id)
-   for frame in range(8):
+   for frame in range(16):
     a.body.frame=frame;a.body.flip_h=frame%2==1;a._process(0)
     aligned=aligned and a.hat.frame==frame and a.neck.frame==frame and a.hat.flip_h==a.body.flip_h
  check(aligned,"Every cosmetic supports all animation frames and facings")

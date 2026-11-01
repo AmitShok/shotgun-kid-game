@@ -5,8 +5,8 @@ var neck: Sprite2D
 @onready var player=get_parent()
 @onready var body: Sprite2D=player.get_node("Sprite2D")
 func _ready() -> void:
- hat=Sprite2D.new();hat.name="Hat";hat.hframes=8;body.add_child(hat)
- neck=Sprite2D.new();neck.name="NeckWrap";neck.hframes=8;body.add_child(neck)
+ hat=Sprite2D.new();hat.name="Hat";hat.hframes=16;body.add_child(hat)
+ neck=Sprite2D.new();neck.name="NeckWrap";neck.hframes=16;body.add_child(neck)
  SaveData.appearance_changed.connect(apply)
  apply()
 func apply() -> void:

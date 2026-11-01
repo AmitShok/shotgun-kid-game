@@ -14,7 +14,7 @@ There are 12 hats plus Bareheaded, 12 scarves plus No Scarf, and 12 outfits: 2,0
 - `scripts/player_appearance.gd`: composes clothes, hat and neck wrap, and applies the animated scarf style.
 - `scenes/ui/wardrobe_panel.tscn` / `scripts/wardrobe_panel.gd`: shared main/pause menu panel. Preview uses an isolated World2D and is excluded from the gameplay player group; movement/input/camera are disabled.
 
-Each atlas row uses eight 24x24 frames: idle 0-1, run 2-5, air 6-7. Hats and neck wraps match the body's animation and horizontal facing, inheriting its squash/stretch and transparency. Tail swatches are 5x3 per row. The final hat and neck rows are transparent for unequipped choices.
+Each atlas row uses sixteen 24x24 frames: idle 0-3, run 4-9, rise 10, apex 11, fall 12-13, land 14, skid 15. One pose table in `tools/art_wardrobe.lua` drives the body, hats and neck wraps; `scripts/player_scarf.gd` mirrors its torso offsets so the trailing scarf stays on the neck. The body gets an automatic ink outline. Hats and neck wraps match the body's animation and horizontal facing, inheriting its squash/stretch and transparency. Tail swatches are 5x3 per row. The final hat and neck rows are transparent for unequipped choices.
 
 To add cosmetics, extend the Aseprite script and catalogue together, preserve existing stable IDs, and export again. If editing source files manually, export the matching PNG without rerunning the generator (which regenerates source art). Existing saves use `[wardrobe]` keys for each category; unknown or missing IDs fall back to defaults. Progress and settings continue using the same atomic save path.
 

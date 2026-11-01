@@ -17,6 +17,13 @@ func _ready() -> void:
 	$Overlay/Center/Options.back_requested.connect(_close_options)
 	SaveData.preferences_changed.connect(_apply_preferences)
 	_apply_preferences()
+	player.shotgun.ammo_changed.connect(_pop_shells)
+func _pop_shells(_ammo: int) -> void:
+	for icon in [$Top/Margin/Row/Shell1,$Top/Margin/Row/Shell2]:
+		icon.pivot_offset=icon.size*0.5
+		var pop := create_tween()
+		pop.tween_property(icon,"scale",Vector2(1.35,1.35),0.05)
+		pop.tween_property(icon,"scale",Vector2.ONE,0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 func _apply_preferences() -> void:
 	$Top.visible=SaveData.show_hud
 func _open_options() -> void:
@@ -71,12 +78,21 @@ func _next_level() -> void:
 	if next.is_empty(): return
 	get_tree().paused=false
 	get_tree().change_scene_to_file(next)
-func show_completion(seconds: float,deaths: int) -> void:
+func show_completion(seconds: float,deaths: int,improved: Dictionary = {}) -> void:
 	get_tree().paused=true
 	$Overlay.show()
 	$Overlay/Center/Menu/Title.text="LEVEL CLEARED"
 	$Overlay/Center/Menu/Description.show()
-	$Overlay/Center/Menu/Description.text="%02d:%02d  /  %d falls" % [int(seconds)/60,int(seconds)%60,deaths]
+	var scene: String=get_parent().scene_file_path
+	var lines := PackedStringArray(["%s  /  %d %s" % [SaveData.format_time(seconds),deaths,"fall" if deaths==1 else "falls"]])
+	var best := SaveData.best_record(scene)
+	if not best.is_empty() and not improved.get("first",false):
+		var tags := PackedStringArray()
+		if improved.get("time",false): tags.append("NEW BEST TIME")
+		if improved.get("falls",false): tags.append("FEWEST FALLS")
+		lines.append("  ".join(tags) if not tags.is_empty() else "BEST  %s  /  %d" % [SaveData.format_time(best.time),best.falls])
+	if SaveData.has_golden_shell(scene): lines.append("GOLDEN SHELL FOUND")
+	$Overlay/Center/Menu/Description.text="\n".join(lines)
 	$Overlay/Center/Menu/Resume.hide()
 	var next := SaveData.next_level(get_parent().scene_file_path)
 	$Overlay/Center/Menu/NextLevel.visible=not next.is_empty()

@@ -2,6 +2,8 @@
 [ext_resource type="Script" path="res://scripts/level_definition.gd" id="1"]
 [resource]
 script=ExtResource("1")
-title="02 / MOSSY COMET"
+title="MOSSY COMET"
 description=""
 scene_path="res://scenes/levels/mossy_comet.tscn"
+world=1
+stage=1

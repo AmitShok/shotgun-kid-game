@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_cs01b"]
+
+[resource]
+script = ExtResource("1_cs01b")
+title = "STARMOSS SUMMIT"
+description = "Every trick so far, chained to the top of the comet."
+scene_path = "res://scenes/levels/mossy_comet_5.tscn"
+world = 1
+stage = 5

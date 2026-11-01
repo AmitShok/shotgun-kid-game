@@ -2,6 +2,8 @@
 [ext_resource type="Script" path="res://scripts/level_definition.gd" id="1"]
 [resource]
 script=ExtResource("1")
-title="04 / VELVET GLACIER"
+title="VELVET GLACIER"
 description=""
 scene_path="res://scenes/levels/velvet_glacier.tscn"
+world=3
+stage=1

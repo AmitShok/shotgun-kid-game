@@ -1,8 +1,7 @@
-[gd_resource type="TileSet" format=3]
+[gd_resource type="TileSet" format=3 uid="uid://d2g24ftohrbog"]
 
-[ext_resource type="Texture2D" path="res://assets/textures/mossy_comet_terrain.png" id="1_2hqfw"]
-
-[ext_resource type="Texture2D" path="res://assets/textures/mossy_comet_decor.png" id="decor"]
+[ext_resource type="Texture2D" uid="uid://ddobab4dq0c76" path="res://assets/textures/mossy_comet_terrain.png" id="1_2hqfw"]
+[ext_resource type="Texture2D" uid="uid://ctehyryuwsbqj" path="res://assets/textures/mossy_comet_decor.png" id="decor"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g61rj"]
 texture = ExtResource("1_2hqfw")

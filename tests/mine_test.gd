@@ -21,7 +21,7 @@ func key(code: int, pressed: bool) -> void:
  Input.parse_input_event(event)
  Input.flush_buffered_events()
 func run() -> void:
- level=load("res://scenes/levels/training_yard.tscn").instantiate()
+ level=load("res://tests/fixtures/legacy_ridge.tscn").instantiate()
  root.add_child(level)
  current_scene=level
  player=level.get_node("Player")
@@ -73,6 +73,7 @@ func run() -> void:
  check(player.velocity.is_equal_approx(speed),"Solid floor blocks blast impulse")
  player.hurt()
  check(mine.armed,"Death resets all mines immediately")
+ player.respawn()
  mine.position=Vector2(332,510)
  # Actual jump and physical Shift event into the high-road mine, then steer to land.
  player.set_physics_process(true)

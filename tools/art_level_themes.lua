@@ -38,10 +38,10 @@ local function save(name) s:saveAs(root..'/assets/source/'..name..'.aseprite');s
 -- Four biomes, shared ink/value structure and 16px terrain grammar.
 -- All drawing and exports run in Aseprite; no external raster renderer.
 local themes={
- {id='mossy_comet',sky={'141f32','1c3041','294957','396269'},far='36545f',mid='2a4650',near='20363f',light='88bda7',edge='bfd9a4',stone='425b60',shade='2a3c49',facet='55736b',accent='7cac80'},
+ {id='mossy_comet',sky={'141f32','1c3041','294957','396269'},far='36545f',mid='2a4650',near='20363f',light='9fd0a6',edge='d2eba2',stone='33484c',shade='1c2832',facet='48645f',accent='86bb78'},
  {id='copper_cloud',sky={'30263f','634152','9d6370','cd967f'},far='866b7d',mid='69536a',near='473e57',light='cf9980',edge='f5d6aa',stone='966753',shade='493e51',facet='b38062',accent='73a6a2'},
- {id='velvet_glacier',sky={'1c203c','302b50','494163','766381'},far='695979',mid='4d4768',near='343d5d',light='b3bed5',edge='f0e4e7',stone='627d9f',shade='343d66',facet='8ca8bd',accent='c0bbdd'},
- {id='echo_orchard',sky={'30273e','4a354e','755567','ad7e84'},far='85657c',mid='674c66',near='40394e',light='c49a9c',edge='e3c3a2',stone='776371',shade='423a52',facet='948078',accent='af8298'}
+ {id='velvet_glacier',sky={'1c203c','302b50','494163','766381'},far='695979',mid='4d4768',near='343d5d',light='e2eef6',edge='ffffff',stone='86a7c8',shade='3a4674',facet='b4d0e3',accent='d6e2f2'},
+ {id='echo_orchard',sky={'30273e','4a354e','755567','ad7e84'},far='85657c',mid='674c66',near='40394e',light='b78b6b',edge='c3dc84',stone='6b4f45',shade='3d2c38',facet='85634f',accent='8aad5c'}
 }
 local function cloud(x,y,w,col)
  ellipse(x,y,w,7,col);ellipse(x-w*.35,y-6,w*.40,10,col);ellipse(x+w*.3,y-5,w*.34,8,col)
@@ -224,26 +224,33 @@ for index,t in ipairs(themes) do
    else poly({{x+2,y},{x+7,y},{x+5,y+15}},t.facet);line(x+3,y,x+4,y+9,t.edge) end
   else
    rect(x,y,16,16,t.shade);rect(x+1,y+1,14,14,t.stone)
-   if index~=2 then rect(x,y,16,16,t.stone) end
+   rect(x,y,16,16,t.stone)
    if index==1 then
     local shift=(tx*3+ty*5)%6
     poly({{x,y+3+shift},{x+7,y+1},{x+15,y+5},{x+13,y+11+shift*.5},{x+3,y+15}},t.facet)
     line(x+2,y+3+shift,x+7,y+2,t.light);line(x+12,y+5,x+9,y+9+shift,t.shade);line(x+9,y+9+shift,x+3,y+14,t.shade)
     if tx%3==0 then rect(x+3,y+9,3,2,t.accent) end
    elseif index==2 then
-    rect(x+2,y+2,12,1,t.light);rect(x+2,y+3,1,10,t.facet);rect(x+3,y+13,11,1,t.shade)
-    px(x+3,y+4,t.edge);px(x+12,y+11,t.edge);px(x+4,y+5,t.shade);px(x+13,y+12,t.shade)
-    if tx%3==1 then rect(x+7,y+3,2,10,t.shade);rect(x+8,y+4,1,7,t.accent) else line(x+5,y+7,x+9,y+6,t.facet) end
+    -- Riveted copper plating in a running bond. Seams sit at fixed offsets so they continue
+    -- across tile edges instead of boxing every cell; columns vary only in small details.
+    rect(x,y,16,1,t.light);rect(x,y+7,16,1,t.shade);rect(x,y+8,16,1,t.light);rect(x,y+15,16,1,t.shade)
+    rect(x+3,y+1,1,6,t.shade);px(x+4,y+1,t.light);rect(x+11,y+9,1,6,t.shade);px(x+12,y+9,t.light)
+    px(x+5,y+2,t.edge);px(x+1,y+5,t.edge);px(x+13,y+10,t.edge);px(x+9,y+13,t.edge)
+    if tx%4==1 then rect(x+6,y+10,4,1,t.shade);rect(x+6,y+11,4,1,t.accent)
+    elseif tx%4==3 then px(x+8,y+3,t.accent);px(x+9,y+4,t.accent);px(x+7,y+4,t.facet)
+    elseif tx%3==0 then line(x+6,y+4,x+10,y+3,t.facet);line(x+14,y+12,x+15,y+11,t.facet) end
    elseif index==3 then
     local shift=(tx*5+ty*3)%9
     poly({{x+shift,y},{x+shift+3,y},{x+shift+1,y+16},{x+shift-2,y+16}},'7492ad')
     if tx%3==0 then line(x+shift,y+2,x+shift-1,y+7,t.light);line(x+12,y+7,x+8,y+12,'526d92');line(x+8,y+12,x+9,y+15,'526d92') end
     if tx%4==0 then px(x+11,y+3,t.edge) end
    else
-    local shift=tx%3
-    rect(x,y+1+shift,15,2,t.facet);line(x+1,y+4,x+1,y+10,t.light);line(x,y+13-shift,x+13,y+13-shift,t.shade)
-    if tx%2==0 then line(x+11,y,x+9,y+7,t.shade);line(x+9,y+7,x+15,y+10,t.shade);line(x+10,y,x+8,y+7,'b18f86') end
-    rect(x+4,y+7,3,1,t.facet)
+    -- Packed orchard soil: strata run edge to edge so neighbours join, with pebbles and roots.
+    local w=(tx*3)%4
+    rect(x,y+3+w%2,16,1,t.facet);rect(x,y+10-w%2,16,1,t.shade)
+    px(x+2+w,y+6,t.light);rect(x+9,y+13,2,1,t.facet);px(x+12-w,y+7,t.shade)
+    if tx%2==0 then line(x+5,y,x+6,y+5,'4e3a3a');line(x+6,y+5,x+4,y+9,'4e3a3a') end
+    if tx%3==1 then rect(x+11,y+4,2,2,'9a8478');px(x+11,y+4,'c6b19c') end
    end
    if ty==2 then rect(x,y+14,16,2,t.shade) end
   end
@@ -258,7 +265,9 @@ for index,t in ipairs(themes) do
   elseif index==3 then
    rect(x+2,3,5,2,'d2d6e4');rect(x+11,2,3,4,'9dbace');rect(x+12,5,1,3,t.light);rect(x+2,0,6,1,'fff4ed')
   else
-   rect(x,3,16,2,'92757c');rect(x+4,1,3,2,'c7ad94');rect(x+11,3,2,4,'9e9090');if tx%3==0 then px(x+7,1,'f3d6c8') end
+   -- Grass lip with blades poking up and the odd blossom.
+   rect(x,4,16,1,'5e7a45');px(x+3,0,'dff0a8');px(x+9,0,'dff0a8');rect(x+6,3,2,3,t.accent)
+   if tx%3==0 then px(x+12,1,'f2b8c8');px(x+12,0,'fbe2e9') elseif tx%3==1 then px(x+4,1,'f6d58a') end
   end
  end
  save(t.id..'_terrain')

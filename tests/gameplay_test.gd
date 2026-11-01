@@ -14,7 +14,7 @@ func frames(count: int) -> void:
 func _initialize() -> void:
  call_deferred("run")
 func run() -> void:
- level=load("res://scenes/levels/training_yard.tscn").instantiate()
+ level=load("res://tests/fixtures/legacy_ridge.tscn").instantiate()
  root.add_child(level)
  current_scene=level
  player=level.get_node("Player")
@@ -80,7 +80,11 @@ func run() -> void:
  check(int(root.get_node("Sfx").event_counts.get("checkpoint",0))>0,"Checkpoint chime is dispatched")
  player.invincible=0
  player.hurt()
- check(player.global_position.distance_to(player.spawn_point)<1,"Death returns to checkpoint")
+ check(player.dying>0 and not player.get_node("Sprite2D").visible,"Death plays a short burst before respawning")
+ for i in 60:
+  if player.dying<=0: break
+  await physics_frame
+ check(player.global_position.distance_to(player.spawn_point)<1 and player.get_node("Sprite2D").visible,"Death returns to checkpoint")
  check(player.shotgun.ammo==2,"Respawn restores ammo")
  level.finish()
  check(paused and level.complete,"Exit completion pauses gameplay")

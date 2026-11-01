@@ -1,0 +1,10 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_5ojne"]
+
+[resource]
+script = ExtResource("1_5ojne")
+title = "HOLLOW SPIRE"
+description = "A long climb through mine shafts and spike-lined walls."
+scene_path = "res://scenes/levels/lantern_ridge_4.tscn"
+stage = 4

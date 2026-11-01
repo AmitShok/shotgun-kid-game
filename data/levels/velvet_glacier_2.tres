@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_2sval"]
+
+[resource]
+script = ExtResource("1_2sval")
+title = "HOARFROST STEPS"
+description = "Ice that breaks under you, pods to hop between it, and a gate you slide through."
+scene_path = "res://scenes/levels/velvet_glacier_2.tscn"
+world = 3
+stage = 2

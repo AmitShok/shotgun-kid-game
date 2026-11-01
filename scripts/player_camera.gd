@@ -23,9 +23,23 @@ var route_framing := false
 var route_center := Vector2.ZERO
 var route_fit := 1.0
 var route_blend := 0.0
+# Set by the level when it is built from rooms: the room's limits frame the view, so zoom,
+# look-ahead and route framing stay off; only shake remains.
+var room_mode := false
 func _process(delta: float) -> void:
  var player := get_parent() as CharacterBody2D
  elapsed+=delta
+ if room_mode:
+  # Tall rooms scroll: lead along fast travel, and let a grounded aim scout up/down the shaft.
+  var scout := Vector2.ZERO
+  if player.is_on_floor():
+   scout=Vector2(Input.get_axis("aim_left","aim_right"),Input.get_axis("aim_up","aim_down")).normalized()*Vector2(48,96)
+  aim_look=aim_look.lerp(scout,1.0-exp(-5.0*delta))
+  var lead := Vector2(clampf(player.velocity.x*0.12,-60,60),clampf(player.velocity.y*0.16,-110,50))
+  position=position.lerp(Vector2(0,-8)+lead+aim_look,1.0-exp(-6.0*delta))
+  zoom=Vector2.ONE
+  _apply_shake(delta)
+  return
  _update_route_view(player)
  route_blend=lerpf(route_blend,1.0 if route_framing else 0.0,1.0-exp(-4.0*delta))
  var weight := 1.0-exp(-8.0*delta)
@@ -45,6 +59,9 @@ func _process(delta: float) -> void:
  var view_y=-48.0+clampf(player.velocity.y*0.035,-25,20)+aim_look.y+landing_offset
  view_y=lerpf(view_y,route_center.y-player.global_position.y+aim_look.y*0.3,route_blend)
  position.y=lerpf(position.y,view_y,weight)
+ _apply_shake(delta)
+ zoom=Vector2.ONE*minf(landing_zoom,lerpf(1.0,route_fit,route_blend))
+func _apply_shake(delta: float) -> void:
  shake=move_toward(shake,0,16.0*delta)
  shot_impact=move_toward(shot_impact,0,12.0*delta)
  mine_impact=move_toward(mine_impact,0,14.0*delta)
@@ -56,7 +73,6 @@ func _process(delta: float) -> void:
   mine_impact=0.0
  var amplitude := maxf(shake,maxf(shot_impact,mine_impact))
  offset=Vector2(sin(elapsed*103),cos(elapsed*127))*amplitude
- zoom=Vector2.ONE*minf(landing_zoom,lerpf(1.0,route_fit,route_blend))
 func _update_route_view(player: CharacterBody2D) -> void:
  if not player.is_on_floor(): return
  var level=player.get_parent()
@@ -78,6 +94,7 @@ func _update_route_view(player: CharacterBody2D) -> void:
  route_fit=clampf(minf(usable.x/span.x,usable.y/span.y),0.38,1.0)
 
 func _physics_process(delta: float) -> void:
+ if room_mode: return
  var player := get_parent() as CharacterBody2D
  ground_found=false
  if player.is_on_floor():

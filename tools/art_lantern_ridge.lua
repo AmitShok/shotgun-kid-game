@@ -73,12 +73,20 @@ for ty=0,3 do for tx=0,7 do
   rect(x,y,16,16,c('202139',0))
   poly({{x,y},{x+16,y},{x+14,y+7},{x+11,y+7},{x+9,y+13},{x+7,y+10},{x+3,y+9},{x+2,y+5},{x,y+5}},'303b53')
  else
-  rect(x+1,y+1,14,14,'3e4b65');rect(x+1,y+1,14,2,'69778b')
-  poly({{x+1,y+4},{x+7,y+2},{x+14,y+5},{x+12,y+12},{x+4,y+15},{x+1,y+12}},'4c5d75')
-  line(x+2,y+12,x+6,y+14,'2e374f');line(x+8,y+2,x+14,y+4,'82949e')
-  if tx%2==0 then line(x+8,y+5,x+5,y+8,'30384f');line(x+5,y+8,x+7,y+11,'30384f') end
-  if tx%3==0 then rect(x+2,y+8,2,1,'758894');rect(x+10,y+11,3,1,'63778a') end
-  if ty==2 then rect(x,y+14,16,2,'202c45');line(x+2,y+12,x+6,y+13,'304058') end
+  -- Running-bond masonry: mortar courses span the full tile so they continue across
+  -- neighbours, and each column places its joints differently, so scattered cells read as
+  -- stones of varied widths rather than a grid of identical blocks.
+  rect(x,y,16,16,'3e4b65')
+  for course=0,1 do local cy=y+course*8
+   rect(x,cy+7,16,1,'2a3248');rect(x,cy,16,1,'56657d')
+   local joint=x+(course==0 and (3+(tx*5)%9) or (1+(tx*7+4)%12))
+   rect(joint,cy,1,7,'2a3248');px(joint+1,cy+1,'56657d')
+   poly({{joint+2,cy+1},{joint+6,cy+1},{joint+4,cy+5},{joint+2,cy+4}},'4c5d75')
+  end
+  if tx%2==0 then line(x+9,y+2,x+7,y+5,'30384f') end
+  if tx%3==0 then rect(x+2,y+11,2,1,'758894');rect(x+11,y+3,3,1,'63778a') end
+  if tx==0 then rect(x,y,1,16,ink) elseif tx==4 then rect(x+15,y,1,16,ink) end
+  if ty==2 then rect(x,y+14,16,2,'202c45');rect(x,y+15,16,1,ink);line(x+2,y+12,x+6,y+13,'304058') end
  end
 end end
 layer('Snow caps, seams and moss')

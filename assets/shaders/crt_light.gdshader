@@ -1,6 +1,6 @@
 shader_type canvas_item;
 render_mode unshaded;
-uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear;
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 void fragment() {
  vec2 centered = SCREEN_UV * 2.0 - 1.0;
  vec2 uv = SCREEN_UV + centered * dot(centered, centered) * 0.003;

@@ -26,7 +26,18 @@ The save is local at `%APPDATA%/Godot/app_userdata/Shotgun Kid/settings.cfg`. Ex
 ## Sound and movement
 There are 12 original effects: footsteps, jump, landing, shotgun, empty click, reload, mine explosion, mine recharge, checkpoint, respawn, completion, and UI. Footsteps follow actual ground distance with pitch variation. Mine audio fades with distance.
 
-Movement includes quick acceleration and reversals, air steering, coyote time, jump buffering, and variable jump height. Downward shots preserve lateral momentum; mine momentum carries into follow-up shots. Bounded shake, subtle zoom pulses, velocity look-ahead, and sprite squash/stretch add feedback without changing collisions.
+Each biome and the main menu has its own original looping music track in `assets/music/`, crossfaded by `Sfx.play_music()`. Tracks are composed and synthesized by `tools/make_music.gd` from seeded melodies over each track's own key, mode and tempo; edit its `TRACKS` table and rerun it, then run `godot --headless --path . --import`. A level's `music` export overrides the track named after its scene file. **Options > Music volume** sets music relative to the master volume.
+
+## Death, replay goals and juice
+Dying bursts the kid into sparks while a circular iris closes on the spot, then reopens at the checkpoint (`death_time` / `respawn_reveal_time` on the Player). Mines, pickups and the fall count reset at the moment of death.
+
+Place `scenes/actors/golden_shell.tscn` once per level as an optional hidden collectible. Grabbing it makes it trail the kid; touching any checkpoint or the exit banks it to the save, and dying first sends it back home. Banked shells show as a faint ghost on later runs. Each level also records its best time and fewest falls. The level select lists the best time and `+ GOLD`, and the completion screen flags new bests. **Reset progress** clears these too.
+
+Shots eject bouncing spent casings, ground reversals kick up skid dust, an empty gun dims, HUD shells pop when ammo changes, and checkpoints flare when activated.
+
+Rendering uses 2D physics interpolation so movement stays smooth on high-refresh displays. Teleports call `reset_physics_interpolation()`.
+
+Movement includes quick acceleration and reversals, air steering, coyote time, jump buffering, variable jump height, ceiling corner correction (rising past a ceiling edge you clip by a few pixels), and ledge assist (popping onto a ledge your feet miss by a few pixels). Both assists are adjustable in the Inspector and covered by `tests/forgiveness_test.gd`. Downward shots preserve lateral momentum; mine momentum carries into follow-up shots. Bounded shake, subtle zoom pulses, velocity look-ahead, and sprite squash/stretch add feedback without changing collisions.
 
 ## Structure and editing
 - `scenes/actors/`: reusable player, boost mine, checkpoint, spikes, and exit.

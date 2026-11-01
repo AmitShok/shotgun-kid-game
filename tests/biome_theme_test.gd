@@ -27,7 +27,8 @@ func run():
   if DisplayServer.get_name()!="headless":
    await RenderingServer.frame_post_draw
    root.get_texture().get_image().save_png("res://docs/"+biome+"_theme.png")
-  for prop in scene.get_node("Scenery/ThemeDetails").get_children():
+  var props=scene.get_node("Scenery/ThemeDetails") if scene.has_node("Scenery/ThemeDetails") else scene.get_node("Scenery")
+  for prop in props.get_children():
    var foot=prop.global_position+Vector2(0,15)
    var query=PhysicsRayQueryParameters2D.create(foot-Vector2(0,2),foot+Vector2(0,2),1)
    check(not scene.get_world_2d().direct_space_state.intersect_ray(query).is_empty(),biome+" "+prop.name+" rests on solid ground")

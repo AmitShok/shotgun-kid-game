@@ -22,21 +22,21 @@ func run() -> void:
   return
  var args=OS.get_cmdline_user_args()
  if "--read" in args:
-  check(data.completed_count==5,"All five completions survive a new process")
-  check(data.is_level_unlocked(data.CATALOG.levels[4].scene_path),"Last level remains unlocked after relaunch")
+  check(data.completed_count==data.CATALOG.levels.size(),"Every completion survives a new process")
+  check(data.is_level_unlocked(data.CATALOG.levels[-1].scene_path),"Last level remains unlocked after relaunch")
   await open_scene(data.CATALOG.levels[2].scene_path)
-  current_scene.get_node("Checkpoint0")._on_body_entered(current_scene.get_node("Player"))
+  current_scene._enter_room(current_scene.get_node("Rooms").get_child(1),false)
   current_scene.get_node("HUD")._restart()
   await scene_changed
-  check(data.completed_count==5 and data.checkpoint=="","Restart clears only checkpoint, keeping unlocks")
-  current_scene.get_node("Checkpoint0")._on_body_entered(current_scene.get_node("Player"))
+  check(data.completed_count==data.CATALOG.levels.size() and data.checkpoint=="","Restart clears only checkpoint, keeping unlocks")
+  current_scene._enter_room(current_scene.get_node("Rooms").get_child(1),false)
   var panel=current_scene.get_node("HUD/Overlay/Center/Options")
   current_scene.get_node("HUD")._toggle_pause()
   current_scene.get_node("HUD")._open_options()
   panel.get_node("ResetProgress").pressed.emit()
   check(panel.get_node("ResetConfirmation").visible,"Reset offers an explicit confirmation")
   panel.get_node("ResetConfirmation").hide()
-  check(data.completed_count==5,"Cancelling reset preserves progress")
+  check(data.completed_count==data.CATALOG.levels.size(),"Cancelling reset preserves progress")
   panel.get_node("ResetConfirmation").confirmed.emit()
   await scene_changed
   check(current_scene.has_node("Center/Home") and not paused,"Reset during play returns to main menu")
@@ -51,13 +51,13 @@ func run() -> void:
   await open_scene("res://scenes/ui/main_menu.tscn")
   var menu=current_scene
   menu._show_page("Levels")
-  check(menu.levels.size()==5,"Five levels registered in one shared catalog")
+  check(menu.levels.size()==data.CATALOG.levels.size() and menu.levels.size()>=5,"All levels registered in one shared catalog")
   check(not menu.get_node("Center/Levels/List").get_child(0).disabled,"First level starts unlocked")
   for i in range(1,5): check(menu.get_node("Center/Levels/List").get_child(i).disabled,"Level %d starts locked" % (i+1))
-  menu._start_level(data.CATALOG.levels[4].scene_path)
+  menu._start_level(data.CATALOG.levels[-1].scene_path)
   await process_frame
   check(current_scene==menu,"Direct menu request cannot bypass the lock")
-  data.complete_level(data.CATALOG.levels[4].scene_path)
+  data.complete_level(data.CATALOG.levels[-1].scene_path)
   check(data.completed_count==0,"Out-of-order finishes cannot skip progression")
   await capture("level_select_progression")
   menu._show_page("Options")
@@ -66,15 +66,17 @@ func run() -> void:
   await capture("options_progression")
   menu._start_level(data.CATALOG.levels[0].scene_path)
   await scene_changed
-  for i in range(5):
+  var count: int=data.CATALOG.levels.size()
+  for i in range(count):
    var level=current_scene
    var player=level.get_node("Player")
    await frames(20)
    check(player.is_on_floor(),"Level %d has safe playable spawn" % (i+1))
-   if i>0:
+   if data.CATALOG.levels[i].world>0:
     check(level.has_node("Backdrop/Atmosphere") and level.has_node("Backdrop/Middle/Plane2") and level.has_node("Backdrop/Far/Plane2"),"Themed level includes complete layered background")
-    check(level.has_node("Terrain/Ground") and level.has_node("Checkpoint0") and level.has_node("Exit") and level.has_node("Mines") and level.has_node("Hazards"),"Themed level retains required editable structure")
-    check(level.has_node("Scenery/ThemeDetails") and level.get_node("Terrain/Ground").tile_set.resource_path!="res://assets/terrain_tileset.tres","Themed level has its own terrain and editable scenery")
+    var room_built: bool=level.has_node("Rooms")
+    check(level.has_node("Terrain/Ground") and level.has_node("Exit") and (room_built and level.has_node("Actors") or level.has_node("Checkpoint0") and level.has_node("Mines") and level.has_node("Hazards")),"Themed level retains required editable structure")
+    check((level.has_node("Scenery/ThemeDetails") or room_built and level.has_node("Scenery")) and level.get_node("Terrain/Ground").tile_set.resource_path!="res://assets/terrain_tileset.tres","Themed level has its own terrain and editable scenery")
    if i==1: await capture("level_template")
    player.position=level.get_node("Exit").position-Vector2(0,10)
    player.velocity=Vector2.ZERO
@@ -84,7 +86,7 @@ func run() -> void:
    data.complete_level(level.scene_file_path)
    check(data.completed_count==i+1,"Repeated completion does not skip levels")
    var next=level.get_node("HUD/Overlay/Center/Menu/NextLevel")
-   if i<4:
+   if i<count-1:
     check(next.visible and data.is_level_unlocked(data.CATALOG.levels[i+1].scene_path),"Next level unlocks and continuation appears")
     next.pressed.emit()
     await scene_changed

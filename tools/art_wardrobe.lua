@@ -47,35 +47,82 @@ local scarfcols={
  {'72ccca','438fa4','a4e9d6'}, {'e57469','934963','ffbd8b'}, {'efcb68','a7834e','fff0ab'}, {'aa86cf','615789','e5b7ee'},
  {'e4e9d7','8aa6b1','ffffff'}, {'83ad77','466c68','c5df92'}, {'df8495','894d77','ffdfc6'}, {'ddd6b4','466277','fff1d2'},
  {'c99263','805b61','efcf94'}, {'647db2','394c76','b6ceee'}, {'d99fc3','976585','ffdeea'}, {'9ecfe0','638cad','def8f4'} }
--- Outfit atlas: twelve separately detailed garments, eight movement frames each.
-start(192,288,'Body, face and boots')
-for v=0,11 do for f=0,7 do
- local x,y=f*24,v*24;local b=(f==1 or f==3 or f==5) and 1 or 0
- rect(x+7,y+7+b,11,7,ink);rect(x+7,y+7+b,10,4,'443048');rect(x+9,y+9+b,8,4,'efba99');rect(x+16,y+10+b,3,2,'f8d6af');px(x+15,y+9+b,ink);px(x+15,y+10+b,ink);rect(x+10,y+12+b,5,1,'bd7b80')
- rect(x+6,y+13+b,11,8-b,ink)
- local a,d,h=table.unpack(cloth[v+1]);rect(x+7,y+13+b,9,7-b,a);rect(x+7,y+14+b,2,5-b,h);rect(x+14,y+14+b,2,6-b,d)
- if v==0 then rect(x+11,y+14+b,1,6-b,'664b68');px(x+12,y+16,'fff0b6')
- elseif v==1 then rect(x+7,y+13+b,9,2,'e8c292');rect(x+9,y+14+b,1,4,h);rect(x+13,y+14+b,1,4,h);rect(x+10,y+16,3,2,d)
- elseif v==2 then rect(x+11,y+14+b,1,6-b,d);rect(x+7,y+19,9,2,h);px(x+12,y+16,'fff5ca');px(x+12,y+18,'fff5ca')
- elseif v==3 then rect(x+10,y+14+b,3,5,'e1cbaa');rect(x+7,y+19,9,2,d);rect(x+8,y+16,2,2,h)
- elseif v==4 then for yy=14+b,19,2 do rect(x+7,y+yy,9,1,'bf687e') end
- elseif v==5 then rect(x+10,y+13+b,3,7,'e2cba0');rect(x+7,y+16,2,2,d);rect(x+14,y+16,2,2,h)
- elseif v==6 then rect(x+10,y+13+b,2,7,'eac880');rect(x+7,y+18,9,1,'eac880');px(x+12,y+15,'fff0bc')
- elseif v==7 then rect(x+10,y+14+b,1,6,d);rect(x+12,y+15,2,2,h);rect(x+7,y+19,9,1,'d9a45e')
- elseif v==8 then rect(x+7,y+13+b,9,2,'ffffff');rect(x+7,y+19,9,2,h);rect(x+11,y+15,1,4,d)
- elseif v==9 then rect(x+10,y+14+b,4,4,d);rect(x+11,y+15,2,1,'72ccca');px(x+12,y+17,'ef8490');rect(x+7,y+19,9,1,h)
- elseif v==10 then rect(x+5,y+15,13,5,a);rect(x+6,y+18,11,1,h);rect(x+8,y+16,7,1,d);px(x+11,y+17,h)
- else rect(x+11,y+14+b,1,6,'eee5ce');rect(x+7,y+14+b,2,1,'eee5ce');rect(x+7,y+18,9,1,d) end
- rect(x+7,y+20,9,1,'485b73');rect(x+14,y+15+b,4,3,'efba99');px(x+17,y+15+b,'ffe2b7')
- local left,right=7,13
- if f>=2 and f<=5 then left=({5,7,9,7})[f-1];right=({15,13,11,13})[f-1] end
- if f==6 then left=6;right=14 end
- rect(x+left,y+20,4,2,'34465f');rect(x+right,y+20,4,2,'34465f');rect(x+left-1,y+22,5,1,ink);rect(x+right,y+22,5,1,ink);px(x+left,y+21,'94adb4');px(x+right,y+21,'94adb4')
-end end
-save('wardrobe_outfits')
-start(192,312,'Independent headwear')
-for v=0,11 do for f=0,7 do
- local x,y=f*24,v*24;local b=(f==1 or f==3 or f==5) and 1 or 0;y=y+b
+-- Sixteen 24x24 frames per row, driven by one pose table shared by body, hats and neck wraps:
+-- idle 0-3, run 4-9, rise 10, apex 11, fall 12-13, land 14, skid 15.
+-- h: head offset, t: torso offset, b/f: back/front boot top-left, a: back hand, tail: coat tail sway.
+local FRAMES=16
+local poses={
+ {h={0,0},t={0,0},b={8,21},f={13,21},a={9,18},tail=0},
+ {h={0,0},t={0,0},b={8,21},f={13,21},a={9,18},tail=0},
+ {h={0,1},t={0,1},b={8,21},f={13,21},a={9,19},tail=0},
+ {h={0,1},t={0,0},b={8,21},f={13,21},a={9,18},tail=0},
+ {h={1,0},t={1,0},b={5,20},f={15,21},a={12,17},tail=-1},
+ {h={1,1},t={1,1},b={6,19},f={13,21},a={11,18},tail=-2},
+ {h={1,0},t={1,0},b={10,19},f={10,21},a={10,18},tail=-1},
+ {h={1,0},t={1,0},b={15,21},f={5,20},a={7,17},tail=-1},
+ {h={1,1},t={1,1},b={13,21},f={6,19},a={8,18},tail=-2},
+ {h={1,0},t={1,0},b={10,21},f={10,19},a={9,18},tail=-1},
+ {h={0,-1},t={0,-1},b={8,19},f={13,20},a={8,13},tail=1},
+ {h={0,0},t={0,0},b={7,20},f={14,19},a={7,15},tail=0},
+ {h={0,0},t={0,0},b={8,21},f={14,20},a={7,13},tail=-1},
+ {h={0,0},t={0,0},b={9,21},f={13,21},a={8,12},tail=-2},
+ {h={0,2},t={0,2},b={6,21},f={15,21},a={9,19},tail=1},
+ {h={-1,0},t={-1,0},b={8,21},f={16,21},a={6,16},tail=1}}
+local skin,skin_shade,blush,hair,hair_hi='efba99','d99a85','f09a8f','443048','6a4a6a'
+local long_coats={[0]=true,[2]=true,[3]=true,[8]=true,[10]=true}
+-- Outline every transparent pixel touching the drawn silhouette, inside one 24x24 cell.
+local function outline(x0,y0)
+ local marks={}
+ for y=y0,y0+23 do for x=x0,x0+23 do
+  if app.pixelColor.rgbaA(im:getPixel(x,y))==0 then
+   for _,d in ipairs({{1,0},{-1,0},{0,1},{0,-1}}) do
+    local nx,ny=x+d[1],y+d[2]
+    if nx>=x0 and ny>=y0 and nx<x0+24 and ny<y0+24 and app.pixelColor.rgbaA(im:getPixel(nx,ny))>0 then table.insert(marks,{x,y});break end
+   end
+  end
+ end end
+ for _,m in ipairs(marks) do px(m[1],m[2],ink) end
+end
+local function leg(x,y,hipx,hipy,foot,pants)
+ local fx,fy=x+foot[1],y+foot[2]
+ line(x+hipx,y+hipy,fx+1,fy-1,pants);line(x+hipx+1,y+hipy,fx+2,fy-1,pants)
+ rect(fx,fy,4,2,'34465f');rect(fx+1,fy,2,1,'94adb4');px(fx+3,fy+1,'263349')
+end
+local function body(x,y,v,f)
+ local p=poses[f+1];local tx,ty=p.t[1],p.t[2];local hx,hy=p.h[1],p.h[2]
+ local a,d,h=table.unpack(cloth[v+1])
+ local function T(dx,dy,w,hh,col) rect(x+8+tx+dx,y+14+ty+dy,w,hh,col) end
+ leg(x,y,10+tx,19+ty,p.b,'2c3a52')
+ line(x+9+tx,y+15+ty,x+p.a[1],y+p.a[2],d);px(x+p.a[1],y+p.a[2]+1,skin)
+ if long_coats[v] then rect(x+8+tx+math.min(0,p.tail),y+18+ty,2,2+math.max(0,-p.tail)//2,d) end
+ T(0,0,8,5,a);T(0,0,1,5,h);T(7,0,1,5,d)
+ if v==0 then T(3,0,1,5,'664b68');T(4,2,1,1,'fff0b6')
+ elseif v==1 then T(0,0,8,1,'e8c292');T(1,1,1,3,h);T(6,1,1,3,h);T(3,2,2,2,d)
+ elseif v==2 then T(4,0,1,5,d);T(0,4,8,1,h);T(5,1,1,1,'fff5ca');T(5,3,1,1,'fff5ca')
+ elseif v==3 then T(2,0,4,1,'e1cbaa');T(0,4,8,1,d);T(1,2,2,1,h)
+ elseif v==4 then for dy=0,4,2 do T(0,dy,8,1,'bf687e') end
+ elseif v==5 then T(3,0,2,5,'e2cba0');T(0,2,2,2,h);T(6,2,2,2,d)
+ elseif v==6 then T(3,0,2,5,'eac880');T(0,4,8,1,'eac880');T(4,1,1,1,'fff0bc')
+ elseif v==7 then T(3,0,1,5,d);T(5,1,2,2,h)
+ elseif v==8 then T(-1,0,10,5,a);T(-1,0,10,1,'ffffff');T(-1,4,10,1,h);T(4,1,1,3,d)
+ elseif v==9 then T(2,1,3,3,d);T(3,2,1,1,'72ccca');T(4,1,1,1,'ef8490')
+ elseif v==10 then T(-2,1,12,4,a);T(-1,3,10,1,h);T(1,1,6,1,d)
+ else T(3,0,1,5,'eee5ce');T(0,1,1,3,'eee5ce');T(0,4,8,1,d) end
+ T(0,5,8,1,v==7 and 'd9a45e' or '485b73')
+ leg(x,y,13+tx,19+ty,p.f,'3e5272')
+ -- Head: hair wraps the back, face in three-quarter view looking right.
+ local X,Y=x+hx,y+hy
+ rect(X+8,Y+8,9,1,hair);rect(X+8,Y+9,3,4,hair);px(X+9,Y+9,hair_hi)
+ rect(X+11,Y+9,6,4,skin);px(X+17,Y+11,skin);px(X+11,Y+9,hair);px(X+12,Y+9,hair)
+ px(X+10,Y+11,'e5a58c');px(X+11,Y+12,skin_shade);px(X+12,Y+12,skin_shade)
+ px(X+13,Y+10,ink);px(X+13,Y+11,ink);px(X+16,Y+10,ink);px(X+16,Y+11,ink);px(X+16,Y+10,'3c3a5c')
+ px(X+14,Y+12,blush);px(X+17,Y+12,blush)
+ -- Front hand rests where the shotgun mounts.
+ T(6,1,2,1,d);rect(x+15+tx,y+16+ty,2,2,skin)
+ outline(x,y)
+end
+local function hat(x,y,v,f)
+ local p=poses[f+1];x=x+p.h[1];y=y+p.h[2]
  if v==0 then
   rect(x+6,y+3,12,6,ink);rect(x+8,y+2,8,1,'f4b596');rect(x+6,y+4,11,4,'d75c70');rect(x+8,y+3,8,2,'ef8490');rect(x+6,y+7,13,2,'a63f62');rect(x+7,y+7,10,1,'ffae9c');rect(x+9,y+3,1,4,'fbb09f')
  elseif v==1 then
@@ -101,16 +148,26 @@ for v=0,11 do for f=0,7 do
  elseif v==11 then
   ellipse(x+12,y+3,3,2,'e6eddf');rect(x+6,y+5,12,4,ink);rect(x+7,y+5,10,3,'81bac6');rect(x+6,y+8,13,2,'dbe6da');rect(x+9,y+5,1,3,'c3e2de');rect(x+13,y+5,1,3,'c3e2de')
  end
-end end
+end
+local function neck(x,y,v,f)
+ local p=poses[f+1];x=x+p.t[1];y=y+p.t[2];local a,d,h=table.unpack(scarfcols[v+1])
+ rect(x+8,y+13,8,2,a);rect(x+8,y+15,3,1,d);rect(x+9,y+13,6,1,h)
+ if v==6 or v==7 then for xx=8,15,3 do rect(x+xx,y+13,1,2,d) end end
+ if v==10 then px(x+12,y+14,'ffe2a4') end
+end
+start(24*FRAMES,288,'Body, face and boots')
+for v=0,11 do for f=0,FRAMES-1 do body(f*24,v*24,v,f) end end
+save('wardrobe_outfits')
+start(24*FRAMES,312,'Independent headwear')
+for v=0,11 do for f=0,FRAMES-1 do hat(f*24,v*24,v,f) end end
 save('wardrobe_hats')
-start(192,312,'Scarf neck wraps')
-for v=0,11 do for f=0,7 do
- local x,y=f*24,v*24;local b=(f==1 or f==3 or f==5) and 1 or 0;local a,d,h=table.unpack(scarfcols[v+1])
- rect(x+7,y+12+b,9,2,a);rect(x+7,y+14+b,4,1,d);rect(x+8,y+12+b,7,1,h)
- if v==6 or v==7 then for xx=7,15,3 do rect(x+xx,y+12+b,1,2,d) end end
- if v==10 then px(x+12,y+13+b,'ffe2a4') end
-end end
+start(24*FRAMES,312,'Scarf neck wraps')
+for v=0,11 do for f=0,FRAMES-1 do neck(f*24,v*24,v,f) end end
 save('wardrobe_necks')
+-- Default look, used as the player scene's base texture before the wardrobe applies.
+start(24*FRAMES,24,'Default kid')
+for f=0,FRAMES-1 do body(f*24,0,0,f);neck(f*24,0,0,f);hat(f*24,0,0,f) end
+save('kid_scarf_ready')
 start(5,36,'Woven trailing scarf patterns')
 for v=0,11 do
  local a,d,h=table.unpack(scarfcols[v+1]);rect(0,v*3,5,1,h);rect(0,v*3+1,5,1,a);rect(0,v*3+2,5,1,d)
