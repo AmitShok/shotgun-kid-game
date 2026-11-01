@@ -27,6 +27,9 @@ const JUMP := 310.0
 const GRAVITY := 900.0
 const RECOIL := 390.0
 const MINE_LAUNCH := 600.0
+# Spore pod pulls, as in play: fast toward the pod, momentum kept on arrival.
+const PULL := 700.0
+const SPORE_POD=preload("res://assets/textures/spore_pod.png")
 # Columns left of this stay a low runway under the menu column.
 const RUNWAY := 17
 var columns: Array[Dictionary] = []
@@ -77,6 +80,7 @@ func _generate() -> Array[Dictionary]:
  var out: Array[Dictionary] = []
  var n := count()
  var h := 2
+ var pod_done := false
  while out.size()<n:
   var c := out.size()
   if c<RUNWAY+2 or c>=n-3:
@@ -87,6 +91,9 @@ func _generate() -> Array[Dictionary]:
    continue
   var room := n-3-c
   var pick := randf()
+  # Every course shows off a spore pod at least once.
+  if not pod_done and c>=RUNWAY+8 and room>=10 and h<=8: pick=0.7 if (h>4 or randf()<0.5) else 0.8
+  if pick>=0.6 and pick<0.86 and c>=RUNWAY+8: pod_done=true
   if pick<0.22 and room>=6:
    # Spiked pit: kick dash across it.
    var width := randi_range(3,5)
@@ -107,7 +114,29 @@ func _generate() -> Array[Dictionary]:
    out.append(_col(h))
    h=mini(h+randi_range(10,11),15)
    for i in 2: out.append(_col(h))
-  elif pick<0.8:
+  elif pick<0.76 and room>=10 and h<=8 and c>=RUNWAY+8:
+   # Pod pit: too wide to kick across, with a spore pod hanging past the middle. Pod features
+   # start well right of the menu column, so a high pod never hangs over the title.
+   var width := randi_range(7,8)
+   var first := out.size()
+   for i in width:
+    var pit := _col(0,true)
+    pit.podpit=true
+    out.append(pit)
+   out[first+width/2+1].pod=true
+   out[first+width/2+1].pod_h=h+3.5
+   h=clampi(h+randi_range(-1,0),1,7)
+   for i in 2: out.append(_col(h))
+  elif pick<0.86 and room>=5 and h<=4 and c>=RUNWAY+8:
+   # Pod tower: a wall too tall for shells, with a pod just above its leading edge.
+   h=mini(h+randi_range(11,12),15)
+   for i in 3:
+    var wall := _col(h)
+    wall.podwall=true
+    out.append(wall)
+   out[out.size()-3].pod=true
+   out[out.size()-3].pod_h=h+2.0
+  elif pick<0.93:
    # Drop or small step.
    h=clampi(h+randi_range(-5,2),1,12)
    for i in randi_range(2,3): out.append(_col(h))
@@ -119,12 +148,15 @@ func _generate() -> Array[Dictionary]:
  return out
 
 func _col(height: int,spiked := false) -> Dictionary:
- return {"h":height,"shown":float(height),"spikes":spiked,"mine":false,"armed":true,"regrow":0.0,"tex":tiles,"seed":randi()%997,"rebuild":false}
+ return {"h":height,"shown":float(height),"spikes":spiked,"mine":false,"armed":true,"regrow":0.0,"tex":tiles,"seed":randi()%997,"rebuild":false,"pod":false,"pod_h":0.0,"podpit":false,"podwall":false}
 
 func top(c: int) -> float:
  # Screen y of a column's top surface.
  if c<0 or c>=columns.size(): return size.y-2*TILE
  return size.y-columns[c].shown*TILE
+func pod_at(c: int) -> Vector2:
+ # A pod hangs pod_h tiles above the bottom of the screen, bobbing gently.
+ return Vector2(c*TILE+TILE*0.5,size.y-columns[c].pod_h*TILE+sin(clock*2.0+c)*2.0)
 func floor_under(x: float) -> float:
  # Highest surface under the kid's feet (pits read as their spiked floor).
  var best := size.y+40
@@ -166,6 +198,7 @@ func _rebuild_behind(delta: float) -> void:
    col.h=fresh.h
    col.spikes=fresh.spikes
    col.mine=fresh.mine
+   for key in ["pod","pod_h","podpit","podwall"]: col[key]=fresh[key]
    col.armed=true
    col.tex=tiles
    col.seed=fresh.seed
@@ -185,7 +218,7 @@ func _wrap() -> void:
   var col: Dictionary=columns[c]
   if not col.rebuild:
    var fresh: Dictionary=next_layout[c]
-   for key in ["h","spikes","mine","seed"]: col[key]=fresh[key]
+   for key in ["h","spikes","mine","seed","pod","pod_h","podpit","podwall"]: col[key]=fresh[key]
    col.armed=true
    col.tex=tiles
   col.rebuild=false
@@ -233,6 +266,13 @@ func _think(delta: float) -> void:
    "mine":
     plan="mine"
     plan_column=ahead.c
+   "pod":
+    # A pit too wide to dash or a wall too tall to pop: hop (or stand) and pull on the pod.
+    if on_floor and gap<(26 if ahead.wall else 4):
+     if not ahead.wall: _jump()
+     plan="pod"
+     plan_column=ahead.c
+     _say("POD PULL!")
   return
  if plan=="wall" and not on_floor: vel.x=move_toward(vel.x,RUN,700*delta)
  match plan:
@@ -272,6 +312,24 @@ func _think(delta: float) -> void:
   "launch":
    vel.x=RUN*0.8
    if on_floor: plan=""
+  "pod":
+   # From the ground at a tower, or near the top of the hop over a pit.
+   if columns[plan_column].podwall or (not on_floor and vel.y>-170):
+    var to_pod: Vector2=pod_at(plan_column)-(pos+Vector2(0,-9))
+    _fire(to_pod.normalized())
+    # The pod hands the shell back, and pulls instead of kicking.
+    ammo=mini(ammo+1,2)
+    plan="pull"
+  "pull":
+   var to_pod: Vector2=pod_at(plan_column)-(pos+Vector2(0,-12))
+   if to_pod.length()<10:
+    # Arrive with the pull's momentum, tipped forward so the kid carries on over.
+    vel=Vector2(maxf(to_pod.normalized().x,0.55),minf(to_pod.normalized().y,-0.25)).normalized()*PULL*0.62
+    plan="flying"
+    for i in 8: _puff(pod_at(plan_column),Vector2.RIGHT.rotated(randf()*TAU)*randf_range(30,90),Color(0.62,0.95,0.7,0.8),randf_range(1.5,3),0.45)
+   else:
+    vel=to_pod.normalized()*PULL
+    on_floor=false
 
 func _pit_ahead() -> bool:
  # Would this fall end in a pit? Looks a little ahead, where the current arc is heading.
@@ -288,6 +346,9 @@ func _next_obstacle() -> Dictionary:
   var col: Dictionary=columns[c]
   if col.mine and col.armed and c+1<columns.size():
    return {"kind":"mine","c":c,"x":c*TILE}
+  if col.podpit or col.podwall:
+   for p in range(c,mini(c+6,columns.size())):
+    if columns[p].pod: return {"kind":"pod","c":p,"x":c*TILE,"wall":col.podwall}
   if col.h==0:
    return {"kind":"pit","c":c,"x":c*TILE}
   var rise: float=feet-top(c)
@@ -401,6 +462,12 @@ func _draw() -> void:
  _draw_terrain()
  for c in columns.size():
   if columns[c].mine and columns[c].h>0: _draw_mine(c)
+  if columns[c].pod: _draw_pod(c)
+ if plan=="pull":
+  # The spore tether, from the gun to the pod.
+  var from: Vector2=pos-Vector2(0,FRAME*0.5*S)+Vector2(0,5*S)
+  draw_line(from,pod_at(plan_column),Color(0.55,0.95,0.7,0.9),2.0)
+  draw_line(from,pod_at(plan_column),Color(0.9,1.0,0.92,0.9),1.0)
  if boom>=0:
   var frame := mini(int(boom/0.5*6.0),5)
   draw_texture_rect_region(EXPLOSION,Rect2(boom_at-Vector2(48,48),Vector2(96,96)),Rect2(frame*96,0,96,96))
@@ -468,6 +535,12 @@ func _draw_mine(c: int) -> void:
   draw_texture_rect_region(MINE,Rect2(spot-Vector2(16,16),Vector2(32,32)),Rect2(int(clock*8)%4*32,0,32,32))
  else:
   draw_texture_rect_region(MINE,Rect2(spot-Vector2(16,16),Vector2(32,32)),Rect2(0,0,32,32),Color(0.5,0.55,0.65,0.25))
+
+func _draw_pod(c: int) -> void:
+ var spot := pod_at(c)
+ var glow := 0.5+0.5*sin(clock*4.0+c)
+ draw_circle(spot,11.0+glow*2.0,Color(0.45,0.95,0.6,0.12+glow*0.1))
+ draw_texture_rect_region(SPORE_POD,Rect2(spot-Vector2(12,12),Vector2(24,24)),Rect2(0,0,24,24))
 
 func _draw_kid() -> void:
  # Same sheet layout as the player: idle 0-3, run 4-9, rise 10, apex 11, fall 12-13.
