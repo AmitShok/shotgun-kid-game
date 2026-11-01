@@ -36,10 +36,20 @@ local function ring(cx,cy,r,width,color)
 end
 local function save(name) s:saveAs(root..'/assets/source/'..name..'.aseprite');s:saveCopyAs(root..'/assets/textures/'..name..'.png');s:close() end
 -- Background-only art direction. Safe to regenerate without changing tiles or layouts.
+-- Ordered (4x4 Bayer) dithering between fine colour steps: on the CRT the beam blur melts the
+-- pattern into a smooth gradient, the way 16-bit skies were painted.
+local BAYER={{0,8,2,10},{12,4,14,6},{3,11,1,9},{15,7,13,5}}
 local function gradient(top,bottom)
  local a,b=c(top),c(bottom)
- for y=0,399 do local t=math.floor(y/5)*5/399
-  rect(0,y,640,1,Color{r=a.red+(b.red-a.red)*t,g=a.green+(b.green-a.green)*t,b=a.blue+(b.blue-a.blue)*t})
+ local steps=24
+ local function tone(i) local t=i/steps;return Color{r=a.red+(b.red-a.red)*t,g=a.green+(b.green-a.green)*t,b=a.blue+(b.blue-a.blue)*t} end
+ local tones={};for i=0,steps do tones[i]=tone(i) end
+ for y=0,399 do
+  local level=y/399*steps;local base=math.floor(level);local frac=level-base
+  for x=0,639 do
+   local k=(BAYER[y%4+1][x%4+1]+0.5)/16
+   px(x,y,tones[math.min(steps,frac>k and base+1 or base)])
+  end
  end
 end
 local function mix(a,b,t)

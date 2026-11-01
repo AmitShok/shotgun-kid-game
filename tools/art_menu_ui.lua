@@ -22,8 +22,14 @@ for _,state in ipairs({'normal','hover','pressed','disabled'}) do
  layer('Cut metal rim')
  slab(0,0,48,22,'111c2e');slab(1,1,46,20,rim);slab(2,2,44,18,face)
  layer('Light and depth')
- rect(4,2,40,1,state=='pressed' and '18283a' or '76959c')
- rect(3,18,42,2,state=='pressed' and '18283a' or '1a2c40')
+ -- Bevels live in the 6px top and bottom margins, which never stretch, so their dither stays
+ -- crisp: a bright top line, a 50% blend band the CRT melts into a soft highlight, and a
+ -- dithered shadow along the bottom. The stretched middle stays one flat face colour.
+ local lit=state=='pressed' and '18283a' or (state=='hover' and 'f1c182' or '8fb0b4')
+ rect(4,2,40,1,lit)
+ for x=3,44 do if x%2==0 then px(x,3,state=='pressed' and '18283a' or rim) end;if (x+1)%2==0 then px(x,4,state=='pressed' and face or rim) end end
+ for x=3,44 do if x%2==0 then px(x,18,'1a2c40') end end
+ rect(3,19,42,1,state=='pressed' and '18283a' or '1a2c40')
  rect(4,20,40,1,'111e31')
  if state=='pressed' then rect(3,3,42,2,'18283a') end
  layer('Endcap details')
@@ -75,8 +81,10 @@ for _,full in ipairs({true,false}) do
  start(14,22);slab(0,0,14,22,'101b2c');slab(1,1,12,20,'344f63');slab(2,2,10,18,'172839')
  layer('Shell')
  if full then
-  rect(4,4,6,12,'b85a62');rect(4,4,2,11,'df8990');rect(9,5,1,10,'813e52')
-  rect(3,16,8,3,'c59358');rect(3,16,8,1,'f3d598');rect(4,19,6,1,'6c5460');rect(6,6,2,6,'e7b99b')
+  -- Matches the pickup: ribbed red hull, brass base with a bright glint for the CRT to bloom.
+  rect(4,3,6,13,'1c1a30');rect(5,4,4,12,'c9324a');rect(5,4,1,12,'f0697a');rect(8,4,1,12,'8f1f3c')
+  for yy=6,13,3 do rect(6,yy,2,1,'a82640') end;rect(5,4,4,1,'f58a8f');px(5,5,'ffd0c8')
+  rect(3,16,8,4,'1c1a30');rect(4,16,6,3,'d9a441');rect(4,16,6,1,'ffe08a');rect(4,18,6,1,'a06d2c');px(7,17,'fff2b8')
  else
   rect(4,4,6,1,'496071');rect(4,5,1,11,'3a5164');rect(9,5,1,11,'3a5164');rect(3,16,8,3,'3a5164');rect(4,19,6,1,'273e52')
  end

@@ -16,6 +16,10 @@ func run() -> void:
  change_scene_to_file("res://scenes/ui/main_menu.tscn")
  await frames(90)
  await shot(out,"menu")
+ current_scene._show_page("Wardrobe")
+ current_scene.get_node("Center/Wardrobe")._select_category("guns",false)
+ await frames(30)
+ await shot(out,"wardrobe_guns")
  for map in ["lantern_ridge","mossy_comet","copper_cloud","velvet_glacier","echo_orchard","lantern_ridge_3","velvet_glacier_3","echo_orchard_4"]:
   change_scene_to_file("res://scenes/levels/%s.tscn" % map)
   await frames(80)

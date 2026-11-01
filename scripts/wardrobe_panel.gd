@@ -40,7 +40,7 @@ func _ready() -> void:
  var stage=Sprite2D.new();stage.texture=preload("res://assets/textures/wardrobe_stage.png");stage.centered=false;viewport.add_child(stage)
  preview=PLAYER.instantiate();preview.name="PreviewPlayer";preview.remove_from_group("player")
  preview.set_physics_process(false);preview.set_process_input(false);preview.get_node("Camera2D").enabled=false
- preview.get_node("Shotgun").hide();preview.position=Vector2(34,35);viewport.add_child(preview)
+ preview.position=Vector2(34,35);viewport.add_child(preview)
  preview.set_physics_process(false);preview.set_process_input(false)
  preview.get_node("Camera2D").process_mode=Node.PROCESS_MODE_DISABLED
  var poses=HBoxContainer.new();left.add_child(poses)
@@ -100,6 +100,8 @@ func _process(delta: float) -> void:
  if not is_visible_in_tree() or not is_instance_valid(preview): return
  clock+=delta
  preview.facing=facing
+ # The equipped shotgun is part of the look, held level the way the kid faces.
+ preview.get_node("Shotgun").aim=Vector2(facing,0)
  preview.velocity=Vector2(facing*110,0) if pose==1 else Vector2(facing*80,-100) if pose==2 else Vector2.ZERO
  preview.position=Vector2(34+sin(clock*2)*2 if pose==1 else 34,32+sin(clock*3)*2 if pose==2 else 35)
  var sprite=preview.get_node("Sprite2D")
