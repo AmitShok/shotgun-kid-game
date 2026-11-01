@@ -15,6 +15,8 @@ func _ready() -> void:
  $Center/Wardrobe.back_requested.connect(func(): _show_page("Home"))
  $Center/Home/Options.pressed.connect(func(): _show_page("Options"))
  $Center/Home/Quit.pressed.connect(func(): Sfx.shutdown())
+ # A browser tab can't be closed by the game, so the web build has no Quit.
+ if OS.has_feature("web"): $Center/Home/Quit.hide()
  $Center/Levels/Back.pressed.connect(func(): _show_page("Home"))
  $Center/Options.back_requested.connect(func(): _show_page("Home"))
  world_map.world_changed.connect(func(index): $Backdrop.set_world(index); $Mascot.set_world(index))

@@ -18,6 +18,10 @@ config/name="Shotgun Kid"
 run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://assets/textures/game_icon.png"
+boot_splash/bg_color=Color(0.08, 0.08, 0.17, 1)
+boot_splash/image="res://assets/textures/game_icon.png"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 
 [autoload]
 

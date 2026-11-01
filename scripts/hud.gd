@@ -13,6 +13,8 @@ func _ready() -> void:
 	$Overlay/Center/Wardrobe.back_requested.connect(_close_wardrobe)
 	$Overlay/Center/Menu/Options.pressed.connect(_open_options)
 	$Overlay/Center/Menu/Quit.pressed.connect(func(): Sfx.shutdown())
+	# A browser tab can't be closed by the game, so the web build has no Quit.
+	if OS.has_feature("web"): $Overlay/Center/Menu/Quit.hide()
 	$Overlay/Center/Menu/MainMenu.pressed.connect(_main_menu)
 	$Overlay/Center/Options.back_requested.connect(_close_options)
 	SaveData.preferences_changed.connect(_apply_preferences)

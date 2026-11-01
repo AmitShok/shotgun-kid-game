@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web-build",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "http-server@14.1.1", "build/web", "-p", "8060", "-c-1", "--silent"],
+      "port": 8060
+    }
+  ]
+}
