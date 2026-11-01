@@ -175,15 +175,46 @@ func _build_terrain(tiles: TileSet) -> void:
  var ground: TileMapLayer=_add(level.get_node("Terrain"),TileMapLayer.new(),"Ground")
  ground.tile_set=tiles
  for cell in solid:
-  var up := _is_solid(cell+Vector2i.UP)
-  var down := _is_solid(cell+Vector2i.DOWN)
-  var row := 0 if not up else (2 if not down else 1)
-  # Columns 0 and 4 are the left/right edge caps (the scatter keeps them; others vary).
-  var column := 0 if not _is_solid(cell+Vector2i.LEFT) else (4 if not _is_solid(cell+Vector2i.RIGHT) else 1)
-  ground.set_cell(cell,0,Vector2i(column,row))
+  var tile := _terrain_tile(cell)
+  ground.set_cell(cell,0,tile)
   # Hanging rocks/icicles (non-solid row 3) under some exposed undersides.
-  if row==2 and not _is_solid(cell+Vector2i(0,2)) and (cell.x*7+cell.y*3)%3==0:
+  if tile.y==2 and not _is_solid(cell+Vector2i(0,2)) and (cell.x*7+cell.y*3)%3==0:
    ground.set_cell(cell+Vector2i.DOWN,0,Vector2i(posmod(cell.x*5,8),3))
+## Picks the atlas cell for a solid cell from its open sides and how deep it sits in the rock
+## (see tools/art_terrain.lua for the atlas layout). A position hash picks among variants, so
+## rebuilds are stable.
+func _terrain_tile(cell: Vector2i) -> Vector2i:
+ var u := not _is_solid(cell+Vector2i.UP)
+ var d := not _is_solid(cell+Vector2i.DOWN)
+ var l := not _is_solid(cell+Vector2i.LEFT)
+ var r := not _is_solid(cell+Vector2i.RIGHT)
+ var pick: int=absi(cell.x*31+cell.y*17)
+ var middles := [1,2,3,6,7]
+ if u and d:
+  if l and r: return Vector2i(4,5)
+  if l: return Vector2i(0,5)
+  if r: return Vector2i(3,5)
+  return Vector2i(1+pick%2,5)
+ if u or d:
+  var row := 0 if u else 2
+  if l and r: return Vector2i(5,row)
+  if l: return Vector2i(0,row)
+  if r: return Vector2i(4,row)
+  return Vector2i(middles[pick%5],row)
+ if l and r: return Vector2i(5,1)
+ if l: return Vector2i(0,1)
+ if r: return Vector2i(4,1)
+ # Enclosed on all four sides: an open diagonal makes an inner corner, otherwise depth decides.
+ if not _is_solid(cell+Vector2i(-1,-1)): return Vector2i(0,6)
+ if not _is_solid(cell+Vector2i(1,-1)): return Vector2i(1,6)
+ if not _is_solid(cell+Vector2i(-1,1)): return Vector2i(2,6)
+ if not _is_solid(cell+Vector2i(1,1)): return Vector2i(3,6)
+ var depth := 3
+ for dy in range(-2,3):
+  for dx in range(-2,3):
+   if not _is_solid(cell+Vector2i(dx,dy)): depth=2
+ if depth==2: return Vector2i(pick%4,4)
+ return Vector2i(4+pick%4,4)
 func _decorate(scenery: Node2D,map_name: String) -> void:
  # Small props on open ground tops, placed by a position hash so rebuilds are stable.
  var biome: String=MAP.biome(map_name)
