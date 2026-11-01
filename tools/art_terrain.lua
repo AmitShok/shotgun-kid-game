@@ -77,12 +77,13 @@ function patterns.plates(x,y,v)
  return tone
 end
 function patterns.ice(x,y,v)
- -- Two broad facets meeting on a diagonal, a dithered seam between them, and rare glints.
+ -- Calm ice: two facets half a tone apart (one is a checker the CRT blends), a faint
+ -- fracture line now and then, and a rare glint. Strong stripes would dominate big walls.
  local d=(x+y)%16
- local tone
- if d<7 then tone=5 elseif d==7 or d==15 then tone=((x%2)==0) and 4 or 5 elseif d<15 then tone=4 end
- if y%8==3 and x%8==5 then tone=6 end
- if (x-y)%16==0 and d>8 then tone=3 end
+ local tone=4
+ if d<8 and (x+y)%2==0 then tone=5 end
+ if (x-2*y)%16==0 and d>9 then tone=3 end
+ if x==5 and y==11 then tone=6 end
  return tone
 end
 function patterns.earth(x,y,v)

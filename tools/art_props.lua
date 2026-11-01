@@ -55,3 +55,34 @@ for _,cl in ipairs({{55,60,95},{210,98,145},{450,113,120},{50,153,150},{330,180,
  local x,y,w=cl[1],cl[2],cl[3];rect(x,y,w,3,'8a7389');rect(x+12,y-3,w-28,3,'9c8191');rect(x+23,y-5,w-57,2,'b6969c');rect(x-13,y+3,w+35,2,'655b76');rect(x+14,y+5,w-17,2,'514c68')
 end
 save('background')
+
+-- Lantern Ridge mountain planes (moved here from art_lantern_ridge.lua), flattened and given
+-- the same dithered fog ramp and silhouette rim light as the other worlds' backdrops.
+dofile(root..'/tools/art_depth.lua')
+local function line(x0,y0,x1,y1,col)
+ local steps=math.max(math.abs(x1-x0),math.abs(y1-y0));if steps==0 then px(x0,y0,col);return end
+ for i=0,steps do px(math.floor(x0+(x1-x0)*i/steps),math.floor(y0+(y1-y0)*i/steps),col) end
+end
+local function poly(points,col)
+ local lo,hi=10000,-10000
+ for _,p in ipairs(points) do lo=math.min(lo,p[2]);hi=math.max(hi,p[2]) end
+ for y=math.floor(lo),math.ceil(hi) do
+  local crosses={}
+  for i=1,#points do local p=points[i];local q=points[i%#points+1]
+   if (p[2]<=y and q[2]>y) or (q[2]<=y and p[2]>y) then table.insert(crosses,p[1]+(y-p[2])*(q[1]-p[1])/(q[2]-p[2])) end
+  end
+  table.sort(crosses);for i=1,#crosses-1,2 do local a=math.ceil(crosses[i]);rect(a,y,math.floor(crosses[i+1])-a+1,1,col) end
+ end
+end
+start(640,400,'Far mountain shapes')
+poly({{-90,325},{20,172},{56,197},{154,72},{219,166},{260,132},{340,236},{419,109},{487,203},{552,152},{690,312},{690,360},{-90,360}},'71677f')
+poly({{20,172},{-50,321},{-3,290},{44,223},{56,197}},'9d8294');poly({{154,72},{76,183},{111,164},{143,199},{154,167},{193,205}},'bca0ab');poly({{154,72},{165,184},{219,238},{211,169}},'87758e');poly({{419,109},{345,237},{390,220},{410,186},{444,237}},'a28c9f');poly({{552,152},{483,256},{528,225},{570,246}},'9a8095')
+poly({{154,72},{117,126},{137,116},{144,140},{154,125},{166,146},{176,136}},'e0c8c3');poly({{419,109},{387,163},{407,150},{418,170},{425,153},{438,166}},'d6c0be');line(154,153,118,238,'645f7b');line(154,167,171,255,'625c78');line(424,184,452,272,'5a5874')
+depth(s.layers[1],'5c5574',0.05,0.45,'f2dcd2')
+save('mountains_far')
+math.randomseed(2203)
+start(640,400,'Blue ridge');poly({{0,285},{47,227},{93,246},{162,200},{224,267},{280,246},{350,284},{420,216},{468,242},{528,214},{594,275},{640,285},{640,400},{0,400}},'38465f')
+for x=-10,655,13 do local h=math.random(25,65);local y=313+math.floor(math.sin(x/65)*14);rect(x,y-h,2,h,'2c3c55');for n=0,3 do local w=4+n*3;poly({{x+1,y-h+n*10},{x-w,y-h+n*10+16},{x+w+2,y-h+n*10+16}},n%2==0 and '30465d' or '2c4058') end end
+rect(0,330,640,70,'2c3c55')
+depth(s.layers[1],'24304a',0.0,0.3,'7f97b8')
+save('mountains_near')
