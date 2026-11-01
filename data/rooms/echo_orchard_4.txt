@@ -1,7 +1,7 @@
 ; Echo Orchard 4 — HOLLOW TRUNK. Built from data/rooms/specs/echo_orchard_4.gd.
 
 
-; K01 — Fight the lift: a low hall where every gust tries to carry you into the spikes overhead. Shoot upward to drive yourself back to the floor; each landing reloads you.
+; K01 — Fight the lift: a low hall where every gust tries to carry you into the spikes overhead. Shoot upward to drive yourself back to the floor (each landing reloads you), but never over the pits: cross those in the calm.
 @room K01 0 0
 ##################################################
 #.....vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv.....#
@@ -10,13 +10,118 @@
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
-......~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
-......~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
-......~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
-..P...~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+#.P...~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+##############...#########...#######...###########
+##############^^^#########^^^#######^^^###########
 ##################################################
+
+; K02 — Draught steps: climb the trunk on slick ice ledges. Every ledge has a gust blowing toward the spiked bark beside it. The bark ledges hold you; the ice ones do not, so cross each ice ledge in a single calm. At the top a draught lifts you out.
+@room K02 50 -28
+############....####
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#>{{{{{{{{{{.......#
+#>{{{{{{{{{{.......#
+#...#####..........#
+#.......}}}}}}}}}}<#
+#.......}}}}}}}}}}<#
+#..........iiii....#
+#>{{{{{{{{{{.......#
+#>{{{{{{{{{{.......#
+#...#####..........#
+#.......}}}}}}}}}}<#
+#.......}}}}}}}}}}<#
+#..........iiii....#
+#>{{{{{{{{{{.......#
+#>{{{{{{{{{{.......#
+#...#####..........#
+#.......}}}}}}}}}}<#
+#.......}}}}}}}}}}<#
+#..........iiii....#
+#>{{{{{{{{{{.......#
+#>{{{{{{{{{{.......#
+#...#####..........#
+#.......}}}}}}}}}}<#
+........}}}}}}}}}}<#
+...........iiii....#
+...................#
+...P...............#
+####################
 
 ; Routes
 
 @route K01 K02
-300 right
+34 right
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+30 right
+14 right jump
+20 right
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+20 right
+14 right jump
+20 right
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+2 right
+14 right jump
+200 right
+
+@route K02 K03
+70
+30 right
+16 right jump
+10
+16 left jump
+6 left
+80

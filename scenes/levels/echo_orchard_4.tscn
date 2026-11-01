@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/actors/spikes.tscn" id="6_i670t"]
 [ext_resource type="Script" path="res://scripts/hazard.gd" id="7_u5duw"]
 [ext_resource type="Script" path="res://scripts/wind_zone.gd" id="8_suoru"]
+[ext_resource type="Script" path="res://scripts/ice_block.gd" id="9_rb03r"]
 [ext_resource type="Texture2D" path="res://assets/textures/echo_orchard_decor.png" id="22_lnyk2"]
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="25_71sde"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="26_7g8qp"]
@@ -17,8 +18,8 @@
 [node name="ECHOORCHARD" type="Node2D" unique_id=2029715423]
 script = ExtResource("1_ej8ij")
 level_title = "HOLLOW TRUNK"
-fall_limit_y = 256.0
-camera_bounds = Rect2(0, 0, 800, 192)
+fall_limit_y = 288.0
+camera_bounds = Rect2(0, -448, 1120, 672)
 checkpoint_fall_distance = 800.0
 music = "echo_orchard"
 
@@ -28,288 +29,296 @@ script = ExtResource("3_bouuo")
 
 [node name="Terrain" type="Node2D" parent="." unique_id=783652292]
 
-[node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=1304084319]
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAABAAAAAAALAAAAAAABAAAAAAAMAAAAAAABAAAAAAANAAAAAAABAAAAAAAOAAAAAAABAAAAAAAPAAAAAAABAAAAAAAQAAAAAAABAAAAAAARAAAAAAABAAAAAAASAAAAAAABAAAAAAATAAAAAAABAAAAAAAUAAAAAAABAAAAAAAVAAAAAAABAAAAAAAWAAAAAAABAAAAAAAXAAAAAAABAAAAAAAYAAAAAAABAAAAAAAZAAAAAAABAAAAAAAaAAAAAAABAAAAAAAbAAAAAAABAAAAAAAcAAAAAAABAAAAAAAdAAAAAAABAAAAAAAeAAAAAAABAAAAAAAfAAAAAAABAAAAAAAgAAAAAAABAAAAAAAhAAAAAAABAAAAAAAiAAAAAAABAAAAAAAjAAAAAAABAAAAAAAkAAAAAAABAAAAAAAlAAAAAAABAAAAAAAmAAAAAAABAAAAAAAnAAAAAAABAAAAAAAoAAAAAAABAAAAAAApAAAAAAABAAAAAAAqAAAAAAABAAAAAAArAAAAAAABAAAAAAAsAAAAAAABAAAAAAAtAAAAAAABAAAAAAAuAAAAAAABAAAAAAAvAAAAAAABAAAAAAAwAAAAAAABAAAAAAAxAAAAAAAEAAAAAAAAAAEAAAAAAAEAAAAxAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAxAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAxAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAAxAAQAAAAAAAEAAAAAAAUAAAAAAAEAAAAxAAUAAAAAAAEAAAAAAAYAAAAAAAIAAAAAAAcAAAAAAAMAAAAxAAYAAAAAAAIAAAAAAAsAAAAAAAAAAAABAAsAAAABAAAAAAACAAsAAAABAAAAAAADAAsAAAABAAAAAAAEAAsAAAABAAAAAAAFAAsAAAABAAAAAAAGAAsAAAABAAAAAAAHAAsAAAABAAAAAAAIAAsAAAABAAAAAAAJAAsAAAABAAAAAAAKAAsAAAABAAAAAAALAAsAAAABAAAAAAAMAAsAAAABAAAAAAANAAsAAAABAAAAAAAOAAsAAAABAAAAAAAPAAsAAAABAAAAAAAQAAsAAAABAAAAAAARAAsAAAABAAAAAAASAAsAAAABAAAAAAATAAsAAAABAAAAAAAUAAsAAAABAAAAAAAVAAsAAAABAAAAAAAWAAsAAAABAAAAAAAXAAsAAAABAAAAAAAYAAsAAAABAAAAAAAZAAsAAAABAAAAAAAaAAsAAAABAAAAAAAbAAsAAAABAAAAAAAcAAsAAAABAAAAAAAdAAsAAAABAAAAAAAeAAsAAAABAAAAAAAfAAsAAAABAAAAAAAgAAsAAAABAAAAAAAhAAsAAAABAAAAAAAiAAsAAAABAAAAAAAjAAsAAAABAAAAAAAkAAsAAAABAAAAAAAlAAsAAAABAAAAAAAmAAsAAAABAAAAAAAnAAsAAAABAAAAAAAoAAsAAAABAAAAAAApAAsAAAABAAAAAAAqAAsAAAABAAAAAAArAAsAAAABAAAAAAAsAAsAAAABAAAAAAAtAAsAAAABAAAAAAAuAAsAAAABAAAAAAAvAAsAAAABAAAAAAAwAAsAAAABAAAAAAAxAAsAAAAEAAAAAAA=")
+[node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=669537637]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAABAAAAAAALAAAAAAABAAAAAAAMAAAAAAABAAAAAAANAAAAAAABAAAAAAAOAAAAAAABAAAAAAAPAAAAAAABAAAAAAAQAAAAAAABAAAAAAARAAAAAAABAAAAAAASAAAAAAABAAAAAAATAAAAAAABAAAAAAAUAAAAAAABAAAAAAAVAAAAAAABAAAAAAAWAAAAAAABAAAAAAAXAAAAAAABAAAAAAAYAAAAAAABAAAAAAAZAAAAAAABAAAAAAAaAAAAAAABAAAAAAAbAAAAAAABAAAAAAAcAAAAAAABAAAAAAAdAAAAAAABAAAAAAAeAAAAAAABAAAAAAAfAAAAAAABAAAAAAAgAAAAAAABAAAAAAAhAAAAAAABAAAAAAAiAAAAAAABAAAAAAAjAAAAAAABAAAAAAAkAAAAAAABAAAAAAAlAAAAAAABAAAAAAAmAAAAAAABAAAAAAAnAAAAAAABAAAAAAAoAAAAAAABAAAAAAApAAAAAAABAAAAAAAqAAAAAAABAAAAAAArAAAAAAABAAAAAAAsAAAAAAABAAAAAAAtAAAAAAABAAAAAAAuAAAAAAABAAAAAAAvAAAAAAABAAAAAAAwAAAAAAABAAAAAAAxAAAAAAABAAAAAAAAAAEAAAAAAAEAAAAxAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAxAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAxAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAAxAAQAAAAAAAEAAAAAAAUAAAAAAAEAAAAxAAUAAAAAAAEAAAAAAAYAAAAAAAEAAAAxAAYAAAAAAAIAAAAAAAcAAAAAAAEAAAAAAAgAAAAAAAEAAAAAAAkAAAAAAAEAAAAAAAoAAAAAAAEAAAAAAAsAAAAAAAEAAAABAAsAAAABAAAAAAACAAsAAAABAAAAAAADAAsAAAABAAAAAAAEAAsAAAABAAAAAAAFAAsAAAABAAAAAAAGAAsAAAABAAAAAAAHAAsAAAABAAAAAAAIAAsAAAABAAAA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AABDAOT/AAABAAAAAABEAOT/AAABAAAAAABFAOT/AAAEAAAAAAAyAOX/AAAAAAEAAABFAOX/AAAAAAEAAAAyAOb/AAAAAAEAAABFAOb/AAAAAAEAAAAyAOf/AAAAAAEAAABFAOf/AAAAAAEAAAAyAOj/AAAAAAEAAABFAOj/AAAAAAEAAAAyAOn/AAAAAAEAAABFAOn/AAAAAAEAAAAyAOr/AAAAAAEAAABFAOr/AAAAAAEAAAAyAOv/AAAAAAEAAABFAOv/AAAAAAEAAAAyAOz/AAAAAAEAAABFAOz/AAAAAAEAAAAyAO3/AAAAAAEAAABFAO3/AAAAAAEAAAAyAO7/AAAAAAEAAABFAO7/AAAAAAEAAAAyAO//AAAAAAEAAABFAO//AAAAAAEAAAAyAPD/AAAAAAEAAABFAPD/AAAAAAEAAAAyAPH/AAAAAAEAAABFAPH/AAAAAAEAAAAyAPL/AAAAAAEAAABFAPL/AAAAAAEAAAAyAPP/AAAAAAEAAAA2APP/AAAAAAAAAAA3APP/AAABAAAAAAA4APP/AAABAAAAAAA5APP/AAABAAAAAAA6APP/AAAEAAAAAABFAPP/AAAAAAEAAAAyAPT/AAAAAAEAAABFAPT/AAAAAAEAAAAyAPX/AAAAAAEAAABFAPX/AAAAAAEAAAAyAPb/AAAAAAEAAABFAPb/AAAAAAEAAAAyAPf/AAAAAAEAAABFAPf/AAAAAAEAAAAyAPj/AAAAAAEAAABFAPj/AAAAAAEAAAAyAPn/AAAAAAEAAAA2APn/AAAAAAAAAAA3APn/AAABAAAAAAA4APn/AAABAAAAAAA5APn/AAABAAAAAAA6APn/AAAEAAAAAABFAPn/AAAAAAEAAAAyAPr/AAAAAAEAAABFAPr/AAAAAAEAAAAyAPv/AAAAAAEAAABFAPv/AAAAAAEAAAAyAPz/AAAAAAEAAABFAPz/AAAAAAEAAAAyAP3/AAAAAAEAAABFAP3/AAAAAAEAAAAyAP7/AAAAAAEAAABFAP7/AAAAAAEAAAAyAP//AAAAAAEAAAA2AP//AAAAAAAAAAA3AP//AAABAAAAAAA4AP//AAABAAAAAAA5AP//AAABAAAAAAA6AP//AAAEAAAAAABFAP//AAAAAAEAAAAyAAAAAAAEAAEAAABFAAAAAAAAAAEAAAAyAAEAAAAEAAEAAABFAAEAAAAAAAEAAAAyAAIAAAAEAAEAAABFAAIAAAAAAAEAAAAyAAMAAAAEAAEAAABFAAMAAAAAAAEAAAAyAAQAAAAEAAEAAABFAAQAAAAAAAEAAAAyAAUAAAAEAAEAAAA2AAUAAAAAAAAAAAA3AAUAAAABAAAAAAA4AAUAAAABAAAAAAA5AAUAAAABAAAAAAA6AAUAAAAEAAAAAABFAAUAAAAAAAEAAAAyAAYAAAAEAAIAAABFAAYAAAAAAAEAAABFAAcAAAAAAAEAAABFAAgAAAAAAAEAAABFAAkAAAAAAAEAAABFAAoAAAAAAAEAAAAyAAsAAAABAAAAAAAzAAsAAAABAAAAAAA0AAsAAAABAAAAAAA1AAsAAAABAAAAAAA2AAsAAAABAAAAAAA3AAsAAAABAAAAAAA4AAsAAAABAAAAAAA5AAsAAAABAAAAAAA6AAsAAAABAAAAAAA7AAsAAAABAAAAAAA8AAsAAAABAAAAAAA9AAsAAAABAAAAAAA+AAsAAAABAAAAAAA/AAsAAAABAAAAAABAAAsAAAABAAAAAABBAAsAAAABAAAAAABCAAsAAAABAAAAAABDAAsAAAABAAAAAABEAAsAAAABAAAAAABFAAsAAAAEAAIAAABFAAwAAAABAAMAAAA=")
 tile_set = ExtResource("4_obbo6")
 
-[node name="Rooms" type="Node2D" parent="." unique_id=945002301]
+[node name="Rooms" type="Node2D" parent="." unique_id=1917675476]
 
-[node name="K01" type="Node2D" parent="Rooms" unique_id=742692297]
+[node name="K01" type="Node2D" parent="Rooms" unique_id=651122064]
 script = ExtResource("5_0hy0h")
-size = Vector2i(800, 192)
+size = Vector2i(800, 224)
 
-[node name="Spawn" type="Marker2D" parent="Rooms/K01" unique_id=22617344]
+[node name="Spawn" type="Marker2D" parent="Rooms/K01" unique_id=142529218]
 position = Vector2(40, 165)
 
-[node name="Actors" type="Node2D" parent="." unique_id=550160581]
+[node name="K02" type="Node2D" parent="Rooms" unique_id=2079988359]
+position = Vector2(800, -448)
+script = ExtResource("5_0hy0h")
+size = Vector2i(320, 640)
 
-[node name="Spikes1" type="Area2D" parent="Actors" unique_id=2139477874 instance=ExtResource("6_i670t")]
+[node name="Spawn" type="Marker2D" parent="Rooms/K02" unique_id=1514052710]
+position = Vector2(56, 613)
+
+[node name="Actors" type="Node2D" parent="." unique_id=208126735]
+
+[node name="Spikes1" type="Area2D" parent="Actors" unique_id=598615450 instance=ExtResource("6_i670t")]
 position = Vector2(104, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes2" type="Area2D" parent="Actors" unique_id=1791051819 instance=ExtResource("6_i670t")]
+[node name="Spikes2" type="Area2D" parent="Actors" unique_id=1389937905 instance=ExtResource("6_i670t")]
 position = Vector2(120, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes3" type="Area2D" parent="Actors" unique_id=1521493162 instance=ExtResource("6_i670t")]
+[node name="Spikes3" type="Area2D" parent="Actors" unique_id=2009619662 instance=ExtResource("6_i670t")]
 position = Vector2(136, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes4" type="Area2D" parent="Actors" unique_id=1101784287 instance=ExtResource("6_i670t")]
+[node name="Spikes4" type="Area2D" parent="Actors" unique_id=538640554 instance=ExtResource("6_i670t")]
 position = Vector2(152, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes5" type="Area2D" parent="Actors" unique_id=179795668 instance=ExtResource("6_i670t")]
+[node name="Spikes5" type="Area2D" parent="Actors" unique_id=1135172481 instance=ExtResource("6_i670t")]
 position = Vector2(168, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes6" type="Area2D" parent="Actors" unique_id=960731468 instance=ExtResource("6_i670t")]
+[node name="Spikes6" type="Area2D" parent="Actors" unique_id=1903201397 instance=ExtResource("6_i670t")]
 position = Vector2(184, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes7" type="Area2D" parent="Actors" unique_id=1591732172 instance=ExtResource("6_i670t")]
+[node name="Spikes7" type="Area2D" parent="Actors" unique_id=1076076388 instance=ExtResource("6_i670t")]
 position = Vector2(200, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes8" type="Area2D" parent="Actors" unique_id=1653651419 instance=ExtResource("6_i670t")]
+[node name="Spikes8" type="Area2D" parent="Actors" unique_id=1168119127 instance=ExtResource("6_i670t")]
 position = Vector2(216, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes9" type="Area2D" parent="Actors" unique_id=1832702984 instance=ExtResource("6_i670t")]
+[node name="Spikes9" type="Area2D" parent="Actors" unique_id=98691522 instance=ExtResource("6_i670t")]
 position = Vector2(232, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes10" type="Area2D" parent="Actors" unique_id=2127822185 instance=ExtResource("6_i670t")]
+[node name="Spikes10" type="Area2D" parent="Actors" unique_id=1322913669 instance=ExtResource("6_i670t")]
 position = Vector2(248, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes11" type="Area2D" parent="Actors" unique_id=452172973 instance=ExtResource("6_i670t")]
+[node name="Spikes11" type="Area2D" parent="Actors" unique_id=410824948 instance=ExtResource("6_i670t")]
 position = Vector2(264, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes12" type="Area2D" parent="Actors" unique_id=1216472608 instance=ExtResource("6_i670t")]
+[node name="Spikes12" type="Area2D" parent="Actors" unique_id=948043984 instance=ExtResource("6_i670t")]
 position = Vector2(280, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes13" type="Area2D" parent="Actors" unique_id=1093331446 instance=ExtResource("6_i670t")]
+[node name="Spikes13" type="Area2D" parent="Actors" unique_id=1541994690 instance=ExtResource("6_i670t")]
 position = Vector2(296, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes14" type="Area2D" parent="Actors" unique_id=420025495 instance=ExtResource("6_i670t")]
+[node name="Spikes14" type="Area2D" parent="Actors" unique_id=1765733986 instance=ExtResource("6_i670t")]
 position = Vector2(312, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes15" type="Area2D" parent="Actors" unique_id=1084352145 instance=ExtResource("6_i670t")]
+[node name="Spikes15" type="Area2D" parent="Actors" unique_id=1795708167 instance=ExtResource("6_i670t")]
 position = Vector2(328, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes16" type="Area2D" parent="Actors" unique_id=1567213078 instance=ExtResource("6_i670t")]
+[node name="Spikes16" type="Area2D" parent="Actors" unique_id=1963302234 instance=ExtResource("6_i670t")]
 position = Vector2(344, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes17" type="Area2D" parent="Actors" unique_id=1158037896 instance=ExtResource("6_i670t")]
+[node name="Spikes17" type="Area2D" parent="Actors" unique_id=794663959 instance=ExtResource("6_i670t")]
 position = Vector2(360, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes18" type="Area2D" parent="Actors" unique_id=1590623568 instance=ExtResource("6_i670t")]
+[node name="Spikes18" type="Area2D" parent="Actors" unique_id=1845466839 instance=ExtResource("6_i670t")]
 position = Vector2(376, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes19" type="Area2D" parent="Actors" unique_id=86341604 instance=ExtResource("6_i670t")]
+[node name="Spikes19" type="Area2D" parent="Actors" unique_id=2051200441 instance=ExtResource("6_i670t")]
 position = Vector2(392, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes20" type="Area2D" parent="Actors" unique_id=1831501977 instance=ExtResource("6_i670t")]
+[node name="Spikes20" type="Area2D" parent="Actors" unique_id=5555207 instance=ExtResource("6_i670t")]
 position = Vector2(408, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes21" type="Area2D" parent="Actors" unique_id=1358609933 instance=ExtResource("6_i670t")]
+[node name="Spikes21" type="Area2D" parent="Actors" unique_id=1762805390 instance=ExtResource("6_i670t")]
 position = Vector2(424, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes22" type="Area2D" parent="Actors" unique_id=807630332 instance=ExtResource("6_i670t")]
+[node name="Spikes22" type="Area2D" parent="Actors" unique_id=1254523718 instance=ExtResource("6_i670t")]
 position = Vector2(440, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes23" type="Area2D" parent="Actors" unique_id=1358598607 instance=ExtResource("6_i670t")]
+[node name="Spikes23" type="Area2D" parent="Actors" unique_id=1968247172 instance=ExtResource("6_i670t")]
 position = Vector2(456, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes24" type="Area2D" parent="Actors" unique_id=1679870554 instance=ExtResource("6_i670t")]
+[node name="Spikes24" type="Area2D" parent="Actors" unique_id=619446241 instance=ExtResource("6_i670t")]
 position = Vector2(472, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes25" type="Area2D" parent="Actors" unique_id=1910275928 instance=ExtResource("6_i670t")]
+[node name="Spikes25" type="Area2D" parent="Actors" unique_id=74601562 instance=ExtResource("6_i670t")]
 position = Vector2(488, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes26" type="Area2D" parent="Actors" unique_id=1329004056 instance=ExtResource("6_i670t")]
+[node name="Spikes26" type="Area2D" parent="Actors" unique_id=748677317 instance=ExtResource("6_i670t")]
 position = Vector2(504, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes27" type="Area2D" parent="Actors" unique_id=1380930567 instance=ExtResource("6_i670t")]
+[node name="Spikes27" type="Area2D" parent="Actors" unique_id=132337607 instance=ExtResource("6_i670t")]
 position = Vector2(520, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes28" type="Area2D" parent="Actors" unique_id=513149218 instance=ExtResource("6_i670t")]
+[node name="Spikes28" type="Area2D" parent="Actors" unique_id=3321031 instance=ExtResource("6_i670t")]
 position = Vector2(536, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes29" type="Area2D" parent="Actors" unique_id=1501144420 instance=ExtResource("6_i670t")]
+[node name="Spikes29" type="Area2D" parent="Actors" unique_id=396352402 instance=ExtResource("6_i670t")]
 position = Vector2(552, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes30" type="Area2D" parent="Actors" unique_id=2030634241 instance=ExtResource("6_i670t")]
+[node name="Spikes30" type="Area2D" parent="Actors" unique_id=1746157706 instance=ExtResource("6_i670t")]
 position = Vector2(568, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes31" type="Area2D" parent="Actors" unique_id=1756918067 instance=ExtResource("6_i670t")]
+[node name="Spikes31" type="Area2D" parent="Actors" unique_id=1723906182 instance=ExtResource("6_i670t")]
 position = Vector2(584, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes32" type="Area2D" parent="Actors" unique_id=1278606754 instance=ExtResource("6_i670t")]
+[node name="Spikes32" type="Area2D" parent="Actors" unique_id=176624625 instance=ExtResource("6_i670t")]
 position = Vector2(600, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes33" type="Area2D" parent="Actors" unique_id=1223586300 instance=ExtResource("6_i670t")]
+[node name="Spikes33" type="Area2D" parent="Actors" unique_id=717518510 instance=ExtResource("6_i670t")]
 position = Vector2(616, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes34" type="Area2D" parent="Actors" unique_id=1925121574 instance=ExtResource("6_i670t")]
+[node name="Spikes34" type="Area2D" parent="Actors" unique_id=880664818 instance=ExtResource("6_i670t")]
 position = Vector2(632, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes35" type="Area2D" parent="Actors" unique_id=1512032405 instance=ExtResource("6_i670t")]
+[node name="Spikes35" type="Area2D" parent="Actors" unique_id=2041924212 instance=ExtResource("6_i670t")]
 position = Vector2(648, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes36" type="Area2D" parent="Actors" unique_id=6401681 instance=ExtResource("6_i670t")]
+[node name="Spikes36" type="Area2D" parent="Actors" unique_id=1102381215 instance=ExtResource("6_i670t")]
 position = Vector2(664, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes37" type="Area2D" parent="Actors" unique_id=1793665813 instance=ExtResource("6_i670t")]
+[node name="Spikes37" type="Area2D" parent="Actors" unique_id=762397995 instance=ExtResource("6_i670t")]
 position = Vector2(680, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Spikes38" type="Area2D" parent="Actors" unique_id=709880590 instance=ExtResource("6_i670t")]
+[node name="Spikes38" type="Area2D" parent="Actors" unique_id=1365177347 instance=ExtResource("6_i670t")]
 position = Vector2(696, 16)
 rotation = 3.1415927
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_u5duw")
 
-[node name="Wind6_2" type="Node2D" parent="Actors" unique_id=1828043409]
+[node name="Wind6_2" type="Node2D" parent="Actors" unique_id=1406816250]
 position = Vector2(96, 32)
 script = ExtResource("8_suoru")
 tiles = 38
@@ -317,113 +326,408 @@ rows = 9
 direction = Vector2(0, -1)
 strength = 1700.0
 
-[node name="Scenery" type="Node2D" parent="." unique_id=1955530727]
+[node name="Spikes39" type="Area2D" parent="Actors" unique_id=1247341729 instance=ExtResource("6_i670t")]
+position = Vector2(232, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes40" type="Area2D" parent="Actors" unique_id=425651795 instance=ExtResource("6_i670t")]
+position = Vector2(248, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes41" type="Area2D" parent="Actors" unique_id=1815817657 instance=ExtResource("6_i670t")]
+position = Vector2(264, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes42" type="Area2D" parent="Actors" unique_id=849387193 instance=ExtResource("6_i670t")]
+position = Vector2(424, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes43" type="Area2D" parent="Actors" unique_id=673781234 instance=ExtResource("6_i670t")]
+position = Vector2(440, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes44" type="Area2D" parent="Actors" unique_id=763262887 instance=ExtResource("6_i670t")]
+position = Vector2(456, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes45" type="Area2D" parent="Actors" unique_id=992480960 instance=ExtResource("6_i670t")]
+position = Vector2(584, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes46" type="Area2D" parent="Actors" unique_id=454065816 instance=ExtResource("6_i670t")]
+position = Vector2(600, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes47" type="Area2D" parent="Actors" unique_id=125090897 instance=ExtResource("6_i670t")]
+position = Vector2(616, 208)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind62_-27" type="Node2D" parent="Actors" unique_id=1304287321]
+position = Vector2(992, -432)
+script = ExtResource("8_suoru")
+tiles = 4
+rows = 12
+direction = Vector2(0, -1)
+strength = 1700.0
+
+[node name="Spikes48" type="Area2D" parent="Actors" unique_id=1879836136 instance=ExtResource("6_i670t")]
+position = Vector2(816, -232)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind52_-15" type="Node2D" parent="Actors" unique_id=1184567252]
+position = Vector2(832, -240)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+direction = Vector2(-1, 0)
+
+[node name="Spikes49" type="Area2D" parent="Actors" unique_id=313514251 instance=ExtResource("6_i670t")]
+position = Vector2(816, -216)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind58_-12" type="Node2D" parent="Actors" unique_id=244275258]
+position = Vector2(928, -192)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+
+[node name="Spikes50" type="Area2D" parent="Actors" unique_id=632146901 instance=ExtResource("6_i670t")]
+position = Vector2(1104, -184)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes51" type="Area2D" parent="Actors" unique_id=912823937 instance=ExtResource("6_i670t")]
+position = Vector2(1104, -168)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Ice61_-10" type="StaticBody2D" parent="Actors" unique_id=425573457]
+position = Vector2(976, -160)
+script = ExtResource("9_rb03r")
+tiles = 4
+
+[node name="Spikes52" type="Area2D" parent="Actors" unique_id=1343481550 instance=ExtResource("6_i670t")]
+position = Vector2(816, -136)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind52_-9" type="Node2D" parent="Actors" unique_id=311406459]
+position = Vector2(832, -144)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+direction = Vector2(-1, 0)
+
+[node name="Spikes53" type="Area2D" parent="Actors" unique_id=1240597553 instance=ExtResource("6_i670t")]
+position = Vector2(816, -120)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind58_-6" type="Node2D" parent="Actors" unique_id=66523584]
+position = Vector2(928, -96)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+
+[node name="Spikes54" type="Area2D" parent="Actors" unique_id=596057265 instance=ExtResource("6_i670t")]
+position = Vector2(1104, -88)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes55" type="Area2D" parent="Actors" unique_id=315782233 instance=ExtResource("6_i670t")]
+position = Vector2(1104, -72)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Ice61_-4" type="StaticBody2D" parent="Actors" unique_id=379973452]
+position = Vector2(976, -64)
+script = ExtResource("9_rb03r")
+tiles = 4
+
+[node name="Spikes56" type="Area2D" parent="Actors" unique_id=1395539454 instance=ExtResource("6_i670t")]
+position = Vector2(816, -40)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind52_-3" type="Node2D" parent="Actors" unique_id=1312372774]
+position = Vector2(832, -48)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+direction = Vector2(-1, 0)
+
+[node name="Spikes57" type="Area2D" parent="Actors" unique_id=1985019246 instance=ExtResource("6_i670t")]
+position = Vector2(816, -24)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind58_0" type="Node2D" parent="Actors" unique_id=1509577154]
+position = Vector2(928, 0)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+
+[node name="Spikes58" type="Area2D" parent="Actors" unique_id=891350871 instance=ExtResource("6_i670t")]
+position = Vector2(1104, 8)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes59" type="Area2D" parent="Actors" unique_id=1047734763 instance=ExtResource("6_i670t")]
+position = Vector2(1104, 24)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Ice61_2" type="StaticBody2D" parent="Actors" unique_id=1998536384]
+position = Vector2(976, 32)
+script = ExtResource("9_rb03r")
+tiles = 4
+
+[node name="Spikes60" type="Area2D" parent="Actors" unique_id=981005226 instance=ExtResource("6_i670t")]
+position = Vector2(816, 56)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind52_3" type="Node2D" parent="Actors" unique_id=1012394059]
+position = Vector2(832, 48)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+direction = Vector2(-1, 0)
+
+[node name="Spikes61" type="Area2D" parent="Actors" unique_id=121901259 instance=ExtResource("6_i670t")]
+position = Vector2(816, 72)
+rotation = 1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind58_6" type="Node2D" parent="Actors" unique_id=1404136040]
+position = Vector2(928, 96)
+script = ExtResource("8_suoru")
+tiles = 10
+rows = 2
+
+[node name="Spikes62" type="Area2D" parent="Actors" unique_id=1894032087 instance=ExtResource("6_i670t")]
+position = Vector2(1104, 104)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes63" type="Area2D" parent="Actors" unique_id=1044716876 instance=ExtResource("6_i670t")]
+position = Vector2(1104, 120)
+rotation = -1.5707964
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Ice61_8" type="StaticBody2D" parent="Actors" unique_id=158637112]
+position = Vector2(976, 128)
+script = ExtResource("9_rb03r")
+tiles = 4
+
+[node name="Scenery" type="Node2D" parent="." unique_id=526609744]
 z_index = -1
 
-[node name="Prop0" type="Sprite2D" parent="Scenery" unique_id=713510200]
+[node name="Prop0" type="Sprite2D" parent="Scenery" unique_id=876696076]
 position = Vector2(120, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 1
 
-[node name="Prop1" type="Sprite2D" parent="Scenery" unique_id=2022583675]
+[node name="Prop1" type="Sprite2D" parent="Scenery" unique_id=1270844695]
 position = Vector2(232, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 2
 
-[node name="Prop2" type="Sprite2D" parent="Scenery" unique_id=292899649]
+[node name="Prop2" type="Sprite2D" parent="Scenery" unique_id=2141282948]
 position = Vector2(280, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 7
 
-[node name="Prop3" type="Sprite2D" parent="Scenery" unique_id=1731990214]
+[node name="Prop3" type="Sprite2D" parent="Scenery" unique_id=850055060]
 position = Vector2(392, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 
-[node name="Prop4" type="Sprite2D" parent="Scenery" unique_id=998296642]
+[node name="Prop4" type="Sprite2D" parent="Scenery" unique_id=570619312]
 position = Vector2(504, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 1
 
-[node name="Prop5" type="Sprite2D" parent="Scenery" unique_id=1242312935]
+[node name="Prop5" type="Sprite2D" parent="Scenery" unique_id=484281643]
 position = Vector2(552, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 6
 
-[node name="Prop6" type="Sprite2D" parent="Scenery" unique_id=633603893]
+[node name="Prop6" type="Sprite2D" parent="Scenery" unique_id=1500478755]
 position = Vector2(664, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 7
 
-[node name="Prop7" type="Sprite2D" parent="Scenery" unique_id=1759496661]
+[node name="Prop7" type="Sprite2D" parent="Scenery" unique_id=826467710]
 position = Vector2(776, -16)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 
-[node name="Prop8" type="Sprite2D" parent="Scenery" unique_id=1212079505]
+[node name="Prop8" type="Sprite2D" parent="Scenery" unique_id=194301006]
 position = Vector2(24, 160)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 2
 
-[node name="Prop9" type="Sprite2D" parent="Scenery" unique_id=1976243722]
+[node name="Prop9" type="Sprite2D" parent="Scenery" unique_id=496759093]
 position = Vector2(136, 160)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 3
 
-[node name="Prop10" type="Sprite2D" parent="Scenery" unique_id=333818366]
-position = Vector2(248, 160)
-texture = ExtResource("22_lnyk2")
-hframes = 4
-vframes = 2
-frame = 4
-
-[node name="Prop11" type="Sprite2D" parent="Scenery" unique_id=1375161448]
+[node name="Prop10" type="Sprite2D" parent="Scenery" unique_id=1955871153]
 position = Vector2(296, 160)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 1
 
-[node name="Prop12" type="Sprite2D" parent="Scenery" unique_id=846168633]
-position = Vector2(408, 160)
-texture = ExtResource("22_lnyk2")
-hframes = 4
-vframes = 2
-frame = 2
-
-[node name="Prop13" type="Sprite2D" parent="Scenery" unique_id=340185258]
+[node name="Prop11" type="Sprite2D" parent="Scenery" unique_id=1352917962]
 position = Vector2(520, 160)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 frame = 3
 
-[node name="Prop14" type="Sprite2D" parent="Scenery" unique_id=763713119]
-position = Vector2(568, 160)
+[node name="Prop12" type="Sprite2D" parent="Scenery" unique_id=1256974364]
+position = Vector2(680, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Prop13" type="Sprite2D" parent="Scenery" unique_id=2107493044]
+position = Vector2(792, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 2
+
+[node name="Prop14" type="Sprite2D" parent="Scenery" unique_id=1969162594]
+position = Vector2(424, 192)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 3
+
+[node name="Prop15" type="Sprite2D" parent="Scenery" unique_id=129629339]
+position = Vector2(584, 192)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Prop16" type="Sprite2D" parent="Scenery" unique_id=212143970]
+position = Vector2(856, -464)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 7
+
+[node name="Prop17" type="Sprite2D" parent="Scenery" unique_id=1299651275]
+position = Vector2(1080, -464)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Prop18" type="Sprite2D" parent="Scenery" unique_id=1897778149]
+position = Vector2(904, -224)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 3
+
+[node name="Prop19" type="Sprite2D" parent="Scenery" unique_id=29223374]
+position = Vector2(888, -128)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 2
+
+[node name="Prop20" type="Sprite2D" parent="Scenery" unique_id=284755049]
+position = Vector2(840, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 7
+
+[node name="Prop21" type="Sprite2D" parent="Scenery" unique_id=1530472180]
+position = Vector2(952, 160)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
 
-[node name="Prop15" type="Sprite2D" parent="Scenery" unique_id=1076373319]
-position = Vector2(680, 160)
+[node name="Prop22" type="Sprite2D" parent="Scenery" unique_id=348915632]
+position = Vector2(1064, 160)
 texture = ExtResource("22_lnyk2")
 hframes = 4
 vframes = 2
