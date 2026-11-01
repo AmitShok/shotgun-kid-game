@@ -6,7 +6,7 @@
 ##################################################
 #.....vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
-#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
+#.....~~~~~~~~~~~~~~~~G~~~~~~~~~~~~~~~~~~~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
 #.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
@@ -60,6 +60,31 @@
 ...................#
 ...P...............#
 ####################
+
+; K03 — Crown gate: the draught lifts you into the crown, where a crosswind blows everything onto the spiked bark. Step into the draught as the gust starts: it lifts you to the top just as it dies, and the gate is a kick away in the calm. Linger at the top and the next gust blows you onto the bark.
+@room K03 50 -50
+####################
+#}}}}}}}}}}}}}}}}}<#
+#}}}}}}}}}}}}}}}}}<#
+#}}E}}}}}}}}}}}}}}<#
+###########.~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~...#
+#...........~~~~.P.#
+############~~~~####
 
 ; Routes
 
@@ -118,10 +143,77 @@
 200 right
 
 @route K02 K03
-70
+66
 30 right
 16 right jump
 10
 16 left jump
 6 left
-80
+68
+8 right
+16 right jump
+10
+16 left jump
+6 left
+64
+10 right
+16 right jump
+10
+16 left jump
+6 left
+64
+10 right
+16 right jump
+10
+16 left jump
+6 left
+84
+24 right
+16 right jump
+10 right
+8 left
+40
+20 right
+60
+
+@route K03 exit
+36
+14 left
+4 right
+62
+1 aim_right fire
+4 aim_right left
+40 left
+
+@route K01 gold
+34 right
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+30 right
+14 right jump
+12 right
+38
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+1 aim_up fire
+9 aim_up
+60
+
+@skipcheck K02 K03 without=wind
+@skipcheck K03 exit without=wind

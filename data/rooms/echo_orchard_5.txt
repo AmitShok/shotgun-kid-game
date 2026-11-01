@@ -1,0 +1,56 @@
+; Echo Orchard 5 — ECHO CROWN. Built from data/rooms/specs/echo_orchard_5.gd.
+
+
+; C01 — Shelters: the whole span is one updraft under a spiked ceiling, with a few bare patches of bark. Shelter under one through each gust, and kick across to the next in the calm, catching a shell on the way; there is a spare tucked under each patch.
+@room C01 0 0
+########################################################
+#.....vvv###vvvvvvvvv###vvvvvvvvv###vvvvvvvvv###vv.....#
+#.....~~~~~~~~~~~~~~~~s~~~~~~~~~~~s~~~~~~~~~~~s~~~.....#
+#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
+#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.....#
+#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+#.....~~~~~~~~~~s~~~~~~~~~~~s~~~~~~~~~~~s~~~~~~~~~......
+#.....~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+#.P...~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~......
+######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
+######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
+######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
+######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
+######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
+######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
+######~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~######
+######^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^######
+########################################################
+
+; Routes
+
+@route C01 C02
+26 right
+14 right jump
+6 left
+62
+1 aim_down aim_left fire
+4 aim_down aim_left
+18
+1 aim_down aim_left fire
+4 aim_down aim_left
+10
+40 left
+42
+1 aim_down aim_left fire
+4 aim_down aim_left
+18
+1 aim_down aim_left fire
+4 aim_down aim_left
+10
+40 left
+42
+1 aim_down aim_left fire
+4 aim_down aim_left
+18
+1 aim_down aim_left fire
+4 aim_down aim_left
+10
+40 left
+42
+100 right
