@@ -39,6 +39,8 @@ func hit() -> void:
   if not get_world_2d().direct_space_state.intersect_ray(ray).is_empty(): continue
   var direction := offset.normalized() if offset.length()>1 else Vector2.UP
   player.apply_blast(direction,impulse)
+ # Scenery near the blast breaks too.
+ get_tree().call_group("breakable_decor","blast",global_position,blast_radius)
  detonated.emit()
 func reset() -> void:
  armed=true

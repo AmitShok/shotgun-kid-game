@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="16_cjtm6"]
 [ext_resource type="Script" path="res://scripts/ice_block.gd" id="16_tliwi"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="17_bg5ui"]
+[ext_resource type="Script" path="res://scripts/breakable_decor.gd" id="18_7u5hl"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="18_wurtu"]
 [ext_resource type="PackedScene" path="res://scenes/actors/exit.tscn" id="18_xdgbf"]
 [ext_resource type="Script" path="res://scripts/exit.gd" id="19_ypx2u"]
@@ -38,946 +39,946 @@ script = ExtResource("3_m5nbd")
 
 [node name="Terrain" type="Node2D" parent="." unique_id=160439847]
 
-[node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=142476867]
+[node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=1774686053]
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAACAAUAAAACAAAAAAABAAUAAAADAAAAAAACAAUAAAAEAAAAAAABAAUAAAAFAAAAAAACAAUAAAAGAAAAAAABAAUAAAAHAAAAAAACAAUAAAAIAAAAAAABAAUAAAAJAAAAAAACAAUAAAAKAAAAAAABAAUAAAALAAAAAAACAAUAAAAMAAAAAAABAAUAAAANAAAAAAACAAUAAAAOAAAAAAABAAUAAAAPAAAAAAACAAUAAAAQAAAAAAABAAUAAAARAAAAAAACAAUAAAASAAAAAAABAAUAAAATAAAAAAACAAUAAAAUAAAAAAABAAUAAAAVAAAAAAACAAUAAAAWAAAAAAABAAUAAAAXAAAAAAACAAUAAAAYAAAAAAABAAUAAAAZAAAAAAACAAUAAAAaAAAAAAABAAUAAAAbAAAAAAACAAUAAAAcAAAAAAABAAUAAAAdAAAAAAACAAUAAAAeAAAAAAABAAUAAAAfAAAAAAACAAUAAAAgAAAAAAABAAUAAAAhAAAAAAACAAUAAAAiAAAAAAABAAUAAAAjAAAAAAACAAUAAAAkAAAAAAABAAUAAAAlAAAAAAACAAUAAAAmAAAAAAABAAUAAAAnAAAAAAACAAUAAAAoAAAAAAABAAUAAAApAAAAAAACAAUAAAAqAAAAAAABAAUAAAArAAAAAAACAAUAAAAsAAAAAAABAAUAAAAtAAAAAAACAAUAAAAuAAAAAAABAAUAAAAvAAAAAAACAAUAAAAwAAAAAAABAAUAAAAxAAAAAAACAAUAAAAyAAAAAAABAAUAAAAzAAAAAAACAAUAAAA0AAAAAAABAAUAAAA1AAAAAAACAAUAAAA2AAAAAAABAAUAAAA3AAAAAAACAAUAAAA4AAAAAAABAAUAAAA5AAAAAAACAAUAAAA6AAAAAAABAAUAAAA7AAAAAAADAAUAAAAAAAEAAAAFAAEAAAAAAAIAAAAFAAEAAAAAAAMAAAAFAAEAAAAAAAQAAAAFAAEAAAAAAAUAAAAFAAEAAAAAAAYAAAAFAAEAAAAAAAcAAAAFAAEAAAAAAAgAAAAFAAEAAAAAAAkAAAAFAAEAAAAAAAoAAAAFAAEAAAAAAAsAAAAFAAEAAAAAAAwAAAAFAAEAAAAAAA0AAAAFAAEAAAAAAA4AAAAFAAEAAAAAAA8AAAAFAAEAAAAAABAAAAAFAAEAAAAAABEAAAAFAAEAAAAAABIAAAAFAAEAAAAAABMAAAAAAAEAAAABABMAAAAHAAAAAAACABMAAAABAAAAAAADABMAAAACAAAAAAAEABMAAAADAAAAAAAFABMAAAAEAAAAAAAyABMAAAAAAAAAAAAzABMAAAAHAAAAAAA0ABMAAAABAAAAAAA1ABMAAAACAAAAAAA2ABMAAAADAAAAAAA3ABMAAAAGAAAAAAA4ABMAAAAHAAAAAAA5ABMAAAABAAAAAAA6ABMAAAACAAAAAAA7ABMAAAADAAAAAAAAABQAAAAAAAEAAAABABQAAAADAAQAAAACABQAAAACAAQAAAADABQAAAABAAQAAAAEABQAAAAAAAQAAAAFABQAAAAEAAEAAAAyABQAAAAAAAEAAAAzABQAAAABAAQAAAA0ABQAAAAAAAQAAAA1ABQAAAADAAQAAAA2ABQAAAACAAQAAAA3ABQAAAABAAQAAAA4ABQAAAAAAAQAAAA5ABQAAAADAAQAAAA6ABQAAAACAAQAAAA7ABQAAAABAAQAAAAAABUAAAAAAAEAAAABABUAAAAAAAQAAAACABUAAAADAAQAAAADABUAAAACAAQAAAAEABUAAAABAAQAAAAFABUAAAAEAAEAAAAyABUAAAAAAAEAAAAzABUAAAACAAQAAAA0ABUAAAABAAQAAAA1ABUAAAAAAAQAAAA2ABUAAAADAAQAAAA3ABUAAAACAAQAAAA4ABUAAAABAAQAAAA5ABUAAAAAAAQAAAA6ABUAAAADAAQAAAA7ABUAAAACAAQAAAAAABYAAAAAAAIAAAAAABcAAAAAAAMAAAABABYAAAABAAIAAAACABYAAAACAAIAAAADABYAAAADAAIAAAADABcAAAAHAAMAAAAEABYAAAAGAAIAAAAFABYAAAAHAAIAAAAGABYAAAABAAUAAAAHABYAAAACAAUAAAAIABYAAAABAAUAAAAJABYAAAACAAUAAAAKABYAAAABAAUAAAALABYAAAACAAUAAAAMABYAAAABAAUAAAANABYAAAACAAUAAAAOABYAAAABAAUAAAAPABYAAAACAAUAAAAQABYAAAABAAUAAAARABYAAAACAAUAAAASABYAAAABAAUAAAATABYAAAACAAUAAAAUABYAAAABAAUAAAAVABYAAAACAAUAAAAWABYAAAABAAUAAAAXABYAAAACAAUAAAAYABYAAAABAAUAAAAZABYAAAACAAUAAAAaABYAAAABAAUAAAAbABYAAAACAAUAAAAcABYAAAABAAUAAAAdABYAAAACAAUAAAAeABYAAAABAAUAAAAfABYAAAACAAUAAAAgABYAAAABAAUAAAAhABYAAAACAAUAAAAiABYAAAABAAUAAAAjABYAAAACAAUAAAAkABYAAAABAAUAAAAlABYAAAACAAUAAAAmABYAAAABAAUAAAAnABYAAAACAAUAAAAoABYAAAABAAUAAAApABYAAAACAAUAAAAqABYAAAABAAUAAAArABYAAAACAAUAAAAsABYAAAABAAUAAAAtABYAAAACAAUAAAAuABYAAAABAAUAAAAvABYAAAACAAUAAAAwABYAAAABAAUAAAAxABYAAAACAAUAAAAyABYAAAAHAAIAAAAzABYAAAABAAIAAAAzABcAAAAHAAMAAAA0ABYAAAACAAIAAAA1ABYAAAADAAIAAAA2ABYAAAAGAAIAAAA2ABcAAAAGAAMAAAA3ABYAAAAHAAIAAAA4ABYAAAABAAIAAAA5ABYAAAACAAIAAAA5ABcAAAAFAAMAAAA6ABYAAAADAAIAAAA7ABYAAAAGAAIAAAA8AAIAAAAAAAAAAAA9AAIAAAACAAUAAAA+AAIAAAABAAUAAAA/AAIAAAACAAUAAABAAAIAAAABAAUAAABBAAIAAAACAAUAAABCAAIAAAABAAUAAABDAAIAAAACAAUAAABEAAIAAAABAAUAAABFAAIAAAACAAUAAABGAAIAAAABAAUAAABHAAIAAAACAAUAAABIAAIAAAABAAUAAABJAAIAAAACAAUAAABKAAIAAAABAAUAAABLAAIAAAACAAUAAABMAAIAAAABAAUAAABNAAIAAAACAAUAAABOAAIAAAABAAUAAABPAAIAAAACAAUAAABQAAIAAAABAAUAAABRAAIAAAACAAUAAABSAAIAAAABAAUAAABTAAIAAAACAAUAAABUAAIAAAABAAUAAABVAAIAAAACAAUAAABWAAIAAAABAAUAAABXAAIAAAACAAUAAABYAAIAAAABAAUAAABZAAIAAAACAAUAAABaAAIAAAABAAUAAABbAAIAAAACAAUAAABcAAIAAAABAAUAAABdAAIAAAACAAUAAABeAAIAAAABAAUAAABfAAIAAAACAAUAAABgAAIAAAABAAUAAABhAAIAAAACAAUAAABiAAIAAAABAAUAAABjAAIAAAAEAAAAAAA8AAMAAAAFAAEAAABjAAMAAAAFAAEAAAA8AAQAAAAFAAEAAABjAAQAAAAFAAEAAAA8AAUAAAAFAAEAAABjAAUAAAAFAAEAAAA8AAYAAAAFAAEAAABjAAYAAAAFAAEAAAA8AAcAAAAFAAEAAABjAAcAAAAFAAEAAAA8AAgAAAAFAAEAAABjAAgAAAAFAAEAAAA8AAkAAAAFAAEAAABjAAkAAAAFAAEAAAA8AAoAAAAFAAEAAABjAAoAAAAFAAEAAAA8AAsAAAAFAAEAAABjAAsAAAAFAAEAAAA8AAwAAAAFAAEAAABjAAwAAAAFAAEAAAA8AA0AAAAFAAEAAABjAA0AAAAFAAEAAAA8AA4AAAAFAAEAAABjAA4AAAAFAAEAAAA8AA8AAAAFAAEAAABjAA8AAAAFAAEAAAA8ABAAAAAFAAIAAAA8ABEAAAAEAAMAAABjABAAAAAFAAEAAABjABEAAAAFAAEAAABjABIAAAAFAAEAAAA8ABMAAAAGAAAAAAA9ABMAAAABAAUAAAA+ABMAAAADAAUAAABjABMAAAAFAAEAAAA8ABQAAAAEAAEAAABjABQAAAAFAAEAAAA8ABUAAAAEAAEAAABjABUAAAAFAAEAAAA8ABYAAAAEAAEAAABjABYAAAAFAAEAAAA8ABcAAAAFAAEAAABjABcAAAAFAAEAAAA8ABgAAAAFAAEAAABjABgAAAAFAAEAAAA8ABkAAAAFAAEAAABjABkAAAAFAAEAAAA8ABoAAAAFAAEAAABjABoAAAAFAAEAAAA8ABsAAAAFAAEAAABjABsAAAAFAAEAAAA8ABwAAAAFAAEAAABjABwAAAAFAAEAAAA8AB0AAAAFAAEAAABjAB0AAAAFAAEAAAA8AB4AAAAFAAEAAABjAB4AAAAFAAEAAAA8AB8AAAAFAAEAAABjAB8AAAAFAAEAAAA8ACAAAAAFAAEAAABjACAAAAAFAAEAAAA8ACEAAAAFAAEAAABjACEAAAAFAAEAAAA8ACIAAAAFAAEAAABjACIAAAAFAAEAAAA8ACMAAAAFAAEAAABjACMAAAAFAAEAAAA8ACQAAAAFAAEAAABjACQAAAAFAAEAAAA8ACUAAAAFAAEAAABjACUAAAAFAAEAAAA8ACYAAAAFAAEAAABjACYAAAAAAAEAAAA8ACcAAAAFAAEAAABjACcAAAAAAAEAAAA8ACgAAAAFAAEAAABjACgAAAAAAAEAAAA8ACkAAAAFAAEAAABjACkAAAAAAAEAAAA8ACoAAAAFAAEAAABjACoAAAAAAAEAAAA8ACsAAAAFAAEAAABjACsAAAAAAAIAAABjACwAAAAHAAMAAAA8ACwAAAAFAAEAAAA8AC0AAAAFAAEAAAA8AC4AAAAFAAEAAAA8AC8AAAAAAAIAAAA8ADAAAAAEAAMAAAA9AC8AAAABAAUAAAA+AC8AAAACAAUAAAA/AC8AAAABAAUAAABAAC8AAAACAAUAAABBAC8AAAABAAUAAABCAC8AAAACAAUAAABDAC8AAAABAAUAAABEAC8AAAACAAUAAABFAC8AAAABAAUAAABGAC8AAAACAAUAAABHAC8AAAABAAUAAABIAC8AAAACAAUAAABJAC8AAAABAAUAAABKAC8AAAACAAUAAABLAC8AAAABAAUAAABMAC8AAAACAAUAAABNAC8AAAABAAUAAABOAC8AAAACAAUAAABPAC8AAAABAAUAAABQAC8AAAACAAUAAABRAC8AAAABAAUAAABSAC8AAAACAAUAAABTAC8AAAABAAUAAABUAC8AAAACAAUAAABVAC8AAAABAAUAAABWAC8AAAACAAUAAABXAC8AAAABAAUAAABYAC8AAAACAAUAAABZAC8AAAABAAUAAABaAC8AAAACAAUAAABbAC8AAAABAAUAAABcAC8AAAACAAUAAABdAC8AAAABAAUAAABeAC8AAAACAAUAAABfAC8AAAABAAUAAABgAC8AAAACAAUAAABhAC8AAAABAAUAAABiAC8AAAADAAUAAABkACYAAAACAAAAAABlACYAAAACAAUAAABmACYAAAABAAUAAABnACYAAAACAAUAAABoACYAAAABAAUAAABpACYAAAACAAUAAABqACYAAAABAAUAAABrACYAAAACAAUAAABsACYAAAABAAUAAABtACYAAAACAAUAAABuACYAAAABAAUAAABvACYAAAACAAUAAABwACYAAAABAAUAAABxACYAAAACAAUAAAByACYAAAABAAUAAABzACYAAAACAAUAAAB0ACYAAAABAAUAAAB1ACYAAAACAAUAAAB2ACYAAAABAAUAAAB3ACYAAAACAAUAAAB4ACYAAAABAAUAAAB5ACYAAAACAAUAAAB6ACYAAAABAAUAAAB7ACYAAAACAAUAAAB8ACYAAAABAAUAAAB9ACYAAAACAAUAAAB+ACYAAAABAAUAAAB/ACYAAAACAAUAAACAACYAAAABAAUAAACBACYAAAACAAUAAACCACYAAAABAAUAAACDACYAAAACAAUAAACEACYAAAABAAUAAACFACYAAAACAAUAAACGACYAAAABAAUAAACHACYAAAACAAUAAACIACYAAAABAAUAAACJACYAAAACAAUAAACKACYAAAABAAUAAACLACYAAAACAAUAAACMACYAAAABAAUAAACNACYAAAACAAUAAACOACYAAAABAAUAAACPACYAAAACAAUAAACQACYAAAABAAUAAACRACYAAAACAAUAAACSACYAAAABAAUAAACTACYAAAACAAUAAACUACYAAAABAAUAAACVACYAAAAEAAAAAABkACcAAAAEAAEAAACVACcAAAAFAAEAAABkACgAAAAEAAEAAACVACgAAAAFAAEAAABkACkAAAAEAAEAAACVACkAAAAFAAEAAABkACoAAAAEAAEAAACVACoAAAAFAAEAAABkACsAAAAEAAIAAACVACsAAAAFAAEAAACVACwAAAAFAAEAAACVAC0AAAAFAAEAAACVAC4AAAAFAAEAAABkAC8AAAAAAAAAAABlAC8AAAABAAAAAABmAC8AAAACAAAAAABnAC8AAAAEAAAAAACOAC8AAAAAAAAAAACPAC8AAAADAAAAAACQAC8AAAAGAAAAAACRAC8AAAAHAAAAAACSAC8AAAABAAAAAACTAC8AAAACAAAAAACUAC8AAAADAAAAAACVAC8AAAAEAAEAAABkADAAAAAAAAEAAABlADAAAAADAAQAAABmADAAAAACAAQAAABnADAAAAABAAYAAABoADAAAAABAAAAAABpADAAAAACAAAAAABqADAAAAADAAAAAABrADAAAAAGAAAAAABsADAAAAAHAAAAAABtADAAAAABAAAAAABuADAAAAACAAAAAABvADAAAAADAAAAAABwADAAAAAGAAAAAABxADAAAAAHAAAAAAByADAAAAABAAAAAABzADAAAAACAAAAAAB0ADAAAAADAAAAAAB1ADAAAAAGAAAAAAB2ADAAAAAHAAAAAAB3ADAAAAABAAAAAAB4ADAAAAACAAAAAAB5ADAAAAADAAAAAAB6ADAAAAAGAAAAAAB7ADAAAAAHAAAAAAB8ADAAAAABAAAAAAB9ADAAAAACAAAAAAB+ADAAAAADAAAAAAB/ADAAAAAGAAAAAACAADAAAAAHAAAAAACBADAAAAAEAAAAAACOADAAAAAAAAEAAACPADAAAAABAAQAAACQADAAAAAAAAQAAACRADAAAAADAAQAAACSADAAAAACAAQAAACTADAAAAABAAQAAACUADAAAAAAAAQAAACVADAAAAAEAAEAAABkADEAAAAAAAEAAABlADEAAAAAAAQAAABmADEAAAADAAQAAABnADEAAAACAAQAAABoADEAAAABAAQAAABpADEAAAAAAAQAAABqADEAAAADAAQAAABrADEAAAACAAQAAABsADEAAAABAAQAAABtADEAAAAAAAQAAABuADEAAAADAAQAAABvADEAAAACAAQAAABwADEAAAABAAQAAABxADEAAAAAAAQAAAByADEAAAADAAQAAABzADEAAAACAAQAAAB0ADEAAAABAAQAAAB1ADEAAAAAAAQAAAB2ADEAAAADAAQAAAB3ADEAAAACAAQAAAB4ADEAAAABAAQAAAB5ADEAAAAAAAQAAAB6ADEAAAADAAQAAAB7ADEAAAACAAQAAAB8ADEAAAABAAQAAAB9ADEAAAAAAAQAAAB+ADEAAAADAAQAAAB/ADEAAAACAAQAAACAADEAAAABAAQAAACBADEAAAAEAAEAAACOADEAAAAAAAEAAACPADEAAAACAAQAAACQADEAAAAFAAQAAACRADEAAAAEAAQAAACSADEAAAAHAAQAAACTADEAAAAGAAQAAACUADEAAAABAAQAAACVADEAAAAEAAEAAABkADIAAAAAAAEAAABlADIAAAABAAQAAABmADIAAAAAAAQAAABnADIAAAADAAQAAABoADIAAAACAAQAAABpADIAAAABAAQAAABqADIAAAAAAAQAAABrADIAAAADAAQAAABsADIAAAACAAQAAABtADIAAAABAAQAAABuADIAAAAAAAQAAABvADIAAAADAAQAAABwADIAAAACAAQAAABxADIAAAABAAQAAAByADIAAAAAAAQAAABzADIAAAADAAQAAAB0ADIAAAACAAQAAAB1ADIAAAABAAQAAAB2ADIAAAAAAAQAAAB3ADIAAAADAAQAAAB4ADIAAAACAAQAAAB5ADIAAAABAAQAAAB6ADIAAAAAAAQAAAB7ADIAAAADAAQAAAB8ADIAAAACAAQAAAB9ADIAAAABAAQAAAB+ADIAAAAAAAQAAAB/ADIAAAADAAQAAACAADIAAAACAAQAAACBADIAAAAEAAEAAACOADIAAAAAAAEAAACPADIAAAADAAQAAACQADIAAAACAAQAAACRADIAAAABAAQAAACSADIAAAAAAAQAAACTADIAAAADAAQAAACUADIAAAACAAQAAACVADIAAAAEAAEAAABkADMAAAAAAAIAAABlADMAAAAGAAIAAABmADMAAAAHAAIAAABmADQAAAAGAAMAAABnADMAAAABAAIAAABoADMAAAACAAIAAABpADMAAAADAAIAAABpADQAAAAFAAMAAABqADMAAAAGAAIAAABrADMAAAAHAAIAAABsADMAAAABAAIAAABsADQAAAAEAAMAAABtADMAAAACAAIAAABuADMAAAADAAIAAABvADMAAAAGAAIAAABvADQAAAADAAMAAABwADMAAAAHAAIAAABxADMAAAABAAIAAAByADMAAAACAAIAAAByADQAAAACAAMAAABzADMAAAADAAIAAAB0ADMAAAAGAAIAAAB1ADMAAAAHAAIAAAB1ADQAAAABAAMAAAB2ADMAAAABAAIAAAB3ADMAAAACAAIAAAB4ADMAAAADAAIAAAB4ADQAAAAAAAMAAAB5ADMAAAAGAAIAAAB6ADMAAAAHAAIAAAB7ADMAAAABAAIAAAB7ADQAAAAHAAMAAAB8ADMAAAACAAIAAAB9ADMAAAADAAIAAAB+ADMAAAAGAAIAAAB+ADQAAAAGAAMAAAB/ADMAAAAHAAIAAACAADMAAAABAAIAAACBADMAAAACAAIAAACBADQAAAAFAAMAAACCADMAAAACAAUAAACDADMAAAABAAUAAACEADMAAAACAAUAAACFADMAAAABAAUAAACGADMAAAACAAUAAACHADMAAAABAAUAAACIADMAAAACAAUAAACJADMAAAABAAUAAACKADMAAAACAAUAAACLADMAAAABAAUAAACMADMAAAACAAUAAACNADMAAAABAAUAAACOADMAAAAHAAIAAACPADMAAAABAAIAAACQADMAAAACAAIAAACQADQAAAAAAAMAAACRADMAAAADAAIAAACSADMAAAAGAAIAAACTADMAAAAHAAIAAACTADQAAAAHAAMAAACUADMAAAABAAIAAACVADMAAAAEAAIAAAA=")
 tile_set = ExtResource("4_cj16e")
 
-[node name="Rooms" type="Node2D" parent="." unique_id=1555478752]
+[node name="Rooms" type="Node2D" parent="." unique_id=1081274091]
 
-[node name="X01" type="Node2D" parent="Rooms" unique_id=454344766]
+[node name="X01" type="Node2D" parent="Rooms" unique_id=701270127]
 script = ExtResource("5_sjef5")
 size = Vector2i(960, 368)
 
-[node name="Spawn" type="Marker2D" parent="Rooms/X01" unique_id=356647240]
+[node name="Spawn" type="Marker2D" parent="Rooms/X01" unique_id=1535767061]
 position = Vector2(40, 293)
 
-[node name="X02" type="Node2D" parent="Rooms" unique_id=1379438540]
+[node name="X02" type="Node2D" parent="Rooms" unique_id=2019264442]
 position = Vector2(960, 32)
 script = ExtResource("5_sjef5")
 size = Vector2i(640, 736)
 
-[node name="Spawn" type="Marker2D" parent="Rooms/X02" unique_id=2077138112]
+[node name="Spawn" type="Marker2D" parent="Rooms/X02" unique_id=1054053977]
 position = Vector2(24, 261)
 
-[node name="X03" type="Node2D" parent="Rooms" unique_id=1972550419]
+[node name="X03" type="Node2D" parent="Rooms" unique_id=1295917024]
 position = Vector2(1600, 608)
 script = ExtResource("5_sjef5")
 size = Vector2i(800, 224)
 
-[node name="Spawn" type="Marker2D" parent="Rooms/X03" unique_id=561603673]
+[node name="Spawn" type="Marker2D" parent="Rooms/X03" unique_id=1871497947]
 position = Vector2(40, 133)
 
-[node name="Actors" type="Node2D" parent="." unique_id=939519624]
+[node name="Actors" type="Node2D" parent="." unique_id=528458617]
 
-[node name="SporePod1" type="Node2D" parent="Actors" unique_id=862581223 instance=ExtResource("6_rm5jn")]
+[node name="SporePod1" type="Node2D" parent="Actors" unique_id=1226471602 instance=ExtResource("6_rm5jn")]
 z_index = 2
 position = Vector2(248, 280)
 script = ExtResource("7_jwpuw")
 
-[node name="SporePod2" type="Node2D" parent="Actors" unique_id=1713406563 instance=ExtResource("6_rm5jn")]
+[node name="SporePod2" type="Node2D" parent="Actors" unique_id=36843567 instance=ExtResource("6_rm5jn")]
 z_index = 2
 position = Vector2(440, 280)
 script = ExtResource("7_jwpuw")
 
-[node name="SporePod3" type="Node2D" parent="Actors" unique_id=100254103 instance=ExtResource("6_rm5jn")]
+[node name="SporePod3" type="Node2D" parent="Actors" unique_id=1348411601 instance=ExtResource("6_rm5jn")]
 z_index = 2
 position = Vector2(632, 280)
 script = ExtResource("7_jwpuw")
 
-[node name="SporePod4" type="Node2D" parent="Actors" unique_id=1780516127 instance=ExtResource("6_rm5jn")]
+[node name="SporePod4" type="Node2D" parent="Actors" unique_id=610420256 instance=ExtResource("6_rm5jn")]
 z_index = 2
 position = Vector2(840, 280)
 script = ExtResource("7_jwpuw")
 
-[node name="Crumble13_19" type="StaticBody2D" parent="Actors" unique_id=197425219]
+[node name="Crumble13_19" type="StaticBody2D" parent="Actors" unique_id=1718099117]
 position = Vector2(208, 304)
 script = ExtResource("8_68dxr")
 tiles = 5
 
-[node name="Crumble25_19" type="StaticBody2D" parent="Actors" unique_id=784683751]
+[node name="Crumble25_19" type="StaticBody2D" parent="Actors" unique_id=236854298]
 position = Vector2(400, 304)
 script = ExtResource("8_68dxr")
 tiles = 5
 
-[node name="Crumble37_19" type="StaticBody2D" parent="Actors" unique_id=1251046325]
+[node name="Crumble37_19" type="StaticBody2D" parent="Actors" unique_id=285113341]
 position = Vector2(592, 304)
 script = ExtResource("8_68dxr")
 tiles = 5
 
-[node name="Spikes1" type="Area2D" parent="Actors" unique_id=342765449 instance=ExtResource("6_u86f6")]
+[node name="Spikes1" type="Area2D" parent="Actors" unique_id=901605042 instance=ExtResource("6_u86f6")]
 position = Vector2(104, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes2" type="Area2D" parent="Actors" unique_id=1273911594 instance=ExtResource("6_u86f6")]
+[node name="Spikes2" type="Area2D" parent="Actors" unique_id=768582001 instance=ExtResource("6_u86f6")]
 position = Vector2(120, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes3" type="Area2D" parent="Actors" unique_id=15487981 instance=ExtResource("6_u86f6")]
+[node name="Spikes3" type="Area2D" parent="Actors" unique_id=946369831 instance=ExtResource("6_u86f6")]
 position = Vector2(136, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes4" type="Area2D" parent="Actors" unique_id=1854491356 instance=ExtResource("6_u86f6")]
+[node name="Spikes4" type="Area2D" parent="Actors" unique_id=606163214 instance=ExtResource("6_u86f6")]
 position = Vector2(152, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes5" type="Area2D" parent="Actors" unique_id=815394568 instance=ExtResource("6_u86f6")]
+[node name="Spikes5" type="Area2D" parent="Actors" unique_id=1217496556 instance=ExtResource("6_u86f6")]
 position = Vector2(168, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes6" type="Area2D" parent="Actors" unique_id=1129178253 instance=ExtResource("6_u86f6")]
+[node name="Spikes6" type="Area2D" parent="Actors" unique_id=473815338 instance=ExtResource("6_u86f6")]
 position = Vector2(184, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes7" type="Area2D" parent="Actors" unique_id=2072421452 instance=ExtResource("6_u86f6")]
+[node name="Spikes7" type="Area2D" parent="Actors" unique_id=1297960188 instance=ExtResource("6_u86f6")]
 position = Vector2(200, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes8" type="Area2D" parent="Actors" unique_id=1548992120 instance=ExtResource("6_u86f6")]
+[node name="Spikes8" type="Area2D" parent="Actors" unique_id=1715672010 instance=ExtResource("6_u86f6")]
 position = Vector2(216, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes9" type="Area2D" parent="Actors" unique_id=544144716 instance=ExtResource("6_u86f6")]
+[node name="Spikes9" type="Area2D" parent="Actors" unique_id=126869251 instance=ExtResource("6_u86f6")]
 position = Vector2(232, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes10" type="Area2D" parent="Actors" unique_id=114106475 instance=ExtResource("6_u86f6")]
+[node name="Spikes10" type="Area2D" parent="Actors" unique_id=861760561 instance=ExtResource("6_u86f6")]
 position = Vector2(248, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes11" type="Area2D" parent="Actors" unique_id=1330051593 instance=ExtResource("6_u86f6")]
+[node name="Spikes11" type="Area2D" parent="Actors" unique_id=800368253 instance=ExtResource("6_u86f6")]
 position = Vector2(264, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes12" type="Area2D" parent="Actors" unique_id=1205223716 instance=ExtResource("6_u86f6")]
+[node name="Spikes12" type="Area2D" parent="Actors" unique_id=1077042206 instance=ExtResource("6_u86f6")]
 position = Vector2(280, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes13" type="Area2D" parent="Actors" unique_id=569025083 instance=ExtResource("6_u86f6")]
+[node name="Spikes13" type="Area2D" parent="Actors" unique_id=277149729 instance=ExtResource("6_u86f6")]
 position = Vector2(296, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes14" type="Area2D" parent="Actors" unique_id=1265502637 instance=ExtResource("6_u86f6")]
+[node name="Spikes14" type="Area2D" parent="Actors" unique_id=442308054 instance=ExtResource("6_u86f6")]
 position = Vector2(312, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes15" type="Area2D" parent="Actors" unique_id=814204274 instance=ExtResource("6_u86f6")]
+[node name="Spikes15" type="Area2D" parent="Actors" unique_id=742080464 instance=ExtResource("6_u86f6")]
 position = Vector2(328, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes16" type="Area2D" parent="Actors" unique_id=742678241 instance=ExtResource("6_u86f6")]
+[node name="Spikes16" type="Area2D" parent="Actors" unique_id=1226533890 instance=ExtResource("6_u86f6")]
 position = Vector2(344, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes17" type="Area2D" parent="Actors" unique_id=931971250 instance=ExtResource("6_u86f6")]
+[node name="Spikes17" type="Area2D" parent="Actors" unique_id=483657783 instance=ExtResource("6_u86f6")]
 position = Vector2(360, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes18" type="Area2D" parent="Actors" unique_id=1741808892 instance=ExtResource("6_u86f6")]
+[node name="Spikes18" type="Area2D" parent="Actors" unique_id=1249074292 instance=ExtResource("6_u86f6")]
 position = Vector2(376, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes19" type="Area2D" parent="Actors" unique_id=195253772 instance=ExtResource("6_u86f6")]
+[node name="Spikes19" type="Area2D" parent="Actors" unique_id=825674496 instance=ExtResource("6_u86f6")]
 position = Vector2(392, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes20" type="Area2D" parent="Actors" unique_id=299285596 instance=ExtResource("6_u86f6")]
+[node name="Spikes20" type="Area2D" parent="Actors" unique_id=78815937 instance=ExtResource("6_u86f6")]
 position = Vector2(408, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes21" type="Area2D" parent="Actors" unique_id=1667045934 instance=ExtResource("6_u86f6")]
+[node name="Spikes21" type="Area2D" parent="Actors" unique_id=1254491906 instance=ExtResource("6_u86f6")]
 position = Vector2(424, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes22" type="Area2D" parent="Actors" unique_id=1597252946 instance=ExtResource("6_u86f6")]
+[node name="Spikes22" type="Area2D" parent="Actors" unique_id=1938692425 instance=ExtResource("6_u86f6")]
 position = Vector2(440, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes23" type="Area2D" parent="Actors" unique_id=78289946 instance=ExtResource("6_u86f6")]
+[node name="Spikes23" type="Area2D" parent="Actors" unique_id=1185295583 instance=ExtResource("6_u86f6")]
 position = Vector2(456, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes24" type="Area2D" parent="Actors" unique_id=2117562137 instance=ExtResource("6_u86f6")]
+[node name="Spikes24" type="Area2D" parent="Actors" unique_id=736215300 instance=ExtResource("6_u86f6")]
 position = Vector2(472, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes25" type="Area2D" parent="Actors" unique_id=442043151 instance=ExtResource("6_u86f6")]
+[node name="Spikes25" type="Area2D" parent="Actors" unique_id=319891793 instance=ExtResource("6_u86f6")]
 position = Vector2(488, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes26" type="Area2D" parent="Actors" unique_id=396285876 instance=ExtResource("6_u86f6")]
+[node name="Spikes26" type="Area2D" parent="Actors" unique_id=930297930 instance=ExtResource("6_u86f6")]
 position = Vector2(504, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes27" type="Area2D" parent="Actors" unique_id=2120064618 instance=ExtResource("6_u86f6")]
+[node name="Spikes27" type="Area2D" parent="Actors" unique_id=1260000500 instance=ExtResource("6_u86f6")]
 position = Vector2(520, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes28" type="Area2D" parent="Actors" unique_id=1080849401 instance=ExtResource("6_u86f6")]
+[node name="Spikes28" type="Area2D" parent="Actors" unique_id=875359020 instance=ExtResource("6_u86f6")]
 position = Vector2(536, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes29" type="Area2D" parent="Actors" unique_id=2048069598 instance=ExtResource("6_u86f6")]
+[node name="Spikes29" type="Area2D" parent="Actors" unique_id=957728670 instance=ExtResource("6_u86f6")]
 position = Vector2(552, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes30" type="Area2D" parent="Actors" unique_id=1939825479 instance=ExtResource("6_u86f6")]
+[node name="Spikes30" type="Area2D" parent="Actors" unique_id=2079576088 instance=ExtResource("6_u86f6")]
 position = Vector2(568, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes31" type="Area2D" parent="Actors" unique_id=1712302303 instance=ExtResource("6_u86f6")]
+[node name="Spikes31" type="Area2D" parent="Actors" unique_id=867388972 instance=ExtResource("6_u86f6")]
 position = Vector2(584, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes32" type="Area2D" parent="Actors" unique_id=539256774 instance=ExtResource("6_u86f6")]
+[node name="Spikes32" type="Area2D" parent="Actors" unique_id=1733297854 instance=ExtResource("6_u86f6")]
 position = Vector2(600, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes33" type="Area2D" parent="Actors" unique_id=930859395 instance=ExtResource("6_u86f6")]
+[node name="Spikes33" type="Area2D" parent="Actors" unique_id=473622186 instance=ExtResource("6_u86f6")]
 position = Vector2(616, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes34" type="Area2D" parent="Actors" unique_id=773565926 instance=ExtResource("6_u86f6")]
+[node name="Spikes34" type="Area2D" parent="Actors" unique_id=1262640484 instance=ExtResource("6_u86f6")]
 position = Vector2(632, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes35" type="Area2D" parent="Actors" unique_id=758276418 instance=ExtResource("6_u86f6")]
+[node name="Spikes35" type="Area2D" parent="Actors" unique_id=1869080033 instance=ExtResource("6_u86f6")]
 position = Vector2(648, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes36" type="Area2D" parent="Actors" unique_id=2146172803 instance=ExtResource("6_u86f6")]
+[node name="Spikes36" type="Area2D" parent="Actors" unique_id=980462849 instance=ExtResource("6_u86f6")]
 position = Vector2(664, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes37" type="Area2D" parent="Actors" unique_id=1178351042 instance=ExtResource("6_u86f6")]
+[node name="Spikes37" type="Area2D" parent="Actors" unique_id=1739532540 instance=ExtResource("6_u86f6")]
 position = Vector2(680, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes38" type="Area2D" parent="Actors" unique_id=1406548502 instance=ExtResource("6_u86f6")]
+[node name="Spikes38" type="Area2D" parent="Actors" unique_id=1901022646 instance=ExtResource("6_u86f6")]
 position = Vector2(696, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes39" type="Area2D" parent="Actors" unique_id=1652591118 instance=ExtResource("6_u86f6")]
+[node name="Spikes39" type="Area2D" parent="Actors" unique_id=1604725381 instance=ExtResource("6_u86f6")]
 position = Vector2(712, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes40" type="Area2D" parent="Actors" unique_id=535073602 instance=ExtResource("6_u86f6")]
+[node name="Spikes40" type="Area2D" parent="Actors" unique_id=75307378 instance=ExtResource("6_u86f6")]
 position = Vector2(728, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes41" type="Area2D" parent="Actors" unique_id=1525921434 instance=ExtResource("6_u86f6")]
+[node name="Spikes41" type="Area2D" parent="Actors" unique_id=1168487010 instance=ExtResource("6_u86f6")]
 position = Vector2(744, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes42" type="Area2D" parent="Actors" unique_id=2012760602 instance=ExtResource("6_u86f6")]
+[node name="Spikes42" type="Area2D" parent="Actors" unique_id=1297469318 instance=ExtResource("6_u86f6")]
 position = Vector2(760, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes43" type="Area2D" parent="Actors" unique_id=941272858 instance=ExtResource("6_u86f6")]
+[node name="Spikes43" type="Area2D" parent="Actors" unique_id=712059985 instance=ExtResource("6_u86f6")]
 position = Vector2(776, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes44" type="Area2D" parent="Actors" unique_id=1858184080 instance=ExtResource("6_u86f6")]
+[node name="Spikes44" type="Area2D" parent="Actors" unique_id=1975112511 instance=ExtResource("6_u86f6")]
 position = Vector2(792, 352)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Crumble63_19" type="StaticBody2D" parent="Actors" unique_id=711588262]
+[node name="Crumble63_19" type="StaticBody2D" parent="Actors" unique_id=1852942117]
 position = Vector2(1008, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble65_19" type="StaticBody2D" parent="Actors" unique_id=255595283]
+[node name="Crumble65_19" type="StaticBody2D" parent="Actors" unique_id=890257988]
 position = Vector2(1040, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble67_19" type="StaticBody2D" parent="Actors" unique_id=1681635276]
+[node name="Crumble67_19" type="StaticBody2D" parent="Actors" unique_id=148145284]
 position = Vector2(1072, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble69_19" type="StaticBody2D" parent="Actors" unique_id=2127299728]
+[node name="Crumble69_19" type="StaticBody2D" parent="Actors" unique_id=967630082]
 position = Vector2(1104, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble71_19" type="StaticBody2D" parent="Actors" unique_id=2087918544]
+[node name="Crumble71_19" type="StaticBody2D" parent="Actors" unique_id=1708644042]
 position = Vector2(1136, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble73_19" type="StaticBody2D" parent="Actors" unique_id=228508181]
+[node name="Crumble73_19" type="StaticBody2D" parent="Actors" unique_id=1248816058]
 position = Vector2(1168, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble75_19" type="StaticBody2D" parent="Actors" unique_id=587162756]
+[node name="Crumble75_19" type="StaticBody2D" parent="Actors" unique_id=1437387361]
 position = Vector2(1200, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble77_19" type="StaticBody2D" parent="Actors" unique_id=1015446746]
+[node name="Crumble77_19" type="StaticBody2D" parent="Actors" unique_id=37573751]
 position = Vector2(1232, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble79_19" type="StaticBody2D" parent="Actors" unique_id=344601210]
+[node name="Crumble79_19" type="StaticBody2D" parent="Actors" unique_id=1792257657]
 position = Vector2(1264, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble81_19" type="StaticBody2D" parent="Actors" unique_id=808374355]
+[node name="Crumble81_19" type="StaticBody2D" parent="Actors" unique_id=1024291835]
 position = Vector2(1296, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble83_19" type="StaticBody2D" parent="Actors" unique_id=390892092]
+[node name="Crumble83_19" type="StaticBody2D" parent="Actors" unique_id=451714658]
 position = Vector2(1328, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble85_19" type="StaticBody2D" parent="Actors" unique_id=2143326915]
+[node name="Crumble85_19" type="StaticBody2D" parent="Actors" unique_id=1004074506]
 position = Vector2(1360, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble87_19" type="StaticBody2D" parent="Actors" unique_id=406959049]
+[node name="Crumble87_19" type="StaticBody2D" parent="Actors" unique_id=654807191]
 position = Vector2(1392, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble89_19" type="StaticBody2D" parent="Actors" unique_id=1914764429]
+[node name="Crumble89_19" type="StaticBody2D" parent="Actors" unique_id=1593758851]
 position = Vector2(1424, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble91_19" type="StaticBody2D" parent="Actors" unique_id=1882167141]
+[node name="Crumble91_19" type="StaticBody2D" parent="Actors" unique_id=508933404]
 position = Vector2(1456, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble93_19" type="StaticBody2D" parent="Actors" unique_id=1024272146]
+[node name="Crumble93_19" type="StaticBody2D" parent="Actors" unique_id=975407544]
 position = Vector2(1488, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble95_19" type="StaticBody2D" parent="Actors" unique_id=1602832408]
+[node name="Crumble95_19" type="StaticBody2D" parent="Actors" unique_id=197170330]
 position = Vector2(1520, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble97_19" type="StaticBody2D" parent="Actors" unique_id=912492473]
+[node name="Crumble97_19" type="StaticBody2D" parent="Actors" unique_id=538900568]
 position = Vector2(1552, 304)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Spikes45" type="Area2D" parent="Actors" unique_id=455937539 instance=ExtResource("6_u86f6")]
+[node name="Spikes45" type="Area2D" parent="Actors" unique_id=1078468889 instance=ExtResource("6_u86f6")]
 position = Vector2(984, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes46" type="Area2D" parent="Actors" unique_id=2011224456 instance=ExtResource("6_u86f6")]
+[node name="Spikes46" type="Area2D" parent="Actors" unique_id=1645915012 instance=ExtResource("6_u86f6")]
 position = Vector2(1000, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes47" type="Area2D" parent="Actors" unique_id=1550168741 instance=ExtResource("6_u86f6")]
+[node name="Spikes47" type="Area2D" parent="Actors" unique_id=1305181976 instance=ExtResource("6_u86f6")]
 position = Vector2(1016, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes48" type="Area2D" parent="Actors" unique_id=1453592019 instance=ExtResource("6_u86f6")]
+[node name="Spikes48" type="Area2D" parent="Actors" unique_id=1912845644 instance=ExtResource("6_u86f6")]
 position = Vector2(1032, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes49" type="Area2D" parent="Actors" unique_id=1903769055 instance=ExtResource("6_u86f6")]
+[node name="Spikes49" type="Area2D" parent="Actors" unique_id=1286895576 instance=ExtResource("6_u86f6")]
 position = Vector2(1048, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes50" type="Area2D" parent="Actors" unique_id=1851182017 instance=ExtResource("6_u86f6")]
+[node name="Spikes50" type="Area2D" parent="Actors" unique_id=1778393544 instance=ExtResource("6_u86f6")]
 position = Vector2(1064, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes51" type="Area2D" parent="Actors" unique_id=404451061 instance=ExtResource("6_u86f6")]
+[node name="Spikes51" type="Area2D" parent="Actors" unique_id=1448757704 instance=ExtResource("6_u86f6")]
 position = Vector2(1080, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes52" type="Area2D" parent="Actors" unique_id=634518899 instance=ExtResource("6_u86f6")]
+[node name="Spikes52" type="Area2D" parent="Actors" unique_id=2090674416 instance=ExtResource("6_u86f6")]
 position = Vector2(1096, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes53" type="Area2D" parent="Actors" unique_id=1636602971 instance=ExtResource("6_u86f6")]
+[node name="Spikes53" type="Area2D" parent="Actors" unique_id=75145303 instance=ExtResource("6_u86f6")]
 position = Vector2(1112, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes54" type="Area2D" parent="Actors" unique_id=2020143224 instance=ExtResource("6_u86f6")]
+[node name="Spikes54" type="Area2D" parent="Actors" unique_id=1874101721 instance=ExtResource("6_u86f6")]
 position = Vector2(1128, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes55" type="Area2D" parent="Actors" unique_id=1574545665 instance=ExtResource("6_u86f6")]
+[node name="Spikes55" type="Area2D" parent="Actors" unique_id=1042422337 instance=ExtResource("6_u86f6")]
 position = Vector2(1144, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes56" type="Area2D" parent="Actors" unique_id=1469546069 instance=ExtResource("6_u86f6")]
+[node name="Spikes56" type="Area2D" parent="Actors" unique_id=134461623 instance=ExtResource("6_u86f6")]
 position = Vector2(1160, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes57" type="Area2D" parent="Actors" unique_id=1091305132 instance=ExtResource("6_u86f6")]
+[node name="Spikes57" type="Area2D" parent="Actors" unique_id=1613652705 instance=ExtResource("6_u86f6")]
 position = Vector2(1176, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes58" type="Area2D" parent="Actors" unique_id=1254272835 instance=ExtResource("6_u86f6")]
+[node name="Spikes58" type="Area2D" parent="Actors" unique_id=162182129 instance=ExtResource("6_u86f6")]
 position = Vector2(1192, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes59" type="Area2D" parent="Actors" unique_id=1738457502 instance=ExtResource("6_u86f6")]
+[node name="Spikes59" type="Area2D" parent="Actors" unique_id=557964741 instance=ExtResource("6_u86f6")]
 position = Vector2(1208, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes60" type="Area2D" parent="Actors" unique_id=1316683696 instance=ExtResource("6_u86f6")]
+[node name="Spikes60" type="Area2D" parent="Actors" unique_id=76388528 instance=ExtResource("6_u86f6")]
 position = Vector2(1224, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes61" type="Area2D" parent="Actors" unique_id=817217964 instance=ExtResource("6_u86f6")]
+[node name="Spikes61" type="Area2D" parent="Actors" unique_id=1376547283 instance=ExtResource("6_u86f6")]
 position = Vector2(1240, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes62" type="Area2D" parent="Actors" unique_id=1557425562 instance=ExtResource("6_u86f6")]
+[node name="Spikes62" type="Area2D" parent="Actors" unique_id=1769557941 instance=ExtResource("6_u86f6")]
 position = Vector2(1256, 464)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Crumble61_29" type="StaticBody2D" parent="Actors" unique_id=838972031]
+[node name="Crumble61_29" type="StaticBody2D" parent="Actors" unique_id=937002905]
 position = Vector2(976, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble63_29" type="StaticBody2D" parent="Actors" unique_id=742763440]
+[node name="Crumble63_29" type="StaticBody2D" parent="Actors" unique_id=2143022868]
 position = Vector2(1008, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble65_29" type="StaticBody2D" parent="Actors" unique_id=1318924982]
+[node name="Crumble65_29" type="StaticBody2D" parent="Actors" unique_id=1243592187]
 position = Vector2(1040, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble67_29" type="StaticBody2D" parent="Actors" unique_id=1207238551]
+[node name="Crumble67_29" type="StaticBody2D" parent="Actors" unique_id=498195680]
 position = Vector2(1072, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble69_29" type="StaticBody2D" parent="Actors" unique_id=1347148554]
+[node name="Crumble69_29" type="StaticBody2D" parent="Actors" unique_id=2028519644]
 position = Vector2(1104, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble71_29" type="StaticBody2D" parent="Actors" unique_id=1543212037]
+[node name="Crumble71_29" type="StaticBody2D" parent="Actors" unique_id=772119397]
 position = Vector2(1136, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble73_29" type="StaticBody2D" parent="Actors" unique_id=1497865962]
+[node name="Crumble73_29" type="StaticBody2D" parent="Actors" unique_id=191851256]
 position = Vector2(1168, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble75_29" type="StaticBody2D" parent="Actors" unique_id=553466220]
+[node name="Crumble75_29" type="StaticBody2D" parent="Actors" unique_id=131831376]
 position = Vector2(1200, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble77_29" type="StaticBody2D" parent="Actors" unique_id=688949883]
+[node name="Crumble77_29" type="StaticBody2D" parent="Actors" unique_id=877042789]
 position = Vector2(1232, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble79_29" type="StaticBody2D" parent="Actors" unique_id=53897126]
+[node name="Crumble79_29" type="StaticBody2D" parent="Actors" unique_id=915887535]
 position = Vector2(1264, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble81_29" type="StaticBody2D" parent="Actors" unique_id=1795566220]
+[node name="Crumble81_29" type="StaticBody2D" parent="Actors" unique_id=770959756]
 position = Vector2(1296, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble83_29" type="StaticBody2D" parent="Actors" unique_id=1657619535]
+[node name="Crumble83_29" type="StaticBody2D" parent="Actors" unique_id=1225748138]
 position = Vector2(1328, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble85_29" type="StaticBody2D" parent="Actors" unique_id=2145644744]
+[node name="Crumble85_29" type="StaticBody2D" parent="Actors" unique_id=1904437270]
 position = Vector2(1360, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble87_29" type="StaticBody2D" parent="Actors" unique_id=201061027]
+[node name="Crumble87_29" type="StaticBody2D" parent="Actors" unique_id=2049996023]
 position = Vector2(1392, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble89_29" type="StaticBody2D" parent="Actors" unique_id=21786928]
+[node name="Crumble89_29" type="StaticBody2D" parent="Actors" unique_id=2116464308]
 position = Vector2(1424, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble91_29" type="StaticBody2D" parent="Actors" unique_id=1482726536]
+[node name="Crumble91_29" type="StaticBody2D" parent="Actors" unique_id=1737364047]
 position = Vector2(1456, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble93_29" type="StaticBody2D" parent="Actors" unique_id=58080073]
+[node name="Crumble93_29" type="StaticBody2D" parent="Actors" unique_id=779981853]
 position = Vector2(1488, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble95_29" type="StaticBody2D" parent="Actors" unique_id=2125251553]
+[node name="Crumble95_29" type="StaticBody2D" parent="Actors" unique_id=1486407762]
 position = Vector2(1520, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble97_29" type="StaticBody2D" parent="Actors" unique_id=1796605248]
+[node name="Crumble97_29" type="StaticBody2D" parent="Actors" unique_id=142089435]
 position = Vector2(1552, 464)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Spikes63" type="Area2D" parent="Actors" unique_id=1106081883 instance=ExtResource("6_u86f6")]
+[node name="Spikes63" type="Area2D" parent="Actors" unique_id=2036910761 instance=ExtResource("6_u86f6")]
 position = Vector2(1240, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes64" type="Area2D" parent="Actors" unique_id=923494943 instance=ExtResource("6_u86f6")]
+[node name="Spikes64" type="Area2D" parent="Actors" unique_id=737076800 instance=ExtResource("6_u86f6")]
 position = Vector2(1256, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes65" type="Area2D" parent="Actors" unique_id=2108794257 instance=ExtResource("6_u86f6")]
+[node name="Spikes65" type="Area2D" parent="Actors" unique_id=1208859347 instance=ExtResource("6_u86f6")]
 position = Vector2(1272, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes66" type="Area2D" parent="Actors" unique_id=1534252895 instance=ExtResource("6_u86f6")]
+[node name="Spikes66" type="Area2D" parent="Actors" unique_id=105070921 instance=ExtResource("6_u86f6")]
 position = Vector2(1288, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes67" type="Area2D" parent="Actors" unique_id=35686186 instance=ExtResource("6_u86f6")]
+[node name="Spikes67" type="Area2D" parent="Actors" unique_id=2129417385 instance=ExtResource("6_u86f6")]
 position = Vector2(1304, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes68" type="Area2D" parent="Actors" unique_id=1216716910 instance=ExtResource("6_u86f6")]
+[node name="Spikes68" type="Area2D" parent="Actors" unique_id=1533441340 instance=ExtResource("6_u86f6")]
 position = Vector2(1320, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes69" type="Area2D" parent="Actors" unique_id=115293971 instance=ExtResource("6_u86f6")]
+[node name="Spikes69" type="Area2D" parent="Actors" unique_id=699092760 instance=ExtResource("6_u86f6")]
 position = Vector2(1336, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes70" type="Area2D" parent="Actors" unique_id=1790558520 instance=ExtResource("6_u86f6")]
+[node name="Spikes70" type="Area2D" parent="Actors" unique_id=964572572 instance=ExtResource("6_u86f6")]
 position = Vector2(1352, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes71" type="Area2D" parent="Actors" unique_id=841533778 instance=ExtResource("6_u86f6")]
+[node name="Spikes71" type="Area2D" parent="Actors" unique_id=1143507616 instance=ExtResource("6_u86f6")]
 position = Vector2(1368, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes72" type="Area2D" parent="Actors" unique_id=1600869424 instance=ExtResource("6_u86f6")]
+[node name="Spikes72" type="Area2D" parent="Actors" unique_id=497197709 instance=ExtResource("6_u86f6")]
 position = Vector2(1384, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes73" type="Area2D" parent="Actors" unique_id=1617726499 instance=ExtResource("6_u86f6")]
+[node name="Spikes73" type="Area2D" parent="Actors" unique_id=42969444 instance=ExtResource("6_u86f6")]
 position = Vector2(1400, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes74" type="Area2D" parent="Actors" unique_id=117024980 instance=ExtResource("6_u86f6")]
+[node name="Spikes74" type="Area2D" parent="Actors" unique_id=1075582363 instance=ExtResource("6_u86f6")]
 position = Vector2(1416, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes75" type="Area2D" parent="Actors" unique_id=1944634748 instance=ExtResource("6_u86f6")]
+[node name="Spikes75" type="Area2D" parent="Actors" unique_id=926084282 instance=ExtResource("6_u86f6")]
 position = Vector2(1432, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes76" type="Area2D" parent="Actors" unique_id=1502625999 instance=ExtResource("6_u86f6")]
+[node name="Spikes76" type="Area2D" parent="Actors" unique_id=1891814251 instance=ExtResource("6_u86f6")]
 position = Vector2(1448, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes77" type="Area2D" parent="Actors" unique_id=1134285408 instance=ExtResource("6_u86f6")]
+[node name="Spikes77" type="Area2D" parent="Actors" unique_id=1899004705 instance=ExtResource("6_u86f6")]
 position = Vector2(1464, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes78" type="Area2D" parent="Actors" unique_id=1682042573 instance=ExtResource("6_u86f6")]
+[node name="Spikes78" type="Area2D" parent="Actors" unique_id=82613955 instance=ExtResource("6_u86f6")]
 position = Vector2(1480, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes79" type="Area2D" parent="Actors" unique_id=720101596 instance=ExtResource("6_u86f6")]
+[node name="Spikes79" type="Area2D" parent="Actors" unique_id=1470781510 instance=ExtResource("6_u86f6")]
 position = Vector2(1496, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes80" type="Area2D" parent="Actors" unique_id=1882759731 instance=ExtResource("6_u86f6")]
+[node name="Spikes80" type="Area2D" parent="Actors" unique_id=675786943 instance=ExtResource("6_u86f6")]
 position = Vector2(1512, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes81" type="Area2D" parent="Actors" unique_id=1228154520 instance=ExtResource("6_u86f6")]
+[node name="Spikes81" type="Area2D" parent="Actors" unique_id=221745922 instance=ExtResource("6_u86f6")]
 position = Vector2(1528, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes82" type="Area2D" parent="Actors" unique_id=831273782 instance=ExtResource("6_u86f6")]
+[node name="Spikes82" type="Area2D" parent="Actors" unique_id=342323846 instance=ExtResource("6_u86f6")]
 position = Vector2(1544, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes83" type="Area2D" parent="Actors" unique_id=1748574536 instance=ExtResource("6_u86f6")]
+[node name="Spikes83" type="Area2D" parent="Actors" unique_id=1243796186 instance=ExtResource("6_u86f6")]
 position = Vector2(1560, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes84" type="Area2D" parent="Actors" unique_id=536667516 instance=ExtResource("6_u86f6")]
+[node name="Spikes84" type="Area2D" parent="Actors" unique_id=492871024 instance=ExtResource("6_u86f6")]
 position = Vector2(1576, 624)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Crumble61_39" type="StaticBody2D" parent="Actors" unique_id=1389227862]
+[node name="Crumble61_39" type="StaticBody2D" parent="Actors" unique_id=602676334]
 position = Vector2(976, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble63_39" type="StaticBody2D" parent="Actors" unique_id=378181112]
+[node name="Crumble63_39" type="StaticBody2D" parent="Actors" unique_id=1148509549]
 position = Vector2(1008, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble65_39" type="StaticBody2D" parent="Actors" unique_id=876499049]
+[node name="Crumble65_39" type="StaticBody2D" parent="Actors" unique_id=583938049]
 position = Vector2(1040, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble67_39" type="StaticBody2D" parent="Actors" unique_id=579832799]
+[node name="Crumble67_39" type="StaticBody2D" parent="Actors" unique_id=633597287]
 position = Vector2(1072, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble69_39" type="StaticBody2D" parent="Actors" unique_id=184912129]
+[node name="Crumble69_39" type="StaticBody2D" parent="Actors" unique_id=1186204000]
 position = Vector2(1104, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble71_39" type="StaticBody2D" parent="Actors" unique_id=961216744]
+[node name="Crumble71_39" type="StaticBody2D" parent="Actors" unique_id=1241318824]
 position = Vector2(1136, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble73_39" type="StaticBody2D" parent="Actors" unique_id=1516575438]
+[node name="Crumble73_39" type="StaticBody2D" parent="Actors" unique_id=478270241]
 position = Vector2(1168, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble75_39" type="StaticBody2D" parent="Actors" unique_id=841213565]
+[node name="Crumble75_39" type="StaticBody2D" parent="Actors" unique_id=2058907181]
 position = Vector2(1200, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble77_39" type="StaticBody2D" parent="Actors" unique_id=1999654640]
+[node name="Crumble77_39" type="StaticBody2D" parent="Actors" unique_id=1366958557]
 position = Vector2(1232, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble79_39" type="StaticBody2D" parent="Actors" unique_id=98669207]
+[node name="Crumble79_39" type="StaticBody2D" parent="Actors" unique_id=715405790]
 position = Vector2(1264, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble81_39" type="StaticBody2D" parent="Actors" unique_id=1199850638]
+[node name="Crumble81_39" type="StaticBody2D" parent="Actors" unique_id=594805001]
 position = Vector2(1296, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble83_39" type="StaticBody2D" parent="Actors" unique_id=22059473]
+[node name="Crumble83_39" type="StaticBody2D" parent="Actors" unique_id=1954750706]
 position = Vector2(1328, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble85_39" type="StaticBody2D" parent="Actors" unique_id=1417028295]
+[node name="Crumble85_39" type="StaticBody2D" parent="Actors" unique_id=860107987]
 position = Vector2(1360, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble87_39" type="StaticBody2D" parent="Actors" unique_id=1956740476]
+[node name="Crumble87_39" type="StaticBody2D" parent="Actors" unique_id=661516108]
 position = Vector2(1392, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble89_39" type="StaticBody2D" parent="Actors" unique_id=1538177476]
+[node name="Crumble89_39" type="StaticBody2D" parent="Actors" unique_id=953704243]
 position = Vector2(1424, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble91_39" type="StaticBody2D" parent="Actors" unique_id=780516529]
+[node name="Crumble91_39" type="StaticBody2D" parent="Actors" unique_id=241628041]
 position = Vector2(1456, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble93_39" type="StaticBody2D" parent="Actors" unique_id=1296774130]
+[node name="Crumble93_39" type="StaticBody2D" parent="Actors" unique_id=365241903]
 position = Vector2(1488, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble95_39" type="StaticBody2D" parent="Actors" unique_id=1084554349]
+[node name="Crumble95_39" type="StaticBody2D" parent="Actors" unique_id=983540797]
 position = Vector2(1520, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Crumble97_39" type="StaticBody2D" parent="Actors" unique_id=1746846018]
+[node name="Crumble97_39" type="StaticBody2D" parent="Actors" unique_id=1303798274]
 position = Vector2(1552, 624)
 script = ExtResource("8_68dxr")
 tiles = 2
 
-[node name="Spikes85" type="Area2D" parent="Actors" unique_id=921540113 instance=ExtResource("6_u86f6")]
+[node name="Spikes85" type="Area2D" parent="Actors" unique_id=1290085841 instance=ExtResource("6_u86f6")]
 position = Vector2(984, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes86" type="Area2D" parent="Actors" unique_id=1787626164 instance=ExtResource("6_u86f6")]
+[node name="Spikes86" type="Area2D" parent="Actors" unique_id=1193177401 instance=ExtResource("6_u86f6")]
 position = Vector2(1000, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes87" type="Area2D" parent="Actors" unique_id=89938908 instance=ExtResource("6_u86f6")]
+[node name="Spikes87" type="Area2D" parent="Actors" unique_id=819838046 instance=ExtResource("6_u86f6")]
 position = Vector2(1016, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes88" type="Area2D" parent="Actors" unique_id=47448227 instance=ExtResource("6_u86f6")]
+[node name="Spikes88" type="Area2D" parent="Actors" unique_id=181052086 instance=ExtResource("6_u86f6")]
 position = Vector2(1032, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes89" type="Area2D" parent="Actors" unique_id=736827868 instance=ExtResource("6_u86f6")]
+[node name="Spikes89" type="Area2D" parent="Actors" unique_id=159373980 instance=ExtResource("6_u86f6")]
 position = Vector2(1048, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes90" type="Area2D" parent="Actors" unique_id=1801955251 instance=ExtResource("6_u86f6")]
+[node name="Spikes90" type="Area2D" parent="Actors" unique_id=158635286 instance=ExtResource("6_u86f6")]
 position = Vector2(1064, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes91" type="Area2D" parent="Actors" unique_id=2091815366 instance=ExtResource("6_u86f6")]
+[node name="Spikes91" type="Area2D" parent="Actors" unique_id=1051945801 instance=ExtResource("6_u86f6")]
 position = Vector2(1080, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes92" type="Area2D" parent="Actors" unique_id=375755739 instance=ExtResource("6_u86f6")]
+[node name="Spikes92" type="Area2D" parent="Actors" unique_id=1946345907 instance=ExtResource("6_u86f6")]
 position = Vector2(1096, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes93" type="Area2D" parent="Actors" unique_id=539662087 instance=ExtResource("6_u86f6")]
+[node name="Spikes93" type="Area2D" parent="Actors" unique_id=1590711993 instance=ExtResource("6_u86f6")]
 position = Vector2(1112, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes94" type="Area2D" parent="Actors" unique_id=1184928317 instance=ExtResource("6_u86f6")]
+[node name="Spikes94" type="Area2D" parent="Actors" unique_id=594075741 instance=ExtResource("6_u86f6")]
 position = Vector2(1128, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes95" type="Area2D" parent="Actors" unique_id=2002417894 instance=ExtResource("6_u86f6")]
+[node name="Spikes95" type="Area2D" parent="Actors" unique_id=131099866 instance=ExtResource("6_u86f6")]
 position = Vector2(1144, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes96" type="Area2D" parent="Actors" unique_id=1637311975 instance=ExtResource("6_u86f6")]
+[node name="Spikes96" type="Area2D" parent="Actors" unique_id=1000931750 instance=ExtResource("6_u86f6")]
 position = Vector2(1160, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes97" type="Area2D" parent="Actors" unique_id=1705358489 instance=ExtResource("6_u86f6")]
+[node name="Spikes97" type="Area2D" parent="Actors" unique_id=1272630997 instance=ExtResource("6_u86f6")]
 position = Vector2(1176, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes98" type="Area2D" parent="Actors" unique_id=1121476175 instance=ExtResource("6_u86f6")]
+[node name="Spikes98" type="Area2D" parent="Actors" unique_id=1967526329 instance=ExtResource("6_u86f6")]
 position = Vector2(1192, 752)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Plate118_39" type="StaticBody2D" parent="Actors" unique_id=710300575]
+[node name="Plate118_39" type="StaticBody2D" parent="Actors" unique_id=136224690]
 position = Vector2(1888, 624)
 script = ExtResource("11_u86f6")
 rows = 8
 
-[node name="GoldenShell1" type="Area2D" parent="Actors" unique_id=1764704727 instance=ExtResource("12_7u5hl")]
+[node name="GoldenShell1" type="Area2D" parent="Actors" unique_id=979797315 instance=ExtResource("12_7u5hl")]
 z_index = 4
 position = Vector2(2184, 648)
 collision_layer = 0
@@ -985,455 +986,507 @@ collision_mask = 2
 monitorable = false
 script = ExtResource("13_68dxr")
 
-[node name="PhaseSwitch1" type="Node2D" parent="Actors" unique_id=461746638 instance=ExtResource("14_t1h1b")]
+[node name="PhaseSwitch1" type="Node2D" parent="Actors" unique_id=2021125451 instance=ExtResource("14_t1h1b")]
 z_index = 2
 position = Vector2(1832, 680)
 script = ExtResource("15_mvp5k")
 
-[node name="Ice104_47" type="StaticBody2D" parent="Actors" unique_id=1274870086]
+[node name="Ice104_47" type="StaticBody2D" parent="Actors" unique_id=1310985625]
 position = Vector2(1664, 752)
 script = ExtResource("16_tliwi")
 tiles = 26
 
-[node name="Plate130_47" type="StaticBody2D" parent="Actors" unique_id=118693400]
+[node name="Plate130_47" type="StaticBody2D" parent="Actors" unique_id=744305005]
 position = Vector2(2080, 752)
 script = ExtResource("11_u86f6")
 tiles = 12
 
-[node name="Spikes99" type="Area2D" parent="Actors" unique_id=1470286917 instance=ExtResource("6_u86f6")]
+[node name="Spikes99" type="Area2D" parent="Actors" unique_id=1486143601 instance=ExtResource("6_u86f6")]
 position = Vector2(2088, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes100" type="Area2D" parent="Actors" unique_id=726836256 instance=ExtResource("6_u86f6")]
+[node name="Spikes100" type="Area2D" parent="Actors" unique_id=1577686932 instance=ExtResource("6_u86f6")]
 position = Vector2(2104, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes101" type="Area2D" parent="Actors" unique_id=2045161367 instance=ExtResource("6_u86f6")]
+[node name="Spikes101" type="Area2D" parent="Actors" unique_id=1523540927 instance=ExtResource("6_u86f6")]
 position = Vector2(2120, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes102" type="Area2D" parent="Actors" unique_id=745813731 instance=ExtResource("6_u86f6")]
+[node name="Spikes102" type="Area2D" parent="Actors" unique_id=1639125199 instance=ExtResource("6_u86f6")]
 position = Vector2(2136, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes103" type="Area2D" parent="Actors" unique_id=1316257507 instance=ExtResource("6_u86f6")]
+[node name="Spikes103" type="Area2D" parent="Actors" unique_id=1005881295 instance=ExtResource("6_u86f6")]
 position = Vector2(2152, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes104" type="Area2D" parent="Actors" unique_id=1259029739 instance=ExtResource("6_u86f6")]
+[node name="Spikes104" type="Area2D" parent="Actors" unique_id=375849755 instance=ExtResource("6_u86f6")]
 position = Vector2(2168, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes105" type="Area2D" parent="Actors" unique_id=598179537 instance=ExtResource("6_u86f6")]
+[node name="Spikes105" type="Area2D" parent="Actors" unique_id=1977763996 instance=ExtResource("6_u86f6")]
 position = Vector2(2184, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes106" type="Area2D" parent="Actors" unique_id=212730980 instance=ExtResource("6_u86f6")]
+[node name="Spikes106" type="Area2D" parent="Actors" unique_id=3516685 instance=ExtResource("6_u86f6")]
 position = Vector2(2200, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes107" type="Area2D" parent="Actors" unique_id=1288371106 instance=ExtResource("6_u86f6")]
+[node name="Spikes107" type="Area2D" parent="Actors" unique_id=1818691053 instance=ExtResource("6_u86f6")]
 position = Vector2(2216, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes108" type="Area2D" parent="Actors" unique_id=881890319 instance=ExtResource("6_u86f6")]
+[node name="Spikes108" type="Area2D" parent="Actors" unique_id=154022891 instance=ExtResource("6_u86f6")]
 position = Vector2(2232, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes109" type="Area2D" parent="Actors" unique_id=20752333 instance=ExtResource("6_u86f6")]
+[node name="Spikes109" type="Area2D" parent="Actors" unique_id=1022152836 instance=ExtResource("6_u86f6")]
 position = Vector2(2248, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Spikes110" type="Area2D" parent="Actors" unique_id=800249172 instance=ExtResource("6_u86f6")]
+[node name="Spikes110" type="Area2D" parent="Actors" unique_id=1366293986 instance=ExtResource("6_u86f6")]
 position = Vector2(2264, 816)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("7_7u5hl")
 
-[node name="Scenery" type="Node2D" parent="." unique_id=1789722229]
+[node name="Scenery" type="Node2D" parent="." unique_id=943353694]
 z_index = -1
 
-[node name="Prop0" type="Sprite2D" parent="Scenery" unique_id=16617529]
+[node name="Prop0" type="Sprite2D" parent="Scenery" unique_id=592906781]
 position = Vector2(120, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 1
+script = ExtResource("18_7u5hl")
 
-[node name="Prop1" type="Sprite2D" parent="Scenery" unique_id=1314601754]
+[node name="Prop1" type="Sprite2D" parent="Scenery" unique_id=1154723765]
 position = Vector2(232, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop2" type="Sprite2D" parent="Scenery" unique_id=1889266092]
+[node name="Prop2" type="Sprite2D" parent="Scenery" unique_id=1849613188]
 position = Vector2(280, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 7
+script = ExtResource("18_7u5hl")
 
-[node name="Prop3" type="Sprite2D" parent="Scenery" unique_id=1001783937]
+[node name="Prop3" type="Sprite2D" parent="Scenery" unique_id=1322679527]
 position = Vector2(392, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop4" type="Sprite2D" parent="Scenery" unique_id=2101870068]
+[node name="Prop4" type="Sprite2D" parent="Scenery" unique_id=362890716]
 position = Vector2(504, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 1
+script = ExtResource("18_7u5hl")
 
-[node name="Prop5" type="Sprite2D" parent="Scenery" unique_id=1280377710]
+[node name="Prop5" type="Sprite2D" parent="Scenery" unique_id=594871280]
 position = Vector2(552, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop6" type="Sprite2D" parent="Scenery" unique_id=1603227362]
+[node name="Prop6" type="Sprite2D" parent="Scenery" unique_id=696119073]
 position = Vector2(664, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 7
+script = ExtResource("18_7u5hl")
 
-[node name="Prop7" type="Sprite2D" parent="Scenery" unique_id=2128478332]
+[node name="Prop7" type="Sprite2D" parent="Scenery" unique_id=1408770345]
 position = Vector2(776, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop8" type="Sprite2D" parent="Scenery" unique_id=507692743]
+[node name="Prop8" type="Sprite2D" parent="Scenery" unique_id=609749808]
 position = Vector2(824, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 5
+script = ExtResource("18_7u5hl")
 
-[node name="Prop9" type="Sprite2D" parent="Scenery" unique_id=96258521]
+[node name="Prop9" type="Sprite2D" parent="Scenery" unique_id=1337816752]
 position = Vector2(936, -16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop10" type="Sprite2D" parent="Scenery" unique_id=64840859]
+[node name="Prop10" type="Sprite2D" parent="Scenery" unique_id=2110892220]
 position = Vector2(24, 288)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop11" type="Sprite2D" parent="Scenery" unique_id=1256716385]
+[node name="Prop11" type="Sprite2D" parent="Scenery" unique_id=1006902851]
 position = Vector2(840, 288)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 7
+script = ExtResource("18_7u5hl")
 
-[node name="Prop12" type="Sprite2D" parent="Scenery" unique_id=757940297]
+[node name="Prop12" type="Sprite2D" parent="Scenery" unique_id=511040345]
 position = Vector2(952, 288)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop13" type="Sprite2D" parent="Scenery" unique_id=461537738]
+[node name="Prop13" type="Sprite2D" parent="Scenery" unique_id=1976732866]
 position = Vector2(152, 336)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 5
+script = ExtResource("18_7u5hl")
 
-[node name="Prop14" type="Sprite2D" parent="Scenery" unique_id=2102303180]
+[node name="Prop14" type="Sprite2D" parent="Scenery" unique_id=1618031815]
 position = Vector2(264, 336)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop15" type="Sprite2D" parent="Scenery" unique_id=75070440]
+[node name="Prop15" type="Sprite2D" parent="Scenery" unique_id=857291290]
 position = Vector2(312, 336)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Prop16" type="Sprite2D" parent="Scenery" unique_id=743427928]
+[node name="Prop16" type="Sprite2D" parent="Scenery" unique_id=420080421]
 position = Vector2(424, 336)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 4
+script = ExtResource("18_7u5hl")
 
-[node name="Prop17" type="Sprite2D" parent="Scenery" unique_id=740229206]
+[node name="Prop17" type="Sprite2D" parent="Scenery" unique_id=664348119]
 position = Vector2(536, 336)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 5
+script = ExtResource("18_7u5hl")
 
-[node name="Prop18" type="Sprite2D" parent="Scenery" unique_id=227924482]
+[node name="Prop18" type="Sprite2D" parent="Scenery" unique_id=1091740158]
 position = Vector2(584, 336)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop19" type="Sprite2D" parent="Scenery" unique_id=729093515]
+[node name="Prop19" type="Sprite2D" parent="Scenery" unique_id=962101570]
 position = Vector2(696, 336)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Prop20" type="Sprite2D" parent="Scenery" unique_id=578278561]
+[node name="Prop20" type="Sprite2D" parent="Scenery" unique_id=120195186]
 position = Vector2(1000, 16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 4
+script = ExtResource("18_7u5hl")
 
-[node name="Prop21" type="Sprite2D" parent="Scenery" unique_id=1508534889]
+[node name="Prop21" type="Sprite2D" parent="Scenery" unique_id=50833074]
 position = Vector2(1112, 16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 5
+script = ExtResource("18_7u5hl")
 
-[node name="Prop22" type="Sprite2D" parent="Scenery" unique_id=2025874263]
+[node name="Prop22" type="Sprite2D" parent="Scenery" unique_id=543104640]
 position = Vector2(1224, 16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop23" type="Sprite2D" parent="Scenery" unique_id=1786813650]
+[node name="Prop23" type="Sprite2D" parent="Scenery" unique_id=1687900391]
 position = Vector2(1272, 16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Prop24" type="Sprite2D" parent="Scenery" unique_id=1090815741]
+[node name="Prop24" type="Sprite2D" parent="Scenery" unique_id=240070936]
 position = Vector2(1384, 16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 4
+script = ExtResource("18_7u5hl")
 
-[node name="Prop25" type="Sprite2D" parent="Scenery" unique_id=1739656711]
+[node name="Prop25" type="Sprite2D" parent="Scenery" unique_id=504755403]
 position = Vector2(1496, 16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 5
+script = ExtResource("18_7u5hl")
 
-[node name="Prop26" type="Sprite2D" parent="Scenery" unique_id=1764468267]
+[node name="Prop26" type="Sprite2D" parent="Scenery" unique_id=2121875519]
 position = Vector2(1544, 16)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop27" type="Sprite2D" parent="Scenery" unique_id=1632352388]
+[node name="Prop27" type="Sprite2D" parent="Scenery" unique_id=1798320548]
 position = Vector2(1016, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop28" type="Sprite2D" parent="Scenery" unique_id=2131228794]
+[node name="Prop28" type="Sprite2D" parent="Scenery" unique_id=411234979]
 position = Vector2(1128, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 1
+script = ExtResource("18_7u5hl")
 
-[node name="Prop29" type="Sprite2D" parent="Scenery" unique_id=236705086]
+[node name="Prop29" type="Sprite2D" parent="Scenery" unique_id=2048218834]
 position = Vector2(1240, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop30" type="Sprite2D" parent="Scenery" unique_id=188833619]
+[node name="Prop30" type="Sprite2D" parent="Scenery" unique_id=1895431567]
 position = Vector2(1288, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 7
+script = ExtResource("18_7u5hl")
 
-[node name="Prop31" type="Sprite2D" parent="Scenery" unique_id=2099661265]
+[node name="Prop31" type="Sprite2D" parent="Scenery" unique_id=32118217]
 position = Vector2(1400, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop32" type="Sprite2D" parent="Scenery" unique_id=737245251]
+[node name="Prop32" type="Sprite2D" parent="Scenery" unique_id=1877094244]
 position = Vector2(1512, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 1
+script = ExtResource("18_7u5hl")
 
-[node name="Prop33" type="Sprite2D" parent="Scenery" unique_id=2066802794]
+[node name="Prop33" type="Sprite2D" parent="Scenery" unique_id=946414027]
 position = Vector2(1560, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop34" type="Sprite2D" parent="Scenery" unique_id=1756364350]
+[node name="Prop34" type="Sprite2D" parent="Scenery" unique_id=997951239]
 position = Vector2(1672, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop35" type="Sprite2D" parent="Scenery" unique_id=750997634]
+[node name="Prop35" type="Sprite2D" parent="Scenery" unique_id=1849087221]
 position = Vector2(1720, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Prop36" type="Sprite2D" parent="Scenery" unique_id=107943570]
+[node name="Prop36" type="Sprite2D" parent="Scenery" unique_id=1497356058]
 position = Vector2(1832, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 4
+script = ExtResource("18_7u5hl")
 
-[node name="Prop37" type="Sprite2D" parent="Scenery" unique_id=927781263]
+[node name="Prop37" type="Sprite2D" parent="Scenery" unique_id=824987156]
 position = Vector2(1944, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 5
+script = ExtResource("18_7u5hl")
 
-[node name="Prop38" type="Sprite2D" parent="Scenery" unique_id=1878020342]
+[node name="Prop38" type="Sprite2D" parent="Scenery" unique_id=162760303]
 position = Vector2(1992, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop39" type="Sprite2D" parent="Scenery" unique_id=710502854]
+[node name="Prop39" type="Sprite2D" parent="Scenery" unique_id=257987675]
 position = Vector2(2104, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Prop40" type="Sprite2D" parent="Scenery" unique_id=592748281]
+[node name="Prop40" type="Sprite2D" parent="Scenery" unique_id=899747581]
 position = Vector2(2216, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 4
+script = ExtResource("18_7u5hl")
 
-[node name="Prop41" type="Sprite2D" parent="Scenery" unique_id=2055856825]
+[node name="Prop41" type="Sprite2D" parent="Scenery" unique_id=37569576]
 position = Vector2(2264, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 1
+script = ExtResource("18_7u5hl")
 
-[node name="Prop42" type="Sprite2D" parent="Scenery" unique_id=1623949834]
+[node name="Prop42" type="Sprite2D" parent="Scenery" unique_id=2110598943]
 position = Vector2(2376, 592)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop43" type="Sprite2D" parent="Scenery" unique_id=388453095]
+[node name="Prop43" type="Sprite2D" parent="Scenery" unique_id=620538820]
 position = Vector2(2328, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop44" type="Sprite2D" parent="Scenery" unique_id=190195406]
+[node name="Prop44" type="Sprite2D" parent="Scenery" unique_id=778465179]
 position = Vector2(2376, 736)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Prop45" type="Sprite2D" parent="Scenery" unique_id=1203124721]
+[node name="Prop45" type="Sprite2D" parent="Scenery" unique_id=1386801394]
 position = Vector2(1736, 752)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 4
+script = ExtResource("18_7u5hl")
 
-[node name="Prop46" type="Sprite2D" parent="Scenery" unique_id=1624147802]
+[node name="Prop46" type="Sprite2D" parent="Scenery" unique_id=1922266699]
 position = Vector2(1784, 752)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 1
+script = ExtResource("18_7u5hl")
 
-[node name="Prop47" type="Sprite2D" parent="Scenery" unique_id=142012356]
+[node name="Prop47" type="Sprite2D" parent="Scenery" unique_id=1074678503]
 position = Vector2(1896, 752)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop48" type="Sprite2D" parent="Scenery" unique_id=1455093995]
+[node name="Prop48" type="Sprite2D" parent="Scenery" unique_id=1588602783]
 position = Vector2(2008, 752)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Prop49" type="Sprite2D" parent="Scenery" unique_id=708823945]
+[node name="Prop49" type="Sprite2D" parent="Scenery" unique_id=1603266529]
 position = Vector2(2056, 752)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
+script = ExtResource("18_7u5hl")
 
-[node name="Prop50" type="Sprite2D" parent="Scenery" unique_id=1570962283]
+[node name="Prop50" type="Sprite2D" parent="Scenery" unique_id=1645680680]
 position = Vector2(2136, 800)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 6
+script = ExtResource("18_7u5hl")
 
-[node name="Prop51" type="Sprite2D" parent="Scenery" unique_id=2058315577]
+[node name="Prop51" type="Sprite2D" parent="Scenery" unique_id=244071116]
 position = Vector2(2184, 800)
 texture = ExtResource("12_xdgbf")
 hframes = 4
 vframes = 2
 frame = 3
+script = ExtResource("18_7u5hl")
 
-[node name="Exit" type="Area2D" parent="." unique_id=1674620304 instance=ExtResource("18_xdgbf")]
+[node name="Exit" type="Area2D" parent="." unique_id=1523018847 instance=ExtResource("18_xdgbf")]
 position = Vector2(2344, 752)
 collision_layer = 0
 collision_mask = 2

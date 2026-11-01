@@ -24,6 +24,7 @@ const ACTORS := {
  "E":"res://scenes/actors/exit.tscn"}
 const MAP=preload("res://scripts/room_map.gd")
 const SPIKES := "res://scenes/actors/spikes.tscn"
+const BREAKABLE=preload("res://scripts/breakable_decor.gd")
 const TILE := 16
 var level: Node2D
 var solid := {}
@@ -228,6 +229,8 @@ func _decorate(scenery: Node2D,map_name: String) -> void:
   var roll: int=absi(cell.x*73+cell.y*151)%17
   if roll>2: continue
   var sprite: Sprite2D=_add(scenery,Sprite2D.new(),"Prop%d" % index)
+  # Shotgun blasts and mines break scenery props (scripts/breakable_decor.gd).
+  sprite.set_script(BREAKABLE)
   index+=1
   var top := Vector2(cell*TILE)+Vector2(8,0)
   if biome_sheet:
