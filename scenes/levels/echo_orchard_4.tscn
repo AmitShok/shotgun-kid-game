@@ -1,0 +1,440 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_ej8ij"]
+[ext_resource type="PackedScene" path="res://scenes/components/echo_orchard_backdrop.tscn" id="2_i3eai"]
+[ext_resource type="Script" path="res://scripts/biome_backdrop.gd" id="3_bouuo"]
+[ext_resource type="TileSet" path="res://assets/echo_orchard_tileset.tres" id="4_obbo6"]
+[ext_resource type="Script" path="res://scripts/room.gd" id="5_0hy0h"]
+[ext_resource type="PackedScene" path="res://scenes/actors/spikes.tscn" id="6_i670t"]
+[ext_resource type="Script" path="res://scripts/hazard.gd" id="7_u5duw"]
+[ext_resource type="Script" path="res://scripts/wind_zone.gd" id="8_suoru"]
+[ext_resource type="Texture2D" path="res://assets/textures/echo_orchard_decor.png" id="22_lnyk2"]
+[ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="25_71sde"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="26_7g8qp"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="27_fwyyy"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="28_mbxa8"]
+
+[node name="ECHOORCHARD" type="Node2D" unique_id=2029715423]
+script = ExtResource("1_ej8ij")
+level_title = "HOLLOW TRUNK"
+fall_limit_y = 256.0
+camera_bounds = Rect2(0, 0, 800, 192)
+checkpoint_fall_distance = 800.0
+music = "echo_orchard"
+
+[node name="Backdrop" type="CanvasLayer" parent="." unique_id=2017001431 instance=ExtResource("2_i3eai")]
+layer = -10
+script = ExtResource("3_bouuo")
+
+[node name="Terrain" type="Node2D" parent="." unique_id=783652292]
+
+[node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=1304084319]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAABAAAAAAALAAAAAAABAAAAAAAMAAAAAAABAAAAAAANAAAAAAABAAAAAAAOAAAAAAABAAAAAAAPAAAAAAABAAAAAAAQAAAAAAABAAAAAAARAAAAAAABAAAAAAASAAAAAAABAAAAAAATAAAAAAABAAAAAAAUAAAAAAABAAAAAAAVAAAAAAABAAAAAAAWAAAAAAABAAAAAAAXAAAAAAABAAAAAAAYAAAAAAABAAAAAAAZAAAAAAABAAAAAAAaAAAAAAABAAAAAAAbAAAAAAABAAAAAAAcAAAAAAABAAAAAAAdAAAAAAABAAAAAAAeAAAAAAABAAAAAAAfAAAAAAABAAAAAAAgAAAAAAABAAAAAAAhAAAAAAABAAAAAAAiAAAAAAABAAAAAAAjAAAAAAABAAAAAAAkAAAAAAABAAAAAAAlAAAAAAABAAAAAAAmAAAAAAABAAAAAAAnAAAAAAABAAAAAAAoAAAAAAABAAAAAAApAAAAAAABAAAAAAAqAAAAAAABAAAAAAArAAAAAAABAAAAAAAsAAAAAAABAAAAAAAtAAAAAAABAAAAAAAuAAAAAAABAAAAAAAvAAAAAAABAAAAAAAwAAAAAAABAAAAAAAxAAAAAAAEAAAAAAAAAAEAAAAAAAEAAAAxAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAxAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAxAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAAxAAQAAAAAAAEAAAAAAAUAAAAAAAEAAAAxAAUAAAAAAAEAAAAAAAYAAAAAAAIAAAAAAAcAAAAAAAMAAAAxAAYAAAAAAAIAAAAAAAsAAAAAAAAAAAABAAsAAAABAAAAAAACAAsAAAABAAAAAAADAAsAAAABAAAAAAAEAAsAAAABAAAAAAAFAAsAAAABAAAAAAAGAAsAAAABAAAAAAAHAAsAAAABAAAAAAAIAAsAAAABAAAAAAAJAAsAAAABAAAAAAAKAAsAAAABAAAAAAALAAsAAAABAAAAAAAMAAsAAAABAAAAAAANAAsAAAABAAAAAAAOAAsAAAABAAAAAAAPAAsAAAABAAAAAAAQAAsAAAABAAAAAAARAAsAAAABAAAAAAASAAsAAAABAAAAAAATAAsAAAABAAAAAAAUAAsAAAABAAAAAAAVAAsAAAABAAAAAAAWAAsAAAABAAAAAAAXAAsAAAABAAAAAAAYAAsAAAABAAAAAAAZAAsAAAABAAAAAAAaAAsAAAABAAAAAAAbAAsAAAABAAAAAAAcAAsAAAABAAAAAAAdAAsAAAABAAAAAAAeAAsAAAABAAAAAAAfAAsAAAABAAAAAAAgAAsAAAABAAAAAAAhAAsAAAABAAAAAAAiAAsAAAABAAAAAAAjAAsAAAABAAAAAAAkAAsAAAABAAAAAAAlAAsAAAABAAAAAAAmAAsAAAABAAAAAAAnAAsAAAABAAAAAAAoAAsAAAABAAAAAAApAAsAAAABAAAAAAAqAAsAAAABAAAAAAArAAsAAAABAAAAAAAsAAsAAAABAAAAAAAtAAsAAAABAAAAAAAuAAsAAAABAAAAAAAvAAsAAAABAAAAAAAwAAsAAAABAAAAAAAxAAsAAAAEAAAAAAA=")
+tile_set = ExtResource("4_obbo6")
+
+[node name="Rooms" type="Node2D" parent="." unique_id=945002301]
+
+[node name="K01" type="Node2D" parent="Rooms" unique_id=742692297]
+script = ExtResource("5_0hy0h")
+size = Vector2i(800, 192)
+
+[node name="Spawn" type="Marker2D" parent="Rooms/K01" unique_id=22617344]
+position = Vector2(40, 165)
+
+[node name="Actors" type="Node2D" parent="." unique_id=550160581]
+
+[node name="Spikes1" type="Area2D" parent="Actors" unique_id=2139477874 instance=ExtResource("6_i670t")]
+position = Vector2(104, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes2" type="Area2D" parent="Actors" unique_id=1791051819 instance=ExtResource("6_i670t")]
+position = Vector2(120, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes3" type="Area2D" parent="Actors" unique_id=1521493162 instance=ExtResource("6_i670t")]
+position = Vector2(136, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes4" type="Area2D" parent="Actors" unique_id=1101784287 instance=ExtResource("6_i670t")]
+position = Vector2(152, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes5" type="Area2D" parent="Actors" unique_id=179795668 instance=ExtResource("6_i670t")]
+position = Vector2(168, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes6" type="Area2D" parent="Actors" unique_id=960731468 instance=ExtResource("6_i670t")]
+position = Vector2(184, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes7" type="Area2D" parent="Actors" unique_id=1591732172 instance=ExtResource("6_i670t")]
+position = Vector2(200, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes8" type="Area2D" parent="Actors" unique_id=1653651419 instance=ExtResource("6_i670t")]
+position = Vector2(216, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes9" type="Area2D" parent="Actors" unique_id=1832702984 instance=ExtResource("6_i670t")]
+position = Vector2(232, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes10" type="Area2D" parent="Actors" unique_id=2127822185 instance=ExtResource("6_i670t")]
+position = Vector2(248, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes11" type="Area2D" parent="Actors" unique_id=452172973 instance=ExtResource("6_i670t")]
+position = Vector2(264, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes12" type="Area2D" parent="Actors" unique_id=1216472608 instance=ExtResource("6_i670t")]
+position = Vector2(280, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes13" type="Area2D" parent="Actors" unique_id=1093331446 instance=ExtResource("6_i670t")]
+position = Vector2(296, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes14" type="Area2D" parent="Actors" unique_id=420025495 instance=ExtResource("6_i670t")]
+position = Vector2(312, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes15" type="Area2D" parent="Actors" unique_id=1084352145 instance=ExtResource("6_i670t")]
+position = Vector2(328, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes16" type="Area2D" parent="Actors" unique_id=1567213078 instance=ExtResource("6_i670t")]
+position = Vector2(344, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes17" type="Area2D" parent="Actors" unique_id=1158037896 instance=ExtResource("6_i670t")]
+position = Vector2(360, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes18" type="Area2D" parent="Actors" unique_id=1590623568 instance=ExtResource("6_i670t")]
+position = Vector2(376, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes19" type="Area2D" parent="Actors" unique_id=86341604 instance=ExtResource("6_i670t")]
+position = Vector2(392, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes20" type="Area2D" parent="Actors" unique_id=1831501977 instance=ExtResource("6_i670t")]
+position = Vector2(408, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes21" type="Area2D" parent="Actors" unique_id=1358609933 instance=ExtResource("6_i670t")]
+position = Vector2(424, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes22" type="Area2D" parent="Actors" unique_id=807630332 instance=ExtResource("6_i670t")]
+position = Vector2(440, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes23" type="Area2D" parent="Actors" unique_id=1358598607 instance=ExtResource("6_i670t")]
+position = Vector2(456, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes24" type="Area2D" parent="Actors" unique_id=1679870554 instance=ExtResource("6_i670t")]
+position = Vector2(472, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes25" type="Area2D" parent="Actors" unique_id=1910275928 instance=ExtResource("6_i670t")]
+position = Vector2(488, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes26" type="Area2D" parent="Actors" unique_id=1329004056 instance=ExtResource("6_i670t")]
+position = Vector2(504, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes27" type="Area2D" parent="Actors" unique_id=1380930567 instance=ExtResource("6_i670t")]
+position = Vector2(520, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes28" type="Area2D" parent="Actors" unique_id=513149218 instance=ExtResource("6_i670t")]
+position = Vector2(536, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes29" type="Area2D" parent="Actors" unique_id=1501144420 instance=ExtResource("6_i670t")]
+position = Vector2(552, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes30" type="Area2D" parent="Actors" unique_id=2030634241 instance=ExtResource("6_i670t")]
+position = Vector2(568, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes31" type="Area2D" parent="Actors" unique_id=1756918067 instance=ExtResource("6_i670t")]
+position = Vector2(584, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes32" type="Area2D" parent="Actors" unique_id=1278606754 instance=ExtResource("6_i670t")]
+position = Vector2(600, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes33" type="Area2D" parent="Actors" unique_id=1223586300 instance=ExtResource("6_i670t")]
+position = Vector2(616, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes34" type="Area2D" parent="Actors" unique_id=1925121574 instance=ExtResource("6_i670t")]
+position = Vector2(632, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes35" type="Area2D" parent="Actors" unique_id=1512032405 instance=ExtResource("6_i670t")]
+position = Vector2(648, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes36" type="Area2D" parent="Actors" unique_id=6401681 instance=ExtResource("6_i670t")]
+position = Vector2(664, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes37" type="Area2D" parent="Actors" unique_id=1793665813 instance=ExtResource("6_i670t")]
+position = Vector2(680, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Spikes38" type="Area2D" parent="Actors" unique_id=709880590 instance=ExtResource("6_i670t")]
+position = Vector2(696, 16)
+rotation = 3.1415927
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_u5duw")
+
+[node name="Wind6_2" type="Node2D" parent="Actors" unique_id=1828043409]
+position = Vector2(96, 32)
+script = ExtResource("8_suoru")
+tiles = 38
+rows = 9
+direction = Vector2(0, -1)
+strength = 1700.0
+
+[node name="Scenery" type="Node2D" parent="." unique_id=1955530727]
+z_index = -1
+
+[node name="Prop0" type="Sprite2D" parent="Scenery" unique_id=713510200]
+position = Vector2(120, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Prop1" type="Sprite2D" parent="Scenery" unique_id=2022583675]
+position = Vector2(232, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 2
+
+[node name="Prop2" type="Sprite2D" parent="Scenery" unique_id=292899649]
+position = Vector2(280, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 7
+
+[node name="Prop3" type="Sprite2D" parent="Scenery" unique_id=1731990214]
+position = Vector2(392, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+
+[node name="Prop4" type="Sprite2D" parent="Scenery" unique_id=998296642]
+position = Vector2(504, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Prop5" type="Sprite2D" parent="Scenery" unique_id=1242312935]
+position = Vector2(552, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 6
+
+[node name="Prop6" type="Sprite2D" parent="Scenery" unique_id=633603893]
+position = Vector2(664, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 7
+
+[node name="Prop7" type="Sprite2D" parent="Scenery" unique_id=1759496661]
+position = Vector2(776, -16)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+
+[node name="Prop8" type="Sprite2D" parent="Scenery" unique_id=1212079505]
+position = Vector2(24, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 2
+
+[node name="Prop9" type="Sprite2D" parent="Scenery" unique_id=1976243722]
+position = Vector2(136, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 3
+
+[node name="Prop10" type="Sprite2D" parent="Scenery" unique_id=333818366]
+position = Vector2(248, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 4
+
+[node name="Prop11" type="Sprite2D" parent="Scenery" unique_id=1375161448]
+position = Vector2(296, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Prop12" type="Sprite2D" parent="Scenery" unique_id=846168633]
+position = Vector2(408, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 2
+
+[node name="Prop13" type="Sprite2D" parent="Scenery" unique_id=340185258]
+position = Vector2(520, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 3
+
+[node name="Prop14" type="Sprite2D" parent="Scenery" unique_id=763713119]
+position = Vector2(568, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+
+[node name="Prop15" type="Sprite2D" parent="Scenery" unique_id=1076373319]
+position = Vector2(680, 160)
+texture = ExtResource("22_lnyk2")
+hframes = 4
+vframes = 2
+frame = 1
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=436158099 groups=["player"] instance=ExtResource("25_71sde")]
+position = Vector2(40, 165)
+collision_layer = 2
+floor_snap_length = 4.0
+script = ExtResource("26_7g8qp")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=99544296 instance=ExtResource("27_fwyyy")]
+script = ExtResource("28_mbxa8")
+

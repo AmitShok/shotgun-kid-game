@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_8oj27"]
+
+[resource]
+script = ExtResource("1_8oj27")
+title = "ECHO CROWN"
+description = "The crown of the orchard, where every gust and every trick comes back."
+scene_path = "res://scenes/levels/echo_orchard_5.tscn"
+world = 4
+stage = 5

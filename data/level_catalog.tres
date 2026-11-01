@@ -16,6 +16,10 @@
 [ext_resource type="Resource" path="res://data/levels/velvet_glacier_3.tres" id="18_enf67"]
 [ext_resource type="Resource" path="res://data/levels/velvet_glacier_4.tres" id="19_bur64"]
 [ext_resource type="Resource" path="res://data/levels/velvet_glacier_5.tres" id="20_4nu6w"]
+[ext_resource type="Resource" path="res://data/levels/echo_orchard_2.tres" id="22_8hj7r"]
+[ext_resource type="Resource" path="res://data/levels/echo_orchard_3.tres" id="23_2bxou"]
+[ext_resource type="Resource" path="res://data/levels/echo_orchard_4.tres" id="24_vl2w0"]
+[ext_resource type="Resource" path="res://data/levels/echo_orchard_5.tres" id="25_tm1c1"]
 [ext_resource type="Resource" path="res://data/levels/lantern_ridge.tres" id="l0"]
 [ext_resource type="Resource" path="res://data/levels/mossy_comet.tres" id="l1"]
 [ext_resource type="Resource" path="res://data/levels/copper_cloud.tres" id="l2"]
@@ -25,4 +29,4 @@
 
 [resource]
 script = ExtResource("script")
-levels = Array[Resource]([ExtResource("l0"), ExtResource("2_5pa7g"), ExtResource("3_asd6c"), ExtResource("4_hk712"), ExtResource("5_t0bah"), ExtResource("l1"), ExtResource("7_0knea"), ExtResource("8_ea5ot"), ExtResource("9_2o8l1"), ExtResource("10_34tb5"), ExtResource("l2"), ExtResource("12_63c5t"), ExtResource("13_4cnyv"), ExtResource("14_181ui"), ExtResource("15_bkmxd"), ExtResource("l3"), ExtResource("17_4l3fm"), ExtResource("18_enf67"), ExtResource("19_bur64"), ExtResource("20_4nu6w"), ExtResource("l4")])
+levels = Array[Resource]([ExtResource("l0"), ExtResource("2_5pa7g"), ExtResource("3_asd6c"), ExtResource("4_hk712"), ExtResource("5_t0bah"), ExtResource("l1"), ExtResource("7_0knea"), ExtResource("8_ea5ot"), ExtResource("9_2o8l1"), ExtResource("10_34tb5"), ExtResource("l2"), ExtResource("12_63c5t"), ExtResource("13_4cnyv"), ExtResource("14_181ui"), ExtResource("15_bkmxd"), ExtResource("l3"), ExtResource("17_4l3fm"), ExtResource("18_enf67"), ExtResource("19_bur64"), ExtResource("20_4nu6w"), ExtResource("l4"), ExtResource("22_8hj7r"), ExtResource("23_2bxou"), ExtResource("24_vl2w0"), ExtResource("25_tm1c1")])

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/level_definition.gd" id="1_158dq"]
+
+[resource]
+script = ExtResource("1_158dq")
+title = "WHISPER GROVE"
+description = "Gusts that open and close the way, and kicks timed to the calm."
+scene_path = "res://scenes/levels/echo_orchard_2.tscn"
+world = 4
+stage = 2
