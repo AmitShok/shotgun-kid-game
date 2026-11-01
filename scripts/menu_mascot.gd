@@ -28,7 +28,11 @@ const GRAVITY := 900.0
 const RECOIL := 390.0
 const MINE_LAUNCH := 600.0
 # Spore pod pulls, as in play: fast toward the pod, momentum kept on arrival.
-const PULL := 700.0
+# Slower than in play (700) so the pull reads from across the title screen.
+const PULL := 520.0
+# Rising speed is capped by how far the kid's feet are below this line, so he always stays
+# fully on screen. Tall walls top out 120px from the top, so real moves are never slowed.
+const CEILING := 44.0
 const SPORE_POD=preload("res://assets/textures/spore_pod.png")
 # Columns left of this stay a low runway under the menu column.
 const RUNWAY := 17
@@ -56,6 +60,8 @@ var particles: Array[Dictionary] = []
 var started := false
 # How many times the kid has fallen into a pit (read by tests to keep the show clean).
 var falls := 0
+# A spent tether lingers a moment after the kid reaches the pod.
+var tether_fade := 0.0
 
 func _ready() -> void:
  mouse_filter=Control.MOUSE_FILTER_IGNORE
@@ -94,7 +100,8 @@ func _generate() -> Array[Dictionary]:
   # Every course shows off a spore pod at least once.
   if not pod_done and c>=RUNWAY+8 and room>=10 and h<=8: pick=0.7 if (h>4 or randf()<0.5) else 0.8
   if pick>=0.6 and pick<0.86 and c>=RUNWAY+8: pod_done=true
-  if pick<0.22 and room>=6:
+  # No pit right after the runway: the drop-in from above needs somewhere to land.
+  if pick<0.22 and room>=6 and c>=RUNWAY+4:
    # Spiked pit: kick dash across it.
    var width := randi_range(3,5)
    for i in width: out.append(_col(0,true))
@@ -128,14 +135,15 @@ func _generate() -> Array[Dictionary]:
    h=clampi(h+randi_range(-1,0),1,7)
    for i in 2: out.append(_col(h))
   elif pick<0.86 and room>=5 and h<=4 and c>=RUNWAY+8:
-   # Pod tower: a wall too tall for shells, with a pod just above its leading edge.
-   h=mini(h+randi_range(11,12),15)
+   # Pod tower: a tall wall with a pod just above its leading edge. Kept to 11 tiles so the
+   # pull and the landing stay well inside the screen.
+   h=mini(h+randi_range(7,8),11)
    for i in 3:
     var wall := _col(h)
     wall.podwall=true
     out.append(wall)
    out[out.size()-3].pod=true
-   out[out.size()-3].pod_h=h+2.0
+   out[out.size()-3].pod_h=h+1.5
   elif pick<0.93:
    # Drop or small step.
    h=clampi(h+randi_range(-5,2),1,12)
@@ -148,7 +156,7 @@ func _generate() -> Array[Dictionary]:
  return out
 
 func _col(height: int,spiked := false) -> Dictionary:
- return {"h":height,"shown":float(height),"spikes":spiked,"mine":false,"armed":true,"regrow":0.0,"tex":tiles,"seed":randi()%997,"rebuild":false,"pod":false,"pod_h":0.0,"podpit":false,"podwall":false}
+ return {"h":height,"shown":float(height),"spikes":spiked,"mine":false,"armed":true,"regrow":0.0,"tex":tiles,"seed":randi()%997,"rebuild":false,"pod":false,"pod_h":0.0,"podpit":false,"podwall":false,"pod_hit":0.0}
 
 func top(c: int) -> float:
  # Screen y of a column's top surface.
@@ -178,6 +186,8 @@ func _process(delta: float) -> void:
  clock+=delta
  flash=maxf(0.0,flash-delta)
  pip_pop=maxf(0.0,pip_pop-delta*3.0)
+ tether_fade=maxf(0.0,tether_fade-delta)
+ for col in columns: col.pod_hit=maxf(0.0,col.pod_hit-delta)
  callout_age+=delta
  if boom>=0: boom+=delta
  if boom>0.5: boom=-1.0
@@ -232,7 +242,8 @@ func _think(delta: float) -> void:
   _wrap()
   return
  # Coming down toward a spiked pit with a shell left (after a pop, a launch or a drop): kick across.
- if not on_floor and vel.y>0 and ammo>0 and plan in ["","wall","launch","drop"] and _pit_ahead():
+ # (Not while still dropping in from above: a dash fired up there would be off screen.)
+ if not on_floor and vel.y>0 and ammo>0 and (plan in ["","wall","launch"] or plan=="drop" and pos.y>size.y*0.55) and _pit_ahead():
   _fire(Vector2(-1,1).normalized())
   _say("KICK DASH!")
   plan="flying"
@@ -268,7 +279,7 @@ func _think(delta: float) -> void:
     plan_column=ahead.c
    "pod":
     # A pit too wide to dash or a wall too tall to pop: hop (or stand) and pull on the pod.
-    if on_floor and gap<(26 if ahead.wall else 4):
+    if on_floor and gap<(44 if ahead.wall else 4):
      if not ahead.wall: _jump()
      plan="pod"
      plan_column=ahead.c
@@ -314,18 +325,24 @@ func _think(delta: float) -> void:
    if on_floor: plan=""
   "pod":
    # From the ground at a tower, or near the top of the hop over a pit.
-   if columns[plan_column].podwall or (not on_floor and vel.y>-170):
+   # Fire as soon as the hop leaves the ground, while the pod is still a good way off, so the
+   # pull is long enough to see.
+   if columns[plan_column].podwall or not on_floor:
     var to_pod: Vector2=pod_at(plan_column)-(pos+Vector2(0,-9))
     _fire(to_pod.normalized())
-    # The pod hands the shell back, and pulls instead of kicking.
+    # The pod hands the shell back, and pulls instead of kicking. It flashes and squashes so
+    # the hit reads.
     ammo=mini(ammo+1,2)
+    columns[plan_column].pod_hit=0.3
+    for i in 6: _puff(pod_at(plan_column),Vector2.RIGHT.rotated(randf()*TAU)*randf_range(20,60),Color(0.75,1.0,0.8,0.9),randf_range(1.5,2.5),0.35)
     plan="pull"
   "pull":
    var to_pod: Vector2=pod_at(plan_column)-(pos+Vector2(0,-12))
    if to_pod.length()<10:
-    # Arrive with the pull's momentum, tipped forward so the kid carries on over.
-    vel=Vector2(maxf(to_pod.normalized().x,0.55),minf(to_pod.normalized().y,-0.25)).normalized()*PULL*0.62
+    # Arrive with a gentle forward carry: over a pit, on across it; at a tower, onto its top.
+    vel=Vector2(RUN,-80.0) if columns[plan_column].podwall else Vector2(240.0,-110.0)
     plan="flying"
+    tether_fade=0.15
     for i in 8: _puff(pod_at(plan_column),Vector2.RIGHT.rotated(randf()*TAU)*randf_range(30,90),Color(0.62,0.95,0.7,0.8),randf_range(1.5,3),0.45)
    else:
     vel=to_pod.normalized()*PULL
@@ -398,6 +415,9 @@ func _move(delta: float) -> void:
  if front>=0 and front<columns.size() and columns[front].h>0 and top(front)<pos.y-3 and front!=int(old_x/TILE):
   pos.x=front*TILE-HALF-0.01 if vel.x>=0 else (front+1)*TILE+HALF+0.01
   vel.x=0
+ # Soft ceiling: rising slows to a stop near the top of the screen, so the kid never sails out
+ # of view along the top edge (the drop-in from above is the one exception).
+ if vel.y<0 and plan!="drop": vel.y=maxf(vel.y,-maxf(0.0,pos.y-CEILING)*12.0)
  pos.y+=vel.y*delta
  var ground := floor_under(pos.x)
  if pos.y>=ground and vel.y>=0:
@@ -463,11 +483,12 @@ func _draw() -> void:
  for c in columns.size():
   if columns[c].mine and columns[c].h>0: _draw_mine(c)
   if columns[c].pod: _draw_pod(c)
- if plan=="pull":
+ if plan=="pull" or tether_fade>0:
   # The spore tether, from the gun to the pod.
   var from: Vector2=pos-Vector2(0,FRAME*0.5*S)+Vector2(0,5*S)
-  draw_line(from,pod_at(plan_column),Color(0.55,0.95,0.7,0.9),2.0)
-  draw_line(from,pod_at(plan_column),Color(0.9,1.0,0.92,0.9),1.0)
+  var a: float=1.0 if plan=="pull" else tether_fade/0.15
+  draw_line(from,pod_at(plan_column),Color(0.55,0.95,0.7,0.9*a),2.0)
+  draw_line(from,pod_at(plan_column),Color(0.9,1.0,0.92,0.9*a),1.0)
  if boom>=0:
   var frame := mini(int(boom/0.5*6.0),5)
   draw_texture_rect_region(EXPLOSION,Rect2(boom_at-Vector2(48,48),Vector2(96,96)),Rect2(frame*96,0,96,96))
@@ -539,8 +560,13 @@ func _draw_mine(c: int) -> void:
 func _draw_pod(c: int) -> void:
  var spot := pod_at(c)
  var glow := 0.5+0.5*sin(clock*4.0+c)
- draw_circle(spot,11.0+glow*2.0,Color(0.45,0.95,0.6,0.12+glow*0.1))
- draw_texture_rect_region(SPORE_POD,Rect2(spot-Vector2(12,12),Vector2(24,24)),Rect2(0,0,24,24))
+ var hit: float=columns[c].pod_hit/0.3
+ draw_circle(spot,11.0+glow*2.0+hit*6.0,Color(0.45,0.95,0.6,0.12+glow*0.1+hit*0.35))
+ # When shot, the pod squashes toward the kid and flashes white.
+ var squash := Vector2(1.0+hit*0.35,1.0-hit*0.25)
+ draw_set_transform(spot,0.0,squash)
+ draw_texture_rect_region(SPORE_POD,Rect2(-Vector2(12,12),Vector2(24,24)),Rect2(0,0,24,24),Color(1.0+hit*1.5,1.0+hit*1.5,1.0+hit*1.5))
+ draw_set_transform(Vector2.ZERO)
 
 func _draw_kid() -> void:
  # Same sheet layout as the player: idle 0-3, run 4-9, rise 10, apex 11, fall 12-13.
